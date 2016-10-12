@@ -24,7 +24,7 @@ Moteur2D * Moteur2D::getInstance()
     return _instance;
 }
 
-Moteur2D::Moteur2D() :
+Moteur2D::Moteur2D() : _screenWidth(0), _screenHeight(0), _keyboardListenersId(0), _mouseListenersId(0), _lastTime(0),
 #ifndef IN_QT
         _window(0)
 #else
@@ -64,107 +64,103 @@ Moteur2D::~Moteur2D()
 
 void Moteur2D::init(int width, int height, std::string windowName, int argc, char **argv)
 {
-#ifndef IN_QT
-    sf::ContextSettings settings;
-    m_screenSize.x = width;
-    m_screenSize.y = height;
-    settings.antialiasingLevel = 4;
-    m_window = new sf::RenderWindow(sf::VideoMode(width, height), windowName, sf::Style::Default, settings);
-
-        // Init des Id
-    m_keyboardListenersId = 0;
-    m_mouseListenersId = 0;
-
-    m_scm = 0;
-
-    /* TODO sup pour ecran
-    m_preDrawablesIndex = 0;
-    m_drawablesIndex = 0;
-    m_postDrawablesIndex = 0;
-    //*/
-#else
+#ifdef IN_QT
     _app = new QApplication(argc, argv);
     _view = new QGraphicsView();
     _view->setFixedWidth(width);
     _view->setFixedHeight(height);
     _view->show();
+    _timer.start();
 
+#else
+
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 4;
+    _window = new sf::RenderWindow(sf::VideoMode(width, height), windowName, sf::Style::Default, settings);
 #endif
+
+    _screenWidth = width;
+    _screenHeight = height;
 }
 
 void Moteur2D::run()
 {
 
-#ifndef IN_QT
-    EventManager em;
-    m_t = m_clock.getElapsedTime();
-    sf::Time t2;
-    float s;
-    m_window->setVerticalSyncEnabled(true);
-    //m_window->setFramerateLimit(60);
-
-    while(m_window->isOpen())
-    {
-        // On efface la fen�tre d�s le d�but pour permettre aux Updatables de d�ssiner
-        m_window->clear();// efface la fen�tre
-
-        // TO DO : Relacher le proc
-        //Attente
-        // Attente active
-        do
-        {
-            t2 = m_clock.getElapsedTime();
-            s = (t2-m_t).asSeconds() ;
-        }while (s<1/60.);
-
-        // First called by eventmanager
-        em.eventLoop(*m_window);
-
-        //Mise � jour des �l�ments
-        for (std::map<int,Updatable*>::iterator it=m_updates.begin(); it!=m_updates.end(); ++it)
-        {
-            (it->second)->update(s);
-        }
-        if (m_scm)
-            m_scm->update(s);
-
-        /*/ Dessine tous les objets dessinables => TODO dans les Ecrans
-        for (std::map<int,sf::Sprite*>::iterator it=m_preDraw.begin(); it!=m_preDraw.end(); ++it)
-        {
-            m_window->draw(*(it->second));
-        }
-
-        for (std::map<int,sf::Sprite*>::iterator it=m_drawables.begin(); it!=m_drawables.end(); ++it)
-        {
-            m_window->draw(*(it->second));
-        }
-
-        for (std::map<int,sf::Sprite*>::iterator it=m_postDraw.begin(); it!=m_postDraw.end(); ++it)
-        {
-            m_window->draw(*(it->second));
-        }*/
-        if (m_scm)
-            m_scm->draw();
-
-        m_window->display();// Affiche
-
-        //MaJ temps
-        m_t = t2;
-
-    }
-#else
+    _lastTime = getMsSinceLaunch();
+#ifdef IN_QT
     QTimer *timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(1000/60);
+
     _app->exec();
 
+#else
 
+    EventManager em;
+    sf::Time t1 = _clock.getElapsedTime();
+    sf::Time t2;
+    float s = 0;
+    _window->setVerticalSyncEnabled(true);
+
+    while(_window->isOpen())
+    {
+        // TO DO : Relacher le proc
+        // Attente active
+        while (s<1/60.)
+        {
+            t2 = _clock.getElapsedTime();
+            s = (t2-t1).asSeconds() ;
+        }
+
+        update();
+
+        t1 = t2;
+    }
 #endif
 }
 
+double Moteur2D::getMsSinceLaunch()
+{
+#ifdef IN_QT
+    return _timer.elapsed();
+#else
+    return _clock.getElapsedTime().asMilliseconds();
+#endif
+}
+
+
+
 void Moteur2D::update()
 {
-    std::cout << "RUN" << std::endl;
+    double curTime = getMsSinceLaunch();
+    double elapsedTime = double(curTime - _lastTime) / 1000.;
+    double frameRate = 1000. / double(curTime - _lastTime);
+    std::cout << "RUN at " << frameRate << " frame per sec. elapsedTime = " << elapsedTime << " , curTime = " << curTime << std::endl;
+
+    // Things to update here
+
+#ifdef IN_QT
+#else
+    // Clear window
+    m_window->clear();
+#endif
+
+    /*/ First called by eventmanager
+    em.eventLoop(*m_window);
+
+    if (m_scm)
+        m_scm->update(s);
+
+    if (m_scm)
+        m_scm->draw();//*/
+
+#ifdef IN_QT
+#else
+    // Display window
+    m_window->display();
+#endif
+    _lastTime = curTime;
+
 }
 
 

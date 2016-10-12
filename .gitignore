@@ -4,4 +4,7 @@ MotorQtOrSFML
 MotorQtOrSFML.pro
 moc*
 *~
+.cproject
+.project
+.settings
 
