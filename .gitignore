@@ -1,0 +1,7 @@
+*.[oa]
+Makefile
+MotorQtOrSFML
+MotorQtOrSFML.pro
+moc*
+*~
+
