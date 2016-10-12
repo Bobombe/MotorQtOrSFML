@@ -8,7 +8,7 @@
 //
 
 #ifndef IN_QT
-#include "eventmanager.h"
+
 #else
 #include <QTimer>
 #endif
@@ -96,7 +96,6 @@ void Moteur2D::run()
 
 #else
 
-    EventManager em;
     sf::Time t1 = _clock.getElapsedTime();
     sf::Time t2;
     float s = 0;
@@ -111,6 +110,7 @@ void Moteur2D::run()
             t2 = _clock.getElapsedTime();
             s = (t2-t1).asSeconds() ;
         }
+        s=0;
 
         update();
 
@@ -142,7 +142,7 @@ void Moteur2D::update()
 #ifdef IN_QT
 #else
     // Clear window
-    m_window->clear();
+    _window->clear();
 #endif
 
     /*/ First called by eventmanager
@@ -157,7 +157,7 @@ void Moteur2D::update()
 #ifdef IN_QT
 #else
     // Display window
-    m_window->display();
+    _window->display();
 #endif
     _lastTime = curTime;
 

@@ -8,3 +8,6 @@ moc*
 .project
 .settings
 
+*.depend
+*.layout
+*.exe
