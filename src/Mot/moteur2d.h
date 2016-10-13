@@ -9,8 +9,12 @@
 //#include "updatable.h"
 //#include "screenmanager.h"
 
+// cpp includes
+#include <map>
+#include <string>
 
-#include <ctime>
+// Motor includes
+#include "Texture.h"
 
 // Includes depending on graphic choice
 #ifdef IN_QT
@@ -23,14 +27,12 @@
 #endif
 
 class Moteur2D
-#ifndef IN_QT
-#else
+#ifdef IN_QT
 : public QObject
 #endif
 
 {
-#ifndef IN_QT
-#else
+#ifdef IN_QT
 Q_OBJECT
 #endif
 
@@ -54,13 +56,11 @@ protected:
     sf::Clock _clock;
 #endif
 
+    // Managing Textures
+    std::map<std::string, Texture*> _textures;
 
 
     // ToDo reimplement
-//
-//        // Managing Textures
-//        std::map<std::string, sf::Texture*> m_textures;
-//        std::map<std::string, int> m_texturesUtilisations;
 //
 //
 //        // First called by eventmanager
@@ -102,19 +102,23 @@ public:
 //        void deleteKeyboardListener(int index);
 //        void deleteMouseListener(int index);
 //
-//        // Pas vraiment un seleter
-//        void unloadTexture(const std::string& imagePath);
+        // Kind of a deleter
+        void unloadTexture(const std::string& imagePath);
 
 /////////////////////////////////////////////////////
 ///////////           GETTERS             ///////////
 /////////////////////////////////////////////////////
+#ifdef IN_QT
+        // Todo : might need a qt dependent return class
+        Texture*
+#else
+        sf::Texture*
+#endif
+        getTexture(const std::string& imagePath);
     // ToDo reimplement
-//        sf::Texture* getTexture(const std::string& imagePath);
 //
 //        const std::map <int, KeyboardListener*>& getKeyboardListeners();
 //        const std::map <int, MouseListener*>& getMouseListeners();
-//
-//        sf::Time getTime();
 //
 //
 //        ScreenManager * getScreenManager ()

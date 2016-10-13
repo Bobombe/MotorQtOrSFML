@@ -69,6 +69,7 @@ void Moteur2D::init(int width, int height, std::string windowName, int argc, cha
     _view = new QGraphicsView();
     _view->setFixedWidth(width);
     _view->setFixedHeight(height);
+    _view->setWindowTitle(QString(windowName.c_str()));
     _view->show();
     _timer.start();
 
@@ -92,6 +93,16 @@ void Moteur2D::run()
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(1000/60);
 
+    getTexture("texture1");
+    getTexture("texture2");
+    getTexture("texture1");
+
+    unloadTexture("texture1");
+    unloadTexture("texture1");
+    unloadTexture("texture1");
+
+    unloadTexture("texture2");
+    unloadTexture("texture2");
     _app->exec();
 
 #else
@@ -243,35 +254,65 @@ void Moteur2D::deletePostDrawable(int index)
 //    m_updates.erase(index);
 //}
 //
-//void Moteur2D::unloadTexture(const std::string& imagePath)
-//{
-//    try
-//    {
-//        int val = m_texturesUtilisations.at(imagePath);
-//        val--;
-//        if (val <= 0) // Suppression de la texture
-//        {
-//            sf::Texture * t = m_textures.at(imagePath);
-//            m_textures.erase(imagePath);
-//            m_texturesUtilisations.erase(imagePath);
-//            delete t;
-//        }
-//        else
-//        {
-//            m_texturesUtilisations.at(imagePath) = val;
-//        }
-//        return;
-//    }
-//    catch (const std::out_of_range& oor) // Ajout de la texture
-//    {
-//    }
-//
-//}
+void Moteur2D::unloadTexture(const std::string& imagePath)
+{
+    try
+    {
+        Texture* texture = _textures.at(imagePath);
+        if (texture->freeTexture()) {
+            _textures.erase(imagePath);
+            delete texture;
+        }
+    }
+    catch (const std::out_of_range& oor)
+    {
+        std::cout << "ERROR : Moteur2D::unloadTexture : texture " << imagePath << " not stored." << std::endl;
+    }
+
+}
 
   /////////////////////////////////////////////////////
  ///////////           GETTERS             ///////////
 /////////////////////////////////////////////////////
 // Permet l'acc�s aux textures, si la texture est inexistante cette methode la cr�era.
+
+#ifdef IN_QT
+// Todo : might need a qt dependent return class
+Texture*
+#else
+sf::Texture*
+#endif
+Moteur2D::getTexture(const std::string& imagePath)
+{
+#ifdef IN_QT
+// Todo : might need a qt dependent return class
+Texture*
+#else
+sf::Texture*
+#endif
+             coreTexture = 0;
+    try
+    {
+        Texture* texture = _textures.at(imagePath);
+        coreTexture = texture->getTexture();
+    }
+    catch (const std::out_of_range& oor)
+    {
+        std::cout << "Moteur2D::getTexture : creating new texture from " << imagePath << "." << std::endl;
+        Texture* texture = new Texture(imagePath);
+        coreTexture = texture->getTexture();
+        if (coreTexture) {
+            _textures.insert(std::pair<std::string, Texture*>(imagePath, texture));
+        } else {
+            delete texture;
+            std::cout << "ERROR : Moteur2D::getTexture : couldn't create new texture from " << imagePath << "." << std::endl;
+        }
+    }
+    return coreTexture;
+}
+
+
+
 // ToDo reimplement
 //sf::Texture* Moteur2D::getTexture(const std::string& imagePath)
 //{
