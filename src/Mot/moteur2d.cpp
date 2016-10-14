@@ -112,6 +112,17 @@ void Moteur2D::run()
     float s = 0;
     _window->setVerticalSyncEnabled(true);
 
+    getTexture("../../Ressources/Fond3.png");
+    getTexture("./Ressources/Fond3.png");
+    getTexture("texture1");
+
+    unloadTexture("texture1");
+
+    unloadTexture("./Ressources/Fond3.png");
+    unloadTexture("./Ressources/Fond3.png");
+    unloadTexture("../../Ressources/Fond3.png");
+    unloadTexture("../../Ressources/Fond3.png");
+
     while(_window->isOpen())
     {
         // TO DO : Relacher le proc
@@ -146,7 +157,7 @@ void Moteur2D::update()
     double curTime = getMsSinceLaunch();
     double elapsedTime = double(curTime - _lastTime) / 1000.;
     double frameRate = 1000. / double(curTime - _lastTime);
-    std::cout << "RUN at " << frameRate << " frame per sec. elapsedTime = " << elapsedTime << " , curTime = " << curTime << std::endl;
+    //std::cout << "RUN at " << frameRate << " frame per sec. elapsedTime = " << elapsedTime << " , curTime = " << curTime << std::endl;
 
     // Things to update here
 

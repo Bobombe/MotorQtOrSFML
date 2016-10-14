@@ -1,6 +1,8 @@
 
 
 #include "Texture.h"
+#include <iostream>
+#include <string>
 
 Texture::Texture(std::string pathToTexture) : _useNumber(0), _texturePath(pathToTexture)
 {
@@ -9,13 +11,12 @@ Texture::Texture(std::string pathToTexture) : _useNumber(0), _texturePath(pathTo
 
 #else
     _texture = new sf::Texture();
-    if(!_texture->loadFromFile(imagePath))
+    if(!_texture->loadFromFile(pathToTexture))
     {
         // problem !
         delete _texture;
         _texture = 0;
-        std::cout << "ERROR : Texture::Texture can't load " << imagePath << std::endl;
-        return 0;
+        std::cout << "ERROR : Texture::Texture can't load " << pathToTexture << std::endl;
     }
 #endif
 }
@@ -47,7 +48,7 @@ Texture::getTexture()
     if (!_texture) {
         _useNumber--;
     }
-    return _texture
+    return _texture;
 #endif
 }
 bool Texture::freeTexture()
