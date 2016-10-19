@@ -15,6 +15,8 @@
 
 // Motor includes
 #include "Texture.h"
+#include "Sprite.h"
+#include "Screen.h"
 
 // Includes depending on graphic choice
 #ifdef IN_QT
@@ -46,9 +48,14 @@ protected:
     int _mouseListenersId;
     double _lastTime;
 
+    // Todo : things to suppress from test
+    Screen *_screenTest;
+
+
 #ifdef IN_QT
     QApplication * _app;
     QGraphicsView * _view;
+    QGraphicsScene * _scene;
     QElapsedTimer _timer;
 
 #else
@@ -103,18 +110,12 @@ public:
 //        void deleteMouseListener(int index);
 //
         // Kind of a deleter
-        void unloadTexture(const std::string& imagePath);
+    void unloadTexture(const std::string& imagePath);
 
 /////////////////////////////////////////////////////
 ///////////           GETTERS             ///////////
 /////////////////////////////////////////////////////
-#ifdef IN_QT
-        // Todo : might need a qt dependent return class
-        Texture*
-#else
-        sf::Texture*
-#endif
-        getTexture(const std::string& imagePath);
+    Texture * getTexture(const std::string& imagePath);
     // ToDo reimplement
 //
 //        const std::map <int, KeyboardListener*>& getKeyboardListeners();
@@ -130,6 +131,14 @@ public:
 //        {
 //            return m_screenSize;
 //        }
+
+
+    // Specific functions
+#ifdef IN_QT
+    QGraphicsView * getView();
+#else
+
+#endif
 
 
 #ifdef IN_QT

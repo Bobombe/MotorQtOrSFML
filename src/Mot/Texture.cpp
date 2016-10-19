@@ -8,8 +8,18 @@ Texture::Texture(std::string pathToTexture) : _useNumber(0), _texturePath(pathTo
 {
 
 #ifdef IN_QT
+    _texture = new QPixmap();
+    QString path(pathToTexture.c_str());
+    if(!_texture->load(path))
+    {
+        // problem !
+        delete _texture;
+        _texture = 0;
+        std::cout << "ERROR : Texture::Texture can't load " << pathToTexture << std::endl;
+    }
 
 #else
+
     _texture = new sf::Texture();
     if(!_texture->loadFromFile(pathToTexture))
     {
@@ -24,33 +34,19 @@ Texture::Texture(std::string pathToTexture) : _useNumber(0), _texturePath(pathTo
 Texture::~Texture()
 {
 
-#ifdef IN_QT
-
-#else
     delete _texture;
-#endif
 }
 
 
-#ifdef IN_QT
-// Todo : might need a qt dependent return class
-Texture*
-#else
-sf::Texture*
-#endif
-Texture::getTexture()
+CoreTexture * Texture::getTexture()
 {
     _useNumber++;
-#ifdef IN_QT
-    // Todo
-    return this;
-#else
     if (!_texture) {
         _useNumber--;
     }
     return _texture;
-#endif
 }
+
 bool Texture::freeTexture()
 {
     _useNumber--;

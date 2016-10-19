@@ -4,8 +4,8 @@
 #include <iostream>
 
 
-// ToDo reimplement
-//
+    // Todo : things to suppress from test
+#include <QGraphicsPixmapItem>
 
 #ifndef IN_QT
 
@@ -53,6 +53,9 @@ Moteur2D::~Moteur2D()
     if (_view) {
         delete _view;
     }
+    if (_scene) {
+        delete _scene;
+    }
 
 #endif
 }
@@ -70,7 +73,9 @@ void Moteur2D::init(int width, int height, std::string windowName, int argc, cha
     _view->setFixedWidth(width);
     _view->setFixedHeight(height);
     _view->setWindowTitle(QString(windowName.c_str()));
+
     _view->show();
+
     _timer.start();
 
 #else
@@ -78,31 +83,38 @@ void Moteur2D::init(int width, int height, std::string windowName, int argc, cha
     sf::ContextSettings settings;
     settings.antialiasingLevel = 4;
     _window = new sf::RenderWindow(sf::VideoMode(width, height), windowName, sf::Style::Default, settings);
+    _window->setVerticalSyncEnabled(true);
 #endif
 
     _screenWidth = width;
     _screenHeight = height;
+
 }
 
 void Moteur2D::run()
 {
 
+
+    // Todo : things to suppress from test
+    _screenTest = new Screen();
+    Sprite * sp = new Sprite("./Ressources/Fond3.png"/*, Vector2d(250, 150), Vector2d(20, 30)*/);
+    //Sprite * sp2 = new Sprite("./Ressources/Fond3.png", Vector2d(150, 150), Vector2d(30, 20));
+    sp->setSpeed(Vector2d(0, 00));
+    sp->setPosition(Vector2d(0, _screenHeight-_screenHeight));
+    //sp2->setSpeed(Vector2d(-50, 50));
+    //sp2->setPosition(Vector2d(600, 0));
+    _screenTest->addWorldElement(sp);
+    _screenTest->setPosition(Vector2d(0, -_screenHeight));
+    _screenTest->setSpeed(Vector2d(0, 100));
+    //_screenTest->addWorldElement(sp2);
+
+
     _lastTime = getMsSinceLaunch();
+    update();
 #ifdef IN_QT
     QTimer *timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(1000/60);
-
-    getTexture("texture1");
-    getTexture("texture2");
-    getTexture("texture1");
-
-    unloadTexture("texture1");
-    unloadTexture("texture1");
-    unloadTexture("texture1");
-
-    unloadTexture("texture2");
-    unloadTexture("texture2");
     _app->exec();
 
 #else
@@ -110,18 +122,6 @@ void Moteur2D::run()
     sf::Time t1 = _clock.getElapsedTime();
     sf::Time t2;
     float s = 0;
-    _window->setVerticalSyncEnabled(true);
-
-    getTexture("../../Ressources/Fond3.png");
-    getTexture("./Ressources/Fond3.png");
-    getTexture("texture1");
-
-    unloadTexture("texture1");
-
-    unloadTexture("./Ressources/Fond3.png");
-    unloadTexture("./Ressources/Fond3.png");
-    unloadTexture("../../Ressources/Fond3.png");
-    unloadTexture("../../Ressources/Fond3.png");
 
     while(_window->isOpen())
     {
@@ -157,7 +157,7 @@ void Moteur2D::update()
     double curTime = getMsSinceLaunch();
     double elapsedTime = double(curTime - _lastTime) / 1000.;
     double frameRate = 1000. / double(curTime - _lastTime);
-    //std::cout << "RUN at " << frameRate << " frame per sec. elapsedTime = " << elapsedTime << " , curTime = " << curTime << std::endl;
+    std::cout << "RUN at " << frameRate << " frame per sec. elapsedTime = " << elapsedTime << " , curTime = " << curTime << std::endl;
 
     // Things to update here
 
@@ -167,6 +167,8 @@ void Moteur2D::update()
     _window->clear();
 #endif
 
+    _screenTest->update(elapsedTime);
+    _screenTest->draw();
     /*/ First called by eventmanager
     em.eventLoop(*m_window);
 
@@ -287,30 +289,19 @@ void Moteur2D::unloadTexture(const std::string& imagePath)
 /////////////////////////////////////////////////////
 // Permet l'acc�s aux textures, si la texture est inexistante cette methode la cr�era.
 
-#ifdef IN_QT
-// Todo : might need a qt dependent return class
-Texture*
-#else
-sf::Texture*
-#endif
-Moteur2D::getTexture(const std::string& imagePath)
+Texture * Moteur2D::getTexture(const std::string& imagePath)
 {
-#ifdef IN_QT
-// Todo : might need a qt dependent return class
-Texture*
-#else
-sf::Texture*
-#endif
-             coreTexture = 0;
+    Texture* texture = 0;
+    CoreTexture * coreTexture = 0;
     try
     {
-        Texture* texture = _textures.at(imagePath);
+        texture = _textures.at(imagePath);
         coreTexture = texture->getTexture();
     }
     catch (const std::out_of_range& oor)
     {
         std::cout << "Moteur2D::getTexture : creating new texture from " << imagePath << "." << std::endl;
-        Texture* texture = new Texture(imagePath);
+        texture = new Texture(imagePath);
         coreTexture = texture->getTexture();
         if (coreTexture) {
             _textures.insert(std::pair<std::string, Texture*>(imagePath, texture));
@@ -319,7 +310,7 @@ sf::Texture*
             std::cout << "ERROR : Moteur2D::getTexture : couldn't create new texture from " << imagePath << "." << std::endl;
         }
     }
-    return coreTexture;
+    return texture;
 }
 
 
@@ -385,3 +376,13 @@ sf::Texture*
 
 
 
+
+// Specific functions
+#ifdef IN_QT
+QGraphicsView * Moteur2D::getView()
+{
+    return _view;
+}
+#else
+
+#endif
