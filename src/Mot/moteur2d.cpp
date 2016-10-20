@@ -4,9 +4,6 @@
 #include <iostream>
 
 
-    // Todo : things to suppress from test
-#include <QGraphicsPixmapItem>
-
 #ifndef IN_QT
 
 #else
@@ -24,7 +21,7 @@ Moteur2D * Moteur2D::getInstance()
     return _instance;
 }
 
-Moteur2D::Moteur2D() : _screenWidth(0), _screenHeight(0), _keyboardListenersId(0), _mouseListenersId(0), _lastTime(0),
+Moteur2D::Moteur2D() : _keyboardListenersId(0), _mouseListenersId(0), _lastTime(0), _screenManager(0),
 #ifndef IN_QT
         _window(0)
 #else
@@ -52,9 +49,6 @@ Moteur2D::~Moteur2D()
     }
     if (_view) {
         delete _view;
-    }
-    if (_scene) {
-        delete _scene;
     }
 
 #endif
@@ -86,31 +80,17 @@ void Moteur2D::init(int width, int height, std::string windowName, int argc, cha
     _window->setVerticalSyncEnabled(true);
 #endif
 
-    _screenWidth = width;
-    _screenHeight = height;
+    _screenSize.x = width;
+    _screenSize.y = height;
 
 }
 
-void Moteur2D::run()
+void Moteur2D::run(ScreenManager* screenManager)
 {
-
-
-    // Todo : things to suppress from test
-    _screenTest = new Screen();
-    Sprite * sp = new Sprite("./Ressources/Fond3.png"/*, Vector2d(250, 150), Vector2d(20, 30)*/);
-    //Sprite * sp2 = new Sprite("./Ressources/Fond3.png", Vector2d(150, 150), Vector2d(30, 20));
-    sp->setSpeed(Vector2d(0, 00));
-    sp->setPosition(Vector2d(0, _screenHeight-_screenHeight));
-    //sp2->setSpeed(Vector2d(-50, 50));
-    //sp2->setPosition(Vector2d(600, 0));
-    _screenTest->addWorldElement(sp);
-    _screenTest->setPosition(Vector2d(0, -_screenHeight));
-    _screenTest->setSpeed(Vector2d(0, 100));
-    //_screenTest->addWorldElement(sp2);
-
-
+    _screenManager = screenManager;
     _lastTime = getMsSinceLaunch();
     update();
+
 #ifdef IN_QT
     QTimer *timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -167,16 +147,11 @@ void Moteur2D::update()
     _window->clear();
 #endif
 
-    _screenTest->update(elapsedTime);
-    _screenTest->draw();
     /*/ First called by eventmanager
     em.eventLoop(*m_window);
-
-    if (m_scm)
-        m_scm->update(s);
-
-    if (m_scm)
-        m_scm->draw();//*/
+//*/
+    if (_screenManager)
+        _screenManager->update(elapsedTime);
 
 #ifdef IN_QT
 #else

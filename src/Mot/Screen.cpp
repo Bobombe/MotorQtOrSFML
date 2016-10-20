@@ -40,11 +40,6 @@ int Screen::draw(Vector2d pos)
 {
     for (unsigned int i = 0; i < _worldElements.size(); i++)
     {
-        if (_pos.y>=0)
-        {
-            setSpeed(Vector2d(0, 0));
-            _pos.y=0;
-        }
         _worldElements[i]->draw(pos + _pos);
     }
     return 0;

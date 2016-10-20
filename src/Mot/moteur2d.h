@@ -17,6 +17,8 @@
 #include "Texture.h"
 #include "Sprite.h"
 #include "Screen.h"
+#include "ScreenManager.h"
+#include "Vector2d.h"
 
 // Includes depending on graphic choice
 #ifdef IN_QT
@@ -42,20 +44,17 @@ protected:
 
     static Moteur2D * _instance;
 
-    int _screenWidth;
-    int _screenHeight;
+    Vector2d _screenSize;
     int _keyboardListenersId;
     int _mouseListenersId;
     double _lastTime;
 
-    // Todo : things to suppress from test
-    Screen *_screenTest;
+    ScreenManager* _screenManager;
 
 
 #ifdef IN_QT
     QApplication * _app;
     QGraphicsView * _view;
-    QGraphicsScene * _scene;
     QElapsedTimer _timer;
 
 #else
@@ -85,7 +84,7 @@ public:
 ///////////          METHODES             ///////////
 /////////////////////////////////////////////////////
     void init(int width, int height, std::string windowName, int argc, char **argv);
-    void run();
+    void run(ScreenManager* screenManager);
 
     double getMsSinceLaunch();
 
@@ -127,10 +126,10 @@ public:
 //            return m_scm;
 //        }
 //
-//        sf::Vector2i getScreenSize()
-//        {
-//            return m_screenSize;
-//        }
+    Vector2d getScreenSize()
+    {
+        return _screenSize;
+    }
 
 
     // Specific functions
