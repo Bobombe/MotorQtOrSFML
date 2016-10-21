@@ -21,7 +21,7 @@ class Sprite : public WorldElement
 
 protected:
 
-    CoreSprite * _sprite;
+    CoreSprite _sprite;
     std::string _texturePath;
     Texture * _texture;
 
@@ -43,9 +43,14 @@ public:
 
     virtual int draw(Vector2d pos = Vector2d());
 
-    CoreSprite* getCoreSprite();
+    CoreSprite getCoreSprite();
 
     // Getters and Setters
+    void setSprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize);
+
+    std::string getTexturePath();
+    void setTexturePath(std::string texturePath);
+
     Vector2d getSubRectPos();
     void setSubRectPos(Vector2d subRectPos);
 

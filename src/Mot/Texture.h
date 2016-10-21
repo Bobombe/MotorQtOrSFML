@@ -3,6 +3,7 @@
 #define SRC_MOT_TEXTURE_H_
 
 #include <string>
+#include "Vector2d.h"
 
 #ifdef IN_QT
 #define CoreTexture QPixmap
@@ -20,6 +21,8 @@ protected:
 
     CoreTexture * _texture;
 
+    Vector2d _size;
+
 public:
     Texture(std::string pathToTexture);
     virtual ~Texture();
@@ -29,6 +32,8 @@ public:
 
     // return true if texture not used anymore, might need to be deleted.
     bool freeTexture();
+
+    Vector2d getSize();
 };
 
 #endif

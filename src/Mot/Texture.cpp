@@ -17,6 +17,11 @@ Texture::Texture(std::string pathToTexture) : _useNumber(0), _texturePath(pathTo
         _texture = 0;
         std::cout << "ERROR : Texture::Texture can't load " << pathToTexture << std::endl;
     }
+    else
+    {
+        _size.x = _texture->size().width();
+        _size.y = _texture->size().height();
+    }
 
 #else
 
@@ -27,6 +32,11 @@ Texture::Texture(std::string pathToTexture) : _useNumber(0), _texturePath(pathTo
         delete _texture;
         _texture = 0;
         std::cout << "ERROR : Texture::Texture can't load " << pathToTexture << std::endl;
+    }
+    else
+    {
+        _size.x = _texture->getSize().x;
+        _size.y = _texture->getSize().y;
     }
 #endif
 }
@@ -56,3 +66,10 @@ bool Texture::freeTexture()
     }
     return false;
 }
+
+Vector2d Texture::getSize()
+{
+    return _size;
+}
+
+

@@ -121,11 +121,11 @@ public:
 //        const std::map <int, MouseListener*>& getMouseListeners();
 //
 //
-//        ScreenManager * getScreenManager ()
-//        {
-//            return m_scm;
-//        }
-//
+    ScreenManager * getScreenManager ()
+    {
+        return _screenManager;
+    }
+
     Vector2d getScreenSize()
     {
         return _screenSize;
@@ -135,8 +135,10 @@ public:
     // Specific functions
 #ifdef IN_QT
     QGraphicsView * getView();
+
 #else
 
+    sf::RenderWindow * getWindow();
 #endif
 
 

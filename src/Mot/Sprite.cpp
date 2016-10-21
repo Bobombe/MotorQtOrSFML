@@ -11,7 +11,6 @@
 
 Sprite::Sprite()
 {
-    _sprite = 0;
     _texture = 0;
 #ifdef IN_QT
     _manipulationItem = 0;
@@ -19,34 +18,17 @@ Sprite::Sprite()
 
 #endif
 }
-Sprite::Sprite(std::string texturePath) : _texturePath(texturePath)
+Sprite::Sprite(std::string texturePath)
 {
-    _texture = Moteur2D::getInstance()->getTexture(texturePath);
-#ifdef IN_QT
-    _sprite = new QPixmap(_texture->getTexture()->copy(QRect()));
-    _manipulationItem = 0;
-#else
-
-#endif
+    setSprite(texturePath, Vector2d(), Vector2d());
 }
-Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize) : _texturePath(texturePath)
+Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize)
 {
-
-    _texture = Moteur2D::getInstance()->getTexture(texturePath);
-#ifdef IN_QT
-    _sprite = new QPixmap(_texture->getTexture()->copy(subRectPos.x, subRectPos.y, subRectSize.x, subRectSize.y));
-    _manipulationItem = 0;
-#else
-
-#endif
+    setSprite(texturePath, subRectPos, subRectSize);
 }
 
 Sprite::~Sprite()
 {
-    if (_sprite)
-    {
-        delete _sprite;
-    }
     Moteur2D::getInstance()->unloadTexture(_texturePath);
 #ifdef IN_QT
     if (_manipulationItem)
@@ -67,26 +49,69 @@ int Sprite::draw(Vector2d pos)
 
 #else
 
+    _sprite.setPosition(_pos+pos);
+    Moteur2D::getInstance()->getWindow()->draw(_sprite);
 #endif
     return 0;
 }
 
-CoreSprite* Sprite::getCoreSprite()
+CoreSprite Sprite::getCoreSprite()
 {
     return _sprite;
 }
 
 
 // Getters and Setters
+
+void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize)
+{
+    if (_texturePath != texturePath)
+    {
+        Moteur2D::getInstance()->unloadTexture(_texturePath);
+        _texturePath = texturePath;
+        _texture = Moteur2D::getInstance()->getTexture(_texturePath);
+    }
+
+    _subRectPos = subRectPos;
+    _subRectSize = subRectSize;
+    // if null size, take the whole texture as sprite
+    if (_subRectSize.x == 0 && _subRectSize.y == 0)
+    {
+        _subRectSize = _texture->getSize();
+        _subRectPos.x = _subRectPos.y = 0;
+    }
+
+#ifdef IN_QT
+    _sprite = _texture->getTexture()->copy(_subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
+    if (_manipulationItem)
+    {
+        _manipulationItem->setPixmap(_sprite);
+    }
+
+#else
+    _sprite.setTexture(*(_texture->getTexture()));
+    sf::IntRect subTextureRect(_subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
+    _sprite.setTextureRect(subTextureRect);
+
+#endif
+}
+
+std::string Sprite::getTexturePath()
+{
+    return _texturePath;
+}
+void Sprite::setTexturePath(std::string texturePath)
+{
+    setSprite(texturePath, _subRectPos, _subRectSize);
+}
+
 Vector2d Sprite::getSubRectPos()
 {
     return _subRectPos;
 }
 void Sprite::setSubRectPos(Vector2d subRectPos)
 {
-    _subRectPos = subRectPos;
-    *_sprite = _texture->getTexture()->copy(_subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
-    _manipulationItem->setPixmap(*_sprite);
+    setSprite(_texturePath, subRectPos, _subRectSize);
 }
 
 Vector2d Sprite::getSubRectSize()
@@ -95,17 +120,12 @@ Vector2d Sprite::getSubRectSize()
 }
 void Sprite::setSubRectSize(Vector2d subRectSize)
 {
-    _subRectSize = subRectSize;
-    *_sprite = _texture->getTexture()->copy(_subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
-    _manipulationItem->setPixmap(*_sprite);
+    setSprite(_texturePath, _subRectPos, subRectSize);
 }
 
 void Sprite::setSubRect(Vector2d subRectPos, Vector2d subRectSize)
 {
-    _subRectPos = subRectPos;
-    _subRectSize = subRectSize;
-    *_sprite = _texture->getTexture()->copy(_subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
-    _manipulationItem->setPixmap(*_sprite);
+    setSprite(_texturePath, subRectPos, subRectSize);
 }
 
 
@@ -113,7 +133,7 @@ void Sprite::setSubRect(Vector2d subRectPos, Vector2d subRectSize)
 #ifdef IN_QT
 void Sprite::addedInScene(QGraphicsScene * scene)
 {
-    _manipulationItem = scene->addPixmap(*_sprite);
+    _manipulationItem = scene->addPixmap(_sprite);
     _manipulationItem->setPos(_pos.x, _pos.y);
 }
 

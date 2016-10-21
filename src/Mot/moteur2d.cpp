@@ -154,6 +154,7 @@ void Moteur2D::update()
         _screenManager->update(elapsedTime);
 
 #ifdef IN_QT
+
 #else
     // Display window
     _window->display();
@@ -166,26 +167,6 @@ void Moteur2D::update()
   /////////////////////////////////////////////////////
  ///////////           ADDERS              ///////////
 /////////////////////////////////////////////////////
-/* TODO sup pour ecran
-int Moteur2D::addPreDrawable(sf::Sprite* s)
-{
-    m_preDrawablesIndex++;
-    m_preDraw[m_preDrawablesIndex] = s;
-    return m_preDrawablesIndex;
-}
-int Moteur2D::addDrawable(sf::Sprite *s)
-{
-    m_drawablesIndex++;
-    m_drawables[m_drawablesIndex] = s;
-    return m_drawablesIndex;
-}
-int Moteur2D::addPostDrawable(sf::Sprite* s)
-{
-    m_postDrawablesIndex++;
-    m_postDraw[m_postDrawablesIndex] = s;
-    return m_postDrawablesIndex;
-}
-//*/
 
 
 // ToDo reimplement
@@ -201,31 +182,10 @@ int Moteur2D::addPostDrawable(sf::Sprite* s)
 //    m_mouseListeners[m_mouseListenersId]=ml;
 //    return m_mouseListenersId;
 //}
-//
-//int Moteur2D::addUpdate(Updatable* upd)
-//{
-//    ++m_updatesId;
-//    m_updates[m_updatesId]=upd;
-//    return m_updatesId;
-//}
 
   /////////////////////////////////////////////////////
  ///////////          DELETERS             ///////////
 /////////////////////////////////////////////////////
-/* TODO sup pour ecran
-void Moteur2D::deletePreDrawable(int index)
-{
-    m_preDraw.erase(index);
-}
-void Moteur2D::deleteDrawable(int index)
-{
-    m_drawables.erase(index);
-}
-void Moteur2D::deletePostDrawable(int index)
-{
-    m_postDraw.erase(index);
-}
-//*/
 
 // ToDo reimplement
 //void Moteur2D::deleteKeyboardListener(int index)
@@ -235,11 +195,6 @@ void Moteur2D::deletePostDrawable(int index)
 //void Moteur2D::deleteMouseListener(int index)
 //{
 //    m_mouseListeners.erase(index);
-//}
-//
-//void Moteur2D::deleteUpdate(int index)
-//{
-//    m_updates.erase(index);
 //}
 //
 void Moteur2D::unloadTexture(const std::string& imagePath)
@@ -291,48 +246,6 @@ Texture * Moteur2D::getTexture(const std::string& imagePath)
 
 
 // ToDo reimplement
-//sf::Texture* Moteur2D::getTexture(const std::string& imagePath)
-//{
-//    try
-//    {
-//        sf::Texture * t = m_textures.at(imagePath);
-//        m_texturesUtilisations.at(imagePath) = m_texturesUtilisations.at(imagePath)+1;
-//        return t;
-//    }
-//    catch (const std::out_of_range& oor) // Ajout de la texture
-//    {
-//        // Texture in�xistante, je la charge
-//        sf::Texture *t = new sf::Texture();
-//        if(t->loadFromFile(imagePath))
-//        {
-//            m_textures.insert(std::pair<std::string, sf::Texture*>(imagePath, t));
-//            m_texturesUtilisations.insert(std::pair<std::string, int>(imagePath, 1));
-//            return t;
-//        }
-//        else
-//        {
-//            // problem !
-//            delete t;
-//            std::cerr << "Probl�me d'ajout de Texture" << std::endl;
-//            return 0;
-//        }
-//    }/* TODO : A supprimer apr�s un moment de test
-//    try
-//    {
-//        return &m_textures.at(imagePath);
-//    }
-//    catch (const std::out_of_range& oor)
-//    {
-//        // problem !
-//        std::cerr << "Probl�me d'ajout de Texture" << std::endl;
-//        return 0;
-//    }//*/
-//}
-//
-//sf::RenderWindow & Moteur2D::getWindow()
-//{
-//    return *m_window;
-//}
 //
 //const std::map <int, KeyboardListener*>& Moteur2D::getKeyboardListeners()
 //{
@@ -341,10 +254,6 @@ Texture * Moteur2D::getTexture(const std::string& imagePath)
 //const std::map <int, MouseListener*>& Moteur2D::getMouseListeners()
 //{
 //    return m_mouseListeners;
-//}
-//sf::Time Moteur2D::getTime()
-//{
-//    return m_clock.getElapsedTime();
 //}
 
 
@@ -360,4 +269,8 @@ QGraphicsView * Moteur2D::getView()
 }
 #else
 
+sf::RenderWindow * Moteur2D::getWindow()
+{
+    return _window;
+}
 #endif
