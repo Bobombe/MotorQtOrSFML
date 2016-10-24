@@ -11,6 +11,7 @@
 
 // cpp includes
 #include <map>
+#include <vector>
 #include <string>
 
 // Motor includes
@@ -19,11 +20,12 @@
 #include "Screen.h"
 #include "ScreenManager.h"
 #include "Vector2d.h"
+#include "EventsManager.h"
+#include "KeyboardListener.h"
 
 // Includes depending on graphic choice
 #ifdef IN_QT
 #include <QApplication>
-#include <QGraphicsView>
 #include <QElapsedTimer>
 
 #else
@@ -45,16 +47,15 @@ protected:
     static Moteur2D * _instance;
 
     Vector2d _screenSize;
-    int _keyboardListenersId;
-    int _mouseListenersId;
     double _lastTime;
 
     ScreenManager* _screenManager;
 
+    EventsManager * _eventsManager;
+
 
 #ifdef IN_QT
     QApplication * _app;
-    QGraphicsView * _view;
     QElapsedTimer _timer;
 
 #else
@@ -65,12 +66,11 @@ protected:
     // Managing Textures
     std::map<std::string, Texture*> _textures;
 
+    // First called by eventmanager
+    std::map <int, KeyboardListener*> _keyboardListeners;
+    int _keyboardListenersId;
 
     // ToDo reimplement
-//
-//
-//        // First called by eventmanager
-//        std::map <int, KeyboardListener*> m_keyboardListeners;
 //        std::map <int, MouseListener*> m_mouseListeners;
 
     // ToDo reimplement
@@ -91,21 +91,17 @@ public:
 /////////////////////////////////////////////////////
 ///////////           ADDERS              ///////////
 /////////////////////////////////////////////////////
+    int addKeyboardListener(KeyboardListener* kl);
     // ToDo reimplement
-//        void setScreenManager (ScreenManager * scm)
-//        {
-//            m_scm = scm;
-//        }
-//
-//        int addKeyboardListener(KeyboardListener* kl);
 //        int addMouseListener(MouseListener* ml);
 
 /////////////////////////////////////////////////////
 ///////////          DELETERS             ///////////
 /////////////////////////////////////////////////////
+    void deleteKeyboardListener(int index);
 
     // ToDo reimplement
-//        void deleteKeyboardListener(int index);
+//
 //        void deleteMouseListener(int index);
 //
         // Kind of a deleter
@@ -115,9 +111,8 @@ public:
 ///////////           GETTERS             ///////////
 /////////////////////////////////////////////////////
     Texture * getTexture(const std::string& imagePath);
+    const std::map <int, KeyboardListener*>& getKeyboardListeners();
     // ToDo reimplement
-//
-//        const std::map <int, KeyboardListener*>& getKeyboardListeners();
 //        const std::map <int, MouseListener*>& getMouseListeners();
 //
 //

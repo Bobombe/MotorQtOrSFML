@@ -21,11 +21,11 @@ Moteur2D * Moteur2D::getInstance()
     return _instance;
 }
 
-Moteur2D::Moteur2D() : _keyboardListenersId(0), _mouseListenersId(0), _lastTime(0), _screenManager(0),
+Moteur2D::Moteur2D() : _lastTime(0), _screenManager(0), _keyboardListenersId(0)
 #ifndef IN_QT
-        _window(0)
+        , _window(0)
 #else
-        _app(0), _view(0)
+        , _app(0), _eventsManager(0)
 #endif
 {
     //ctor
@@ -47,8 +47,8 @@ Moteur2D::~Moteur2D()
     if (_app) {
         delete _app;
     }
-    if (_view) {
-        delete _view;
+    if (_eventsManager) {
+        delete _eventsManager;
     }
 
 #endif
@@ -63,14 +63,6 @@ void Moteur2D::init(int width, int height, std::string windowName, int argc, cha
 {
 #ifdef IN_QT
     _app = new QApplication(argc, argv);
-    _view = new QGraphicsView();
-    _view->setFixedWidth(width);
-    _view->setFixedHeight(height);
-    _view->setWindowTitle(QString(windowName.c_str()));
-
-    _view->show();
-
-    _timer.start();
 
 #else
 
@@ -82,6 +74,17 @@ void Moteur2D::init(int width, int height, std::string windowName, int argc, cha
 
     _screenSize.x = width;
     _screenSize.y = height;
+    _eventsManager = new EventsManager();
+
+#ifdef IN_QT
+    _eventsManager->setFixedWidth(width);
+    _eventsManager->setFixedHeight(height);
+    _eventsManager->setWindowTitle(QString(windowName.c_str()));
+
+    _eventsManager->show();
+
+    _timer.start();
+#endif
 
 }
 
@@ -137,7 +140,7 @@ void Moteur2D::update()
     double curTime = getMsSinceLaunch();
     double elapsedTime = double(curTime - _lastTime) / 1000.;
     double frameRate = 1000. / double(curTime - _lastTime);
-    std::cout << "RUN at " << frameRate << " frame per sec. elapsedTime = " << elapsedTime << " , curTime = " << curTime << std::endl;
+    //std::cout << "RUN at " << frameRate << " frame per sec. elapsedTime = " << elapsedTime << " , curTime = " << curTime << std::endl;
 
     // Things to update here
 
@@ -145,11 +148,11 @@ void Moteur2D::update()
 #else
     // Clear window
     _window->clear();
+    // First called by eventmanager
+    _eventsManager->eventLoop(*_window);
 #endif
 
-    /*/ First called by eventmanager
-    em.eventLoop(*m_window);
-//*/
+
     if (_screenManager)
         _screenManager->update(elapsedTime);
 
@@ -170,12 +173,12 @@ void Moteur2D::update()
 
 
 // ToDo reimplement
-//int Moteur2D::addKeyboardListener(KeyboardListener* kl)
-//{
-//    ++m_keyboardListenersId;
-//    m_keyboardListeners[m_keyboardListenersId]=kl;
-//    return m_keyboardListenersId;
-//}
+int Moteur2D::addKeyboardListener(KeyboardListener* kl)
+{
+    ++_keyboardListenersId;
+    _keyboardListeners[_keyboardListenersId]=kl;
+    return _keyboardListenersId;
+}
 //int Moteur2D::addMouseListener(MouseListener* ml)
 //{
 //    ++m_mouseListenersId;
@@ -188,10 +191,10 @@ void Moteur2D::update()
 /////////////////////////////////////////////////////
 
 // ToDo reimplement
-//void Moteur2D::deleteKeyboardListener(int index)
-//{
-//    m_keyboardListeners.erase(index);
-//}
+void Moteur2D::deleteKeyboardListener(int index)
+{
+    _keyboardListeners.erase(index);
+}
 //void Moteur2D::deleteMouseListener(int index)
 //{
 //    m_mouseListeners.erase(index);
@@ -247,10 +250,10 @@ Texture * Moteur2D::getTexture(const std::string& imagePath)
 
 // ToDo reimplement
 //
-//const std::map <int, KeyboardListener*>& Moteur2D::getKeyboardListeners()
-//{
-//    return m_keyboardListeners;
-//}
+const std::map <int, KeyboardListener*>& Moteur2D::getKeyboardListeners()
+{
+    return _keyboardListeners;
+}
 //const std::map <int, MouseListener*>& Moteur2D::getMouseListeners()
 //{
 //    return m_mouseListeners;
@@ -265,7 +268,7 @@ Texture * Moteur2D::getTexture(const std::string& imagePath)
 #ifdef IN_QT
 QGraphicsView * Moteur2D::getView()
 {
-    return _view;
+    return _eventsManager;
 }
 #else
 
