@@ -2,6 +2,7 @@
 #include "EventsManager.h"
 #include "KeyboardListener.h"
 #include <iostream>
+#include "moteur2d.h"
 
 #ifdef IN_QT
 #include <QKeyEvent>
@@ -23,15 +24,20 @@ EventsManager::~EventsManager()
 void EventsManager::keyPressEvent(QKeyEvent * event)
 {
     std::cout << "EventsManager::keyPressEvent " << event->key() << " ; converted = " << KeyboardListener::retrieveKeyFromQt(event->key()) << std::endl;
-//    std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
-//    for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
-//    {
-//        it->second->keyPressed(m_e.key.code);
-//    }
+    std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
+    for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
+    {
+        it->second->keyPressed(KeyboardListener::retrieveKeyFromQt(event->key()));
+    }
 }
 void EventsManager::keyReleaseEvent(QKeyEvent * event)
 {
     std::cout << "EventsManager::keyReleaseEvent " << std::endl;
+    std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
+    for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
+    {
+        it->second->keyReleased(KeyboardListener::retrieveKeyFromQt(event->key()));
+    }
 }
 
 void EventsManager::mouseMoveEvent(QMouseEvent * event)

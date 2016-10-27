@@ -33,32 +33,32 @@ Key::Key KeyboardListener::retrieveKeyFromQt(int k)
         case Qt::Key_Agrave :
             key = Key::Num0;
             break;
-        case Qt::Key_Escape :
-            key = Key::Num0;
+        case Qt::Key_Ampersand :
+            key = Key::Num1;
             break;
-        case Qt::Key_Escape :
-            key = Key::Num0;
+        case Qt::Key_Eacute :
+            key = Key::Num2;
             break;
-        case Qt::Key_Escape :
-            key = Key::Num0;
+        case Qt::Key_QuoteDbl :
+            key = Key::Num3;
             break;
-        case Qt::Key_Escape :
-            key = Key::Num0;
+        case Qt::Key_Apostrophe :
+            key = Key::Num4;
             break;
-        case Qt::Key_Escape :
-            key = Key::Num0;
+        case Qt::Key_ParenLeft :
+            key = Key::Num5;
             break;
-        case Qt::Key_Escape :
-            key = Key::Num0;
+        case Qt::Key_Minus :
+            key = Key::Num6;
             break;
-        case Qt::Key_Escape :
-            key = Key::Num0;
+        case Qt::Key_Egrave :
+            key = Key::Num7;
             break;
-        case Qt::Key_Escape :
-            key = Key::Num0;
+        case Qt::Key_Underscore :
+            key = Key::Num8;
             break;
-        case Qt::Key_Escape :
-            key = Key::Num0;
+        case Qt::Key_Ccedilla :
+            key = Key::Num9;
             break;
         case Qt::Key_Escape :
             key = Key::Escape;
@@ -81,15 +81,32 @@ Key::Key KeyboardListener::retrieveKeyFromQt(int k)
         case Qt::Key_Menu :
             key = Key::Menu;
             break;
-        case Qt::Key_Escape :
-            key = Key::Escape;
+        case Qt::Key_Space :
+            key = Key::Space;
             break;
-        case Qt::Key_Escape :
-            key = Key::Escape;
+        case Qt::Key_Return :
+            key = Key::Return;
             break;
-        case Qt::Key_Escape :
-            key = Key::Escape;
+        case Qt::Key_Backspace :
+            key = Key::BackSpace;
             break;
+        case Qt::Key_Tab :
+            key = Key::Tab;
+            break;
+        case Qt::Key_Left :
+            key = Key::Left;
+            break;
+        case Qt::Key_Right :
+            key = Key::Right;
+            break;
+        case Qt::Key_Up :
+            key = Key::Up;
+            break;
+        case Qt::Key_Down :
+            key = Key::Down;
+            break;
+        default:
+        	key = Key::Unknown;
         }
     }
 

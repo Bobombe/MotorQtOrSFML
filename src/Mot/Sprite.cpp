@@ -18,11 +18,11 @@ Sprite::Sprite()
 
 #endif
 }
-Sprite::Sprite(std::string texturePath)
+Sprite::Sprite(std::string texturePath) : _manipulationItem(0)
 {
     setSprite(texturePath, Vector2d(), Vector2d());
 }
-Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize)
+Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize) : _manipulationItem(0)
 {
     setSprite(texturePath, subRectPos, subRectSize);
 }
