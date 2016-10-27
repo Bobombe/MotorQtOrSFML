@@ -11,7 +11,7 @@ else
 
 
 	echo "Creating $projectName.pro ..."
-	/usr/share/isis/qt/bin/qmake -project -r ./src/
+	/usr/share/isis/qt/5.5.1/bin/qmake -project -r
 
 	echo "Adding conf to $projectName.pro ..."
 
@@ -20,7 +20,7 @@ else
 	mv temp_file $projectName.pro
 
 	echo "Creating Makefile ..."
-	/usr/share/isis/qt/bin/qmake $projectName.pro
+	/usr/share/isis/qt/5.5.1/bin/qmake $projectName.pro
 
 	echo "Compile ..."
 	make
