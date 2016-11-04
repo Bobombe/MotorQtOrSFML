@@ -1,8 +1,10 @@
 
 #include "EventsManager.h"
 #include "KeyboardListener.h"
+#include "MouseListener.h"
 #include <iostream>
 #include "moteur2d.h"
+#include "Vector2d.h"
 
 #ifdef IN_QT
 #include <QKeyEvent>
@@ -32,7 +34,6 @@ void EventsManager::keyPressEvent(QKeyEvent * event)
 }
 void EventsManager::keyReleaseEvent(QKeyEvent * event)
 {
-    std::cout << "EventsManager::keyReleaseEvent " << std::endl;
     std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
     for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
     {
@@ -42,19 +43,83 @@ void EventsManager::keyReleaseEvent(QKeyEvent * event)
 
 void EventsManager::mouseMoveEvent(QMouseEvent * event)
 {
-    std::cout << "EventsManager::mouseMoveEvent " << std::endl;
+	Vector2d mousePos;
+	mousePos.x = event->x();
+	mousePos.y = event->y();
+
+    std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
+    for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
+    {
+        it->second->mouseMoved(mousePos);
+    }
 }
 void EventsManager::mousePressEvent(QMouseEvent * event)
 {
-    std::cout << "EventsManager::mousePressEvent " << std::endl;
+	MouseButton::MouseButton mb = MouseButton::left;
+
+	switch (event->button())
+	{
+	case Qt::LeftButton:
+		mb = MouseButton::left;
+		break;
+	case Qt::RightButton:
+		mb = MouseButton::right;
+		break;
+	case Qt::MiddleButton:
+		mb = MouseButton::middle;
+		break;
+	default:
+		mb = MouseButton::Unknown;
+	}
+
+	Vector2d mousePos;
+	mousePos.x = event->x();
+	mousePos.y = event->y();
+
+    std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
+    for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
+    {
+        it->second->buttonPressed(mb, mousePos);
+    }
 }
 void EventsManager::mouseReleaseEvent(QMouseEvent * event)
 {
-    std::cout << "EventsManager::mouseReleaseEvent " << std::endl;
+	MouseButton::MouseButton mb = MouseButton::left;
+
+	switch (event->button())
+	{
+	case Qt::LeftButton:
+		mb = MouseButton::left;
+		break;
+	case Qt::RightButton:
+		mb = MouseButton::right;
+		break;
+	case Qt::MiddleButton:
+		mb = MouseButton::middle;
+		break;
+	default:
+		mb = MouseButton::Unknown;
+	}
+
+	Vector2d mousePos;
+	mousePos.x = event->x();
+	mousePos.y = event->y();
+
+    std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
+    for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
+    {
+        it->second->buttonReleased(mb, mousePos);
+    }
 }
 void EventsManager::wheelEvent(QWheelEvent * event)
 {
-    std::cout << "EventsManager::wheelEvent " << std::endl;
+	float degreeMove = event->angleDelta().y()/8.;
+
+    std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
+    for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
+    {
+        it->second->mouseWheelMoved(degreeMove);
+    }
 }
 
 #else

@@ -22,6 +22,7 @@
 #include "Vector2d.h"
 #include "EventsManager.h"
 #include "KeyboardListener.h"
+#include "MouseListener.h"
 
 // Includes depending on graphic choice
 #ifdef IN_QT
@@ -69,12 +70,8 @@ protected:
     // First called by eventmanager
     std::map <int, KeyboardListener*> _keyboardListeners;
     int _keyboardListenersId;
-
-    // ToDo reimplement
-//        std::map <int, MouseListener*> m_mouseListeners;
-
-    // ToDo reimplement
-//        ScreenManager * m_scm;
+    std::map <int, MouseListener*> _mouseListeners;
+    int _mouseListenersId;
 //
 //
 public:
@@ -92,18 +89,14 @@ public:
 ///////////           ADDERS              ///////////
 /////////////////////////////////////////////////////
     int addKeyboardListener(KeyboardListener* kl);
-    // ToDo reimplement
-//        int addMouseListener(MouseListener* ml);
+    int addMouseListener(MouseListener* ml);
 
 /////////////////////////////////////////////////////
 ///////////          DELETERS             ///////////
 /////////////////////////////////////////////////////
     void deleteKeyboardListener(int index);
+    void deleteMouseListener(int index);
 
-    // ToDo reimplement
-//
-//        void deleteMouseListener(int index);
-//
         // Kind of a deleter
     void unloadTexture(const std::string& imagePath);
 
@@ -112,10 +105,8 @@ public:
 /////////////////////////////////////////////////////
     Texture * getTexture(const std::string& imagePath);
     const std::map <int, KeyboardListener*>& getKeyboardListeners();
-    // ToDo reimplement
-//        const std::map <int, MouseListener*>& getMouseListeners();
-//
-//
+    const std::map <int, MouseListener*>& getMouseListeners();
+
     ScreenManager * getScreenManager ()
     {
         return _screenManager;

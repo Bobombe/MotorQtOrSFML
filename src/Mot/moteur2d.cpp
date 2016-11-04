@@ -21,7 +21,7 @@ Moteur2D * Moteur2D::getInstance()
     return _instance;
 }
 
-Moteur2D::Moteur2D() : _lastTime(0), _screenManager(0), _keyboardListenersId(0)
+Moteur2D::Moteur2D() : _lastTime(0), _screenManager(0), _keyboardListenersId(0), _mouseListenersId(0)
 #ifndef IN_QT
         , _window(0)
 #else
@@ -140,7 +140,7 @@ void Moteur2D::update()
     double curTime = getMsSinceLaunch();
     double elapsedTime = double(curTime - _lastTime) / 1000.;
     double frameRate = 1000. / double(curTime - _lastTime);
-    std::cout << "RUN at " << frameRate << " frame per sec. elapsedTime = " << elapsedTime << " , curTime = " << curTime << std::endl;
+    //std::cout << "RUN at " << frameRate << " frame per sec. elapsedTime = " << elapsedTime << " , curTime = " << curTime << std::endl;
 
     // Things to update here
 
@@ -179,12 +179,12 @@ int Moteur2D::addKeyboardListener(KeyboardListener* kl)
     _keyboardListeners[_keyboardListenersId]=kl;
     return _keyboardListenersId;
 }
-//int Moteur2D::addMouseListener(MouseListener* ml)
-//{
-//    ++m_mouseListenersId;
-//    m_mouseListeners[m_mouseListenersId]=ml;
-//    return m_mouseListenersId;
-//}
+int Moteur2D::addMouseListener(MouseListener* ml)
+{
+    ++_mouseListenersId;
+    _mouseListeners[_mouseListenersId]=ml;
+    return _mouseListenersId;
+}
 
   /////////////////////////////////////////////////////
  ///////////          DELETERS             ///////////
@@ -195,11 +195,11 @@ void Moteur2D::deleteKeyboardListener(int index)
 {
     _keyboardListeners.erase(index);
 }
-//void Moteur2D::deleteMouseListener(int index)
-//{
-//    m_mouseListeners.erase(index);
-//}
-//
+void Moteur2D::deleteMouseListener(int index)
+{
+    _mouseListeners.erase(index);
+}
+
 void Moteur2D::unloadTexture(const std::string& imagePath)
 {
     try
@@ -248,16 +248,14 @@ Texture * Moteur2D::getTexture(const std::string& imagePath)
 
 
 
-// ToDo reimplement
-//
 const std::map <int, KeyboardListener*>& Moteur2D::getKeyboardListeners()
 {
     return _keyboardListeners;
 }
-//const std::map <int, MouseListener*>& Moteur2D::getMouseListeners()
-//{
-//    return m_mouseListeners;
-//}
+const std::map <int, MouseListener*>& Moteur2D::getMouseListeners()
+{
+    return _mouseListeners;
+}
 
 
 

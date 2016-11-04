@@ -11,7 +11,7 @@
 StartScreen::StartScreen() : Screen()
 {
     _pos.y = -Moteur2D::getInstance()->getScreenSize().y;
-    _speed.y = 100;
+    _speed.y = 400;
     addWorldElement(new Sprite("./Ressources/Fond3.png"));
 }
 
