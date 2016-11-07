@@ -7,12 +7,14 @@
 
 #include "StartScreen.h"
 #include "Mot/moteur2d.h"
+#include "PersoTest.h"
 
 StartScreen::StartScreen() : Screen()
 {
     _pos.y = -Moteur2D::getInstance()->getScreenSize().y;
     _speed.y = 400;
     addWorldElement(new Sprite("./Ressources/Fond3.png"));
+    addWorldElement(new PersoTest());
 }
 
 StartScreen::~StartScreen()

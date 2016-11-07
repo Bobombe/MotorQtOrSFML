@@ -14,6 +14,7 @@ EventsManager::EventsManager()
 {
 #ifdef IN_QT
     setMouseTracking(true);
+
 #endif
 }
 
@@ -25,20 +26,23 @@ EventsManager::~EventsManager()
 #ifdef IN_QT
 void EventsManager::keyPressEvent(QKeyEvent * event)
 {
-    std::cout << "EventsManager::keyPressEvent " << event->key() << " ; converted = " << KeyboardListener::retrieveKeyFromQt(event->key()) << std::endl;
-    std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
-    for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
-    {
-        it->second->keyPressed(KeyboardListener::retrieveKeyFromQt(event->key()));
-    }
+	if (!event->isAutoRepeat()) {
+		std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
+		for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
+		{
+			it->second->keyPressed(KeyboardListener::retrieveKeyFromQt(event->key()));
+		}
+	}
 }
 void EventsManager::keyReleaseEvent(QKeyEvent * event)
 {
-    std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
-    for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
-    {
-        it->second->keyReleased(KeyboardListener::retrieveKeyFromQt(event->key()));
-    }
+	if (!event->isAutoRepeat()) {
+		std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
+		for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
+		{
+			it->second->keyReleased(KeyboardListener::retrieveKeyFromQt(event->key()));
+		}
+	}
 }
 
 void EventsManager::mouseMoveEvent(QMouseEvent * event)

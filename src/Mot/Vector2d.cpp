@@ -34,7 +34,12 @@ double Vector2d::getAngleInDegree()
 
 void Vector2d::normalize()
 {
-    *this /= getNorm();
+	double norm = getNorm();
+	if (norm !=0) {
+		*this /= norm;
+	} else {
+		x = y = 0;
+	}
 }
 void Vector2d::rotateInDegree(double angleInDegree)
 {
