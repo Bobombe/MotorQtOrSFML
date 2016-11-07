@@ -23,6 +23,14 @@ class EventsManager
 Q_OBJECT
 #endif
 
+protected:
+
+#ifdef IN_QT
+#else
+
+sf::Event _sfEvent;
+#endif
+
 public:
     EventsManager();
     virtual ~EventsManager();

@@ -131,5 +131,102 @@ void EventsManager::wheelEvent(QWheelEvent * event)
 void EventsManager::eventLoop(sf::RenderWindow &window)
 {
     std::cout << "EventsManager::eventLoop " << std::endl;
+
+    while (window.pollEvent(_sfEvent))
+    {
+        // Click sur la croix -> Fermeture
+        if(_sfEvent.type == sf::Event::Closed)
+            window.close();
+
+        // Appuis sur touche -> Appel des listener de clavier
+        else if (_sfEvent.type == sf::Event::KeyPressed)
+        {
+            std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
+            for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
+            {
+                it->second->keyPressed(_sfEvent.key.code);
+            }
+        }
+        // Relachement d'une touche -> Appel des listener de clavier
+        else if (_sfEvent.type == sf::Event::KeyReleased)
+        {
+            std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
+            for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
+            {
+                it->second->keyReleased(_sfEvent.key.code);
+            }
+        }
+
+        // Appuis sur un bouton de la souris -> Appel des listener de souris
+        else if (_sfEvent.type == sf::Event::MouseButtonPressed)
+        {
+        	MouseButton::MouseButton mb = MouseButton::left;
+        	if (_sfEvent.mouseButton.button == sf::Mouse::Left) {
+        		mb = MouseButton::left;
+        	} else if (_sfEvent.mouseButton.button == sf::Mouse::Right) {
+        		mb = MouseButton::right;
+        	} else if (_sfEvent.mouseButton.button == sf::Mouse::Middle) {
+				mb = MouseButton::middle;
+			} else {
+				mb = MouseButton::Unknown;
+			}
+
+        	Vector2d mousePos;
+        	mousePos.x = _sfEvent.mouseButton.x;
+        	mousePos.y = _sfEvent.mouseButton.y;
+
+            std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
+            for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
+            {
+                it->second->buttonPressed(mb, mousePos);
+            }
+        }
+        // Relachement d'un bouton de la souris -> Appel des listener de souris
+        else if (_sfEvent.type == sf::Event::MouseButtonReleased)
+        {
+        	MouseButton::MouseButton mb = MouseButton::left;
+        	if (_sfEvent.mouseButton.button == sf::Mouse::Left) {
+        		mb = MouseButton::left;
+        	} else if (_sfEvent.mouseButton.button == sf::Mouse::Right) {
+        		mb = MouseButton::right;
+        	} else if (_sfEvent.mouseButton.button == sf::Mouse::Middle) {
+				mb = MouseButton::middle;
+			} else {
+				mb = MouseButton::Unknown;
+			}
+
+        	Vector2d mousePos;
+        	mousePos.x = _sfEvent.mouseButton.x;
+        	mousePos.y = _sfEvent.mouseButton.y;
+
+            std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
+            for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
+            {
+                it->second->buttonReleased(mb, mousePos);
+            }
+        }
+        // Mouvement de la souris -> Appel des listener de souris
+        else if (_sfEvent.type == sf::Event::MouseMoved)
+        {
+        	Vector2d mousePos;
+        	mousePos.x = _sfEvent.mouseButton.x;
+        	mousePos.y = _sfEvent.mouseButton.y;
+
+            std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
+            for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
+            {
+                it->second->mouseMoved(mousePos);
+            }
+        }
+        // Mouvement molette de la souris -> Appel des listener de souris
+        else if (_sfEvent.type == sf::Event::MouseWheelMoved)
+        {
+            std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
+            for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
+            {
+                it->second->mouseWheel(_sfEvent.mouseWheel.delta*15); // In most case, a "tick" is 15 degree
+            }
+        }
+    }
 }
 #endif
