@@ -70,6 +70,7 @@ void Moteur2D::init(int width, int height, std::string windowName, int argc, cha
     settings.antialiasingLevel = 4;
     _window = new sf::RenderWindow(sf::VideoMode(width, height), windowName, sf::Style::Default, settings);
     _window->setVerticalSyncEnabled(true);
+    _window->setKeyRepeatEnabled(false);
 #endif
 
     _screenSize.x = width;

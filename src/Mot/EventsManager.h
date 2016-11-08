@@ -8,6 +8,7 @@
 
 #else
 
+#include <SFML/Graphics.hpp>
 #endif
 
 class EventsManager
@@ -15,7 +16,6 @@ class EventsManager
 : public QGraphicsView
 
 #else
-
 #endif
 {
 

@@ -18,12 +18,22 @@ Sprite::Sprite()
 
 #endif
 }
-Sprite::Sprite(std::string texturePath) : _manipulationItem(0)
+Sprite::Sprite(std::string texturePath)
 {
+#ifdef IN_QT
+    _manipulationItem = 0;
+#else
+
+#endif
     setSprite(texturePath, Vector2d(), Vector2d());
 }
-Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize) : _manipulationItem(0)
+Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize)
 {
+#ifdef IN_QT
+    _manipulationItem = 0;
+#else
+
+#endif
     setSprite(texturePath, subRectPos, subRectSize);
 }
 
@@ -49,7 +59,7 @@ int Sprite::draw(Vector2d pos)
 
 #else
 
-    _sprite.setPosition(_pos+pos);
+    _sprite.setPosition(_pos.x + pos.x, _pos.y + pos.y);
     Moteur2D::getInstance()->getWindow()->draw(_sprite);
 #endif
     return 0;

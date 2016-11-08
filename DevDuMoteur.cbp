@@ -47,6 +47,8 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="src/Mot/Texture.cpp" />
+		<Unit filename="src/Mot/Texture.h" />
 		<Unit filename="src/Mot/moteur2d.cpp" />
 		<Unit filename="src/Mot/moteur2d.h" />
 		<Unit filename="src/Test.cpp" />

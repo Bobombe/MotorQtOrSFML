@@ -3,6 +3,7 @@
 #define SRC_MOT_SCREENMANAGER_H_
 
 #include "Screen.h"
+#include <map>
 
 class ScreenManager
 {

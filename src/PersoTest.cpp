@@ -23,7 +23,7 @@ int PersoTest::update(double seconds)
 		_accel = (_mousePos-_pos);
 		_accel.normalize();
 		_accel*=_trust;
-		std::cout << "Youpi : _trust = " << _trust << std::endl;
+		std::cout << "Youpi : _trust = " << _trust << "_mousePos = ("  << _mousePos.x << " ; " << _mousePos.y << std::endl;
 	} else {
 		_accel*=_trust;
 	}
