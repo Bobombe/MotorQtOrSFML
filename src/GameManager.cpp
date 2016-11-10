@@ -16,6 +16,6 @@ GameManager::~GameManager()
 void GameManager::update(double seconds)
 {
     Screen * scr = screen(_stateMachine);
-    scr->update(seconds);
-    scr->draw();
+    scr->baseUpdate(seconds);
+    scr->baseDraw();
 }

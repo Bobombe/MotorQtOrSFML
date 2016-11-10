@@ -24,14 +24,21 @@ Screen::~Screen()
     {
         delete _worldElements[i];
     }
+    for (unsigned int i = 0; i<_forces.size(); i++)
+    {
+        delete _forces[i];
+    }
 }
 
 int Screen::update(double seconds)
 {
-    WorldElement::update(seconds);
+    for (unsigned int i = 0; i < _forces.size(); i++)
+    {
+    	_forces[i]->apply();
+    }
     for (unsigned int i = 0; i < _worldElements.size(); i++)
     {
-        _worldElements[i]->update(seconds);
+        _worldElements[i]->baseUpdate(seconds);
     }
     return 0;
 }
@@ -40,7 +47,7 @@ int Screen::draw(Vector2d pos)
 {
     for (unsigned int i = 0; i < _worldElements.size(); i++)
     {
-        _worldElements[i]->draw(pos + _pos);
+        _worldElements[i]->baseDraw(pos + _pos);
     }
     return 0;
 }
@@ -63,6 +70,23 @@ void Screen::deleteWorldElement(WorldElement * we)
         if (we==_worldElements[i])
         {
             _worldElements.erase(_worldElements.begin()+i);
+            return;
+        }
+    }
+}
+
+void Screen::addForce(Force * f)
+{
+	_forces.push_back(f);
+}
+
+void Screen::deleteForce(Force * f)
+{
+    for (int i = 0; i<_forces.size(); i++)
+    {
+        if (f==_forces[i])
+        {
+        	_forces.erase(_forces.begin()+i);
             return;
         }
     }

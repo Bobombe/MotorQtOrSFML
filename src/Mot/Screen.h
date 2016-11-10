@@ -2,6 +2,7 @@
 #define SCREEN_H
 
 #include "WorldElement.h"
+#include "Force.h"
 
 #include <vector>
 
@@ -26,6 +27,7 @@ protected:
 #endif
 
     std::vector<WorldElement*> _worldElements;
+    std::vector<Force*> _forces;
 
 
 public:
@@ -35,9 +37,11 @@ public:
     virtual int draw(Vector2d pos = Vector2d());
 
     // Fonctions d'ajout
-    void addWorldElement(WorldElement*);
+    void addWorldElement(WorldElement* we);
+    void addForce(Force* f);
 
-    void deleteWorldElement(WorldElement*);
+    void deleteWorldElement(WorldElement* we);
+    void deleteForce(Force* f);
 
 };
 

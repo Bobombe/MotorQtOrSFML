@@ -52,6 +52,12 @@ void Vector2d::rotateInDegree(double angleInDegree)
     *this *= norm;
 }
 
+void Vector2d::toNull()
+{
+	x = 0;
+	y = 0;
+}
+
 
 /////////////////////////////////////////////////////
 //          Calculus operators                     //

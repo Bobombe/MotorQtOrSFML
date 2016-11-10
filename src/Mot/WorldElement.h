@@ -23,8 +23,8 @@ public:
     WorldElement();
     virtual ~WorldElement();
 
-    virtual int update(double seconds);
-    virtual int draw(Vector2d pos = Vector2d());
+    int baseUpdate(double seconds);
+    int baseDraw(Vector2d pos = Vector2d());
 
     Vector2d getPosition();
     Vector2d getSpeed();
@@ -45,6 +45,10 @@ public:
 #else
 
 #endif
+
+protected:
+    virtual int update(double seconds){return 0;}
+    virtual int draw(Vector2d pos = Vector2d()){return 0;}
 
 };
 

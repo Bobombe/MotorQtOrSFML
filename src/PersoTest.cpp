@@ -20,14 +20,13 @@ int PersoTest::update(double seconds)
 	double fixedThrust = 100;
 	if (_trust) {
 		_trust+= fixedThrust*seconds;
-		_accel = (_mousePos-_pos);
-		_accel.normalize();
-		_accel*=_trust;
+		Vector2d accelTrust = (_mousePos-_pos);
+		accelTrust.normalize();
+		accelTrust*=_trust;
+		_accel += accelTrust;
 		std::cout << "Youpi : _trust = " << _trust << "_mousePos = ("  << _mousePos.x << " ; " << _mousePos.y << std::endl;
-	} else {
-		_accel*=_trust;
 	}
-	return WorldElement::update(seconds);
+	return 0;
 }
 void PersoTest::mouseMoved(Vector2d pos)
 {

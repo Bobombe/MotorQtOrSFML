@@ -10,14 +10,17 @@ WorldElement::~WorldElement()
 {
 }
 
-int WorldElement::update(double seconds)
+int WorldElement::baseUpdate(double seconds)
 {
+	int retVal = update(seconds);
     _speed += _accel*seconds;
     _pos += _speed*seconds;
-    return 0;
+    return retVal;
 }
-int WorldElement::draw(Vector2d pos)
+int WorldElement::baseDraw(Vector2d pos)
 {
+	int retVal = draw(pos);
+	_accel.toNull();
     return 0;
 }
 

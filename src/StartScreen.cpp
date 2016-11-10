@@ -8,13 +8,19 @@
 #include "StartScreen.h"
 #include "Mot/moteur2d.h"
 #include "PersoTest.h"
+#include "TestGravity.h"
 
 StartScreen::StartScreen() : Screen()
 {
     _pos.y = -Moteur2D::getInstance()->getScreenSize().y;
     _speed.y = 400;
     addWorldElement(new Sprite("./Ressources/Fond3.png"));
-    addWorldElement(new PersoTest());
+    PersoTest* p = new PersoTest();
+    addWorldElement(p);
+    TestGravity* tg = new TestGravity();
+    tg->addWorldElement(p);
+    addForce(tg);
+
 }
 
 StartScreen::~StartScreen()

@@ -22,6 +22,8 @@ public:
     void normalize();
     void rotateInDegree(double angleInDegree);
 
+    void toNull();
+
 
     /////////////////////////////////////////////////////
     //          Calculus operators                     //
