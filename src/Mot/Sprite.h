@@ -41,8 +41,6 @@ public:
     Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize);
     virtual ~Sprite();
 
-    virtual int draw(Vector2d pos = Vector2d());
-
     CoreSprite getCoreSprite();
 
     // Getters and Setters
@@ -67,6 +65,10 @@ public:
 #else
 
 #endif
+
+protected:
+
+    virtual int draw(Vector2d pos = Vector2d());
 };
 
 #endif /* SRC_MOT_SPRITE_H_ */
