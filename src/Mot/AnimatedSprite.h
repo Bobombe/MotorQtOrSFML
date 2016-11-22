@@ -30,6 +30,8 @@ public:
 	void addSubRect(int animationId, Rectangle subRect);
 	void setFramePerSecs(int animationId, int framePerSecs);
 
+	void setAnimation(int animationId);
+
 protected:
     virtual int update(double seconds);
 

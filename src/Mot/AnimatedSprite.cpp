@@ -42,6 +42,17 @@ void AnimatedSprite::setFramePerSecs(int animationId, int framePerSecs)
 	}
 }
 
+
+void AnimatedSprite::setAnimation(int animationId)
+{
+	if (_subRectangles.find(animationId) != _subRectangles.end()) {
+		_actualSubRect.x = animationId;
+		_actualSubRect.y = 0;
+		_tempo = (1./_framePerSecs[_actualSubRect.x]) +1;
+	}
+}
+
+
 int AnimatedSprite::update(double seconds)
 {
 	int framePerSec = _framePerSecs[_actualSubRect.x];
