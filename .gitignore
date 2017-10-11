@@ -11,3 +11,4 @@ moc*
 *.depend
 *.layout
 *.exe
+Debug
