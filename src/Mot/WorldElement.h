@@ -38,6 +38,8 @@ public:
     void moveSpeed(Vector2d deltaSpeed);
     void moveAcceleration(Vector2d deltaAccel);
 
+    virtual void handleCollisionWith(WorldElement * weColided, int nbAdditionnalInfo...){}
+
     // Specifics Functions
 #ifdef IN_QT
     virtual void addedInScene(QGraphicsScene * scene){}

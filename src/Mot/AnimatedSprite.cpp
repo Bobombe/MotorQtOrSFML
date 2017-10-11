@@ -24,12 +24,11 @@ AnimatedSprite::~AnimatedSprite()
 void AnimatedSprite::addSubRect(int animationId, Rectangle subRect)
 {
 	if (_subRectangles.empty()) {
-
 		_subRectangles[animationId] = std::vector<Rectangle>();
 		_framePerSecs[animationId] = 2;
 		setSubRect(subRect.pos(), subRect.size());
-	}
-	else if (_subRectangles.find(animationId) == _subRectangles.end()) {
+
+	} else if (_subRectangles.find(animationId) == _subRectangles.end()) {
 		_subRectangles[animationId] = std::vector<Rectangle>();
 		_framePerSecs[animationId] = 2;
 	}
@@ -57,7 +56,7 @@ int AnimatedSprite::update(double seconds)
 {
 	int framePerSec = _framePerSecs[_actualSubRect.x];
 	int animSize = _subRectangles[_actualSubRect.x].size();
-	if (framePerSec > 0 && animSize > 1) {
+	if (framePerSec > 0 && animSize > 0) {
 		_tempo+=seconds;
 		if (_tempo > (1./framePerSec)) {
 			_actualSubRect.y++;

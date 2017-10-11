@@ -3,32 +3,40 @@
 #include "Mot/Vector2d.h"
 #include "Mot/Rectangle.h"
 
-PersoTest::PersoTest() : AnimatedSprite("./Ressources/sprite.png")
+PersoTest::PersoTest() : AnimatedSprite("./Ressources/Perso.PNG")
 {
 	_pos.x = 100;
-	_pos.y = 400;
+	_pos.y = 200;
 	_mousePos = _pos;
 	_trust = 0;
-	addSubRect(0, Rectangle(0, 0, 64, 64));
-	addSubRect(0, Rectangle(64, 0, 64, 64));
-	addSubRect(0, Rectangle(128, 0, 64, 64));
-	addSubRect(0, Rectangle(192, 0, 64, 64));
-	setFramePerSecs(0, 4);
-	addSubRect(1, Rectangle(0, 64, 64, 64));
-	addSubRect(1, Rectangle(64, 64, 64, 64));
-	addSubRect(1, Rectangle(128, 64, 64, 64));
-	addSubRect(1, Rectangle(192, 64, 64, 64));
-	setFramePerSecs(1, 4);
-	addSubRect(2, Rectangle(0, 128, 64, 64));
-	addSubRect(2, Rectangle(64, 128, 64, 64));
-	addSubRect(2, Rectangle(128, 128, 64, 64));
-	addSubRect(2, Rectangle(192, 128, 64, 64));
-	setFramePerSecs(2, 4);
-	addSubRect(3, Rectangle(0, 192, 64, 64));
-	addSubRect(3, Rectangle(64, 192, 64, 64));
-	addSubRect(3, Rectangle(128, 192, 64, 64));
-	addSubRect(3, Rectangle(192, 192, 64, 64));
-	setFramePerSecs(3, 4);
+	// 0 : Stand still
+	addSubRect(0, Rectangle(0, 60, 40, 60));
+	setFramePerSecs(0, 1);
+	// 1 : run right
+    addSubRect(1, Rectangle(40, 60, 40, 60));
+    addSubRect(1, Rectangle(80, 60, 40, 60));
+    addSubRect(1, Rectangle(120, 60, 40, 60));
+    addSubRect(1, Rectangle(160, 60, 40, 60));
+    addSubRect(1, Rectangle(200, 60, 40, 60));
+    addSubRect(1, Rectangle(240, 60, 40, 60));
+	setFramePerSecs(1, 12);
+    // 2 : Jump right
+    addSubRect(2, Rectangle(280, 60, 40, 60));
+	setFramePerSecs(2, 1);
+    // 3 : Stand still Left
+    addSubRect(3, Rectangle(360, 0, 40, 60));
+    setFramePerSecs(3, 1);
+    // 4 : run left
+    addSubRect(4, Rectangle(120, 0, 40, 60));
+    addSubRect(4, Rectangle(160, 0, 40, 60));
+    addSubRect(4, Rectangle(200, 0, 40, 60));
+    addSubRect(4, Rectangle(240, 0, 40, 60));
+    addSubRect(4, Rectangle(280, 0, 40, 60));
+    addSubRect(4, Rectangle(320, 0, 40, 60));
+    setFramePerSecs(4, 6);
+    // 2 : Jump left
+    addSubRect(5, Rectangle(80, 0, 40, 60));
+    setFramePerSecs(5, 1);
 }
 
 PersoTest::~PersoTest()
@@ -58,19 +66,18 @@ void PersoTest::mouseMoved(Vector2d pos)
 void PersoTest::keyPressed(Key::Key key)
 {
 	if (key == Key::A) {
-		std::cout << "Youpi : init thrust" << std::endl;
 		_trust = 1;
 	} else if (key == Key::Down) {
 		setAnimation(0);
 		_speed.y += 100;
 	} else if (key == Key::Left) {
-		setAnimation(1);
+		setAnimation(4);
 		_speed.x += -100;
 	} else if (key == Key::Right) {
-		setAnimation(2);
+		setAnimation(1);
 		_speed.x += 100;
 	} else if (key == Key::Up) {
-		setAnimation(3);
+		setAnimation(2);
 		_speed.y += -100;
 	}
 }
@@ -79,14 +86,39 @@ void PersoTest::keyReleased(Key::Key key)
 
 	if (key == Key::A) {
 		_trust = 0;
-		std::cout << "Youpi : stop thrust" << std::endl;
+        setAnimation(0);
 	} else if (key == Key::Down) {
 		_speed.y += -100;
+        setAnimation(0);
 	} else if (key == Key::Left) {
 		_speed.x += 100;
+        setAnimation(0);
 	} else if (key == Key::Right) {
 		_speed.x += -100;
+        setAnimation(0);
 	} else if (key == Key::Up) {
 		_speed.y += 100;
+        setAnimation(0);
 	}
 }
+
+void PersoTest::handleCollisionWith(WorldElement * weColided, int nbAdditionnalInfo...)
+{
+    std::cout << "Youpi : PersoTest::handleCollisionWith" << std::endl;
+    _speed.x = _speed.y = 0;
+    _pos.y = weColided->getPosition().y-_subRectSize.y;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

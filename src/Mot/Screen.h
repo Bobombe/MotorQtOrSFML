@@ -3,6 +3,7 @@
 
 #include "WorldElement.h"
 #include "Force.h"
+#include "Collider.h"
 
 #include <vector>
 
@@ -28,6 +29,7 @@ protected:
 
     std::vector<WorldElement*> _worldElements;
     std::vector<Force*> _forces;
+    std::map<int, std::vector<Collider*> > _collisionLayers;
 
 
 public:
@@ -36,12 +38,15 @@ public:
     virtual int update(double seconds);
     virtual int draw(Vector2d pos = Vector2d());
 
-    // Fonctions d'ajout
+    // Fonctions d'ajout/delete
     void addWorldElement(WorldElement* we);
-    void addForce(Force* f);
-
     void deleteWorldElement(WorldElement* we);
+
+    void addForce(Force* f);
     void deleteForce(Force* f);
+
+    void addCollider(int layer, Collider* c);
+    void deleteCollider(int layer, Collider* c);
 
 };
 

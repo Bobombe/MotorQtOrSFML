@@ -9,17 +9,31 @@
 #include "Mot/moteur2d.h"
 #include "PersoTest.h"
 #include "TestGravity.h"
+#include "Mot/Collider.h"
 
 StartScreen::StartScreen() : Screen()
 {
-    _pos.y = -Moteur2D::getInstance()->getScreenSize().y;
+    _pos.y = -10;//Moteur2D::getInstance()->getScreenSize().y;
     _speed.y = 400;
     addWorldElement(new Sprite("./Ressources/Fond3.png"));
+
     PersoTest* p = new PersoTest();
     addWorldElement(p);
+
     TestGravity* tg = new TestGravity();
     tg->addWorldElement(p);
     addForce(tg);
+
+    Sprite *block = new Sprite("./Ressources/sprite.png", Vector2d(10, 40), Vector2d(40, 40));
+    block->setPosition(Vector2d(100, 300));
+    addWorldElement(block);
+
+    Collider *colPerso =  new Collider(p);
+    colPerso->initRectangular(0, 0, p->getSubRectSize().x, p->getSubRectSize().y);
+    Collider *colBlock =  new Collider(block);
+    colBlock->initRectangular(0, 0, block->getSubRectSize().x, block->getSubRectSize().y);
+    addCollider(0, colPerso);
+    addCollider(0, colBlock);
 
 }
 

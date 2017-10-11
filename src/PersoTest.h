@@ -19,6 +19,8 @@ public:
     virtual void keyPressed(Key::Key key);
     virtual void keyReleased(Key::Key key);
 
+    virtual void handleCollisionWith(WorldElement * weColided, int nbAdditionnalInfo...);
+
 protected:
     virtual int update(double seconds);
 };

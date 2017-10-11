@@ -203,17 +203,19 @@ void Moteur2D::deleteMouseListener(int index)
 
 void Moteur2D::unloadTexture(const std::string& imagePath)
 {
-    try
-    {
-        Texture* texture = _textures.at(imagePath);
-        if (texture->freeTexture()) {
-            _textures.erase(imagePath);
-            delete texture;
+    if (!imagePath.empty()) {
+        try
+        {
+            Texture* texture = _textures.at(imagePath);
+            if (texture->freeTexture()) {
+                _textures.erase(imagePath);
+                delete texture;
+            }
         }
-    }
-    catch (const std::out_of_range& oor)
-    {
-        std::cout << "ERROR : Moteur2D::unloadTexture : texture " << imagePath << " not stored." << std::endl;
+        catch (const std::out_of_range& oor)
+        {
+            std::cout << "ERROR : Moteur2D::unloadTexture : texture " << imagePath << " not stored." << std::endl;
+        }
     }
 
 }
