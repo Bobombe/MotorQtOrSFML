@@ -27,6 +27,7 @@ protected:
 
     Vector2d _subRectPos;
     Vector2d _subRectSize;
+    Vector2d _spriteSize;
 
 #ifdef IN_QT
     QGraphicsPixmapItem* _manipulationItem;
@@ -39,12 +40,14 @@ public:
     Sprite();
     Sprite(std::string texturePath);
     Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize);
+    Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize, Vector2d spriteSize);
     virtual ~Sprite();
 
     CoreSprite getCoreSprite();
 
     // Getters and Setters
     void setSprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize);
+    void setSprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize, Vector2d spriteSize);
 
     std::string getTexturePath();
     void setTexturePath(std::string texturePath);
@@ -54,6 +57,9 @@ public:
 
     Vector2d getSubRectSize();
     void setSubRectSize(Vector2d subRectSize);
+
+    Vector2d getSize();
+    void setSize(Vector2d spriteSize);
 
     void setSubRect(Vector2d subRectPos, Vector2d subRectSize);
 

@@ -12,3 +12,4 @@ moc*
 *.layout
 *.exe
 Debug
+core*

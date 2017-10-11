@@ -104,8 +104,7 @@ void PersoTest::keyReleased(Key::Key key)
 
 void PersoTest::handleCollisionWith(WorldElement * weColided, int nbAdditionnalInfo...)
 {
-    std::cout << "Youpi : PersoTest::handleCollisionWith" << std::endl;
-    _speed.x = _speed.y = 0;
+    _speed.y = 0;
     _pos.y = weColided->getPosition().y-_subRectSize.y;
 }
 

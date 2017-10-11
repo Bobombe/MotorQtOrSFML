@@ -24,14 +24,14 @@ StartScreen::StartScreen() : Screen()
     tg->addWorldElement(p);
     addForce(tg);
 
-    Sprite *block = new Sprite("./Ressources/sprite.png", Vector2d(10, 40), Vector2d(40, 40));
+    Sprite *block = new Sprite("./Ressources/sprite.png", Vector2d(10, 40), Vector2d(40, 40), Vector2d(400, 60));
     block->setPosition(Vector2d(100, 300));
     addWorldElement(block);
 
     Collider *colPerso =  new Collider(p);
-    colPerso->initRectangular(0, 0, p->getSubRectSize().x, p->getSubRectSize().y);
+    colPerso->initRectangular(0, 0, p->getSize().x, p->getSize().y);
     Collider *colBlock =  new Collider(block);
-    colBlock->initRectangular(0, 0, block->getSubRectSize().x, block->getSubRectSize().y);
+    colBlock->initRectangular(0, 0, block->getSize().x, block->getSize().y);
     addCollider(0, colPerso);
     addCollider(0, colBlock);
 

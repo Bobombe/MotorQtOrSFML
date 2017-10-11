@@ -32,7 +32,6 @@ void Collider::initCircular(double deltaX, double deltaY, double radius)
 
 void Collider::detectCollisionWith(Collider * collider, double seconds)
 {
-    std::cout << "Youpi : Collider::detectCollisionWith" << std::endl;
     switch (_colliderType) {
         case COLLIDER_RECTANGULAR:
             switch (collider->_colliderType) {
@@ -69,9 +68,7 @@ void Collider::detectRectOnRect (Collider * collider1, Collider * collider2)
     double col2W = collider2->_compo1;
     double col2H = collider2->_compo2;
 
-    std::cout << "Youpi : Collider::detectRectOnRect" << std::endl;
     if (!(col2X > col1X+col1W || col2Y > col1Y+col1H || col2X+col2W < col1X || col2Y+col2H < col1Y)) {
-        std::cout << "Youpi : COLLISION" << std::endl;
         collider1->_we->handleCollisionWith(collider2->_we, 0);
         collider2->_we->handleCollisionWith(collider1->_we, 0);
     }
