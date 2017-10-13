@@ -78,7 +78,7 @@ void PersoTest::keyPressed(Key::Key key)
 		_speed.x += 100;
 	} else if (key == Key::Up) {
 		setAnimation(2);
-		_speed.y += -100;
+		_speed.y += -1000;
 	}
 }
 void PersoTest::keyReleased(Key::Key key)
@@ -97,15 +97,43 @@ void PersoTest::keyReleased(Key::Key key)
 		_speed.x += -100;
         setAnimation(0);
 	} else if (key == Key::Up) {
-		_speed.y += 100;
+		_speed.y += 1000;
         setAnimation(0);
 	}
 }
 
-void PersoTest::handleCollisionWith(WorldElement * weColided, int nbAdditionnalInfo...)
+void PersoTest::handleCollisionWith(WorldElement * weColided, double secsSinceLastFrame, int nbAdditionnalInfo...)
 {
-    _speed.y = 0;
-    _pos.y = weColided->getPosition().y-_subRectSize.y;
+    Vector2d oldPos = _pos - (_speed*secsSinceLastFrame);
+    Vector2d oldPosColided = weColided->getPosition()- (weColided->getSpeed()*secsSinceLastFrame);
+    double diffLR = oldPos.x - (oldPosColided.x+weColided->getSize().x);
+    double diffRL = oldPos.x+_size.x - oldPosColided.x;
+    double diffTB = oldPos.y - (oldPosColided.y+weColided->getSize().y);
+    double diffBT = oldPos.y+_size.y - oldPosColided.y;
+    if (diffRL <= 0 && diffRL < diffBT && diffRL < -diffTB) {
+        // Collision on Left
+        _speed.x = 0;
+        _pos.x = weColided->getPosition().x-_size.x;
+        std::cout << "Youpi : Collision on Left" << std::endl;
+    } else if (diffLR >= 0 && diffLR > -diffBT && diffLR > diffTB) {
+        // Collision on Right
+        _speed.x = 0;
+        _pos.x = weColided->getPosition().x+weColided->getSize().x;
+        std::cout << "Youpi : Collision on Right" << std::endl;
+        std::cout << "Youpi : diff = " << diffLR << " , " << diffRL << " ; " << diffTB << " , " << diffBT << std::endl;
+    } else if (diffBT <= 0) {
+        // Collision on Top
+        _speed.y = 0;
+        _pos.y = weColided->getPosition().y-_size.y;
+        std::cout << "Youpi : Collision on Top" << std::endl;
+    } else {
+        // Collision on Bottom
+        _speed.y = 0;
+        _pos.y = weColided->getPosition().y+weColided->getSize().y;
+        std::cout << "Youpi : Collision on Bottom" << std::endl;
+    }
+
+
 }
 
 

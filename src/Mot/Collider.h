@@ -41,9 +41,9 @@ public:
     void initCircular(double deltaX, double deltaY, double radius);
 
     virtual void detectCollisionWith(Collider * collider, double seconds);
-    void detectRectOnRect (Collider * collider1, Collider * collider2);
-    void detectRectOnCirc (Collider * colliderRect, Collider * colliderCirc);
-    void detectCircOnCirc (Collider * collider1, Collider * collider2);
+    void detectRectOnRect (Collider * collider1, Collider * collider2, double seconds);
+    void detectRectOnCirc (Collider * colliderRect, Collider * colliderCirc, double seconds);
+    void detectCircOnCirc (Collider * collider1, Collider * collider2, double seconds);
 };
 
 #endif

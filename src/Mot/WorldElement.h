@@ -18,6 +18,7 @@ protected:
     Vector2d _pos;
     Vector2d _speed;
     Vector2d _accel;
+    Vector2d _size;
 
 public:
     WorldElement();
@@ -29,16 +30,18 @@ public:
     Vector2d getPosition();
     Vector2d getSpeed();
     Vector2d getAcceleration();
+    Vector2d getSize();
 
     void setPosition(Vector2d pos);
     void setSpeed(Vector2d speed);
     void setAcceleration(Vector2d accel);
+    void setSize(Vector2d size);
 
     void movePosition(Vector2d deltaPos);
     void moveSpeed(Vector2d deltaSpeed);
     void moveAcceleration(Vector2d deltaAccel);
 
-    virtual void handleCollisionWith(WorldElement * weColided, int nbAdditionnalInfo...){}
+    virtual void handleCollisionWith(WorldElement * weColided, double timeSinceLastFrame, int nbAdditionnalInfo...){}
 
     // Specifics Functions
 #ifdef IN_QT

@@ -27,7 +27,6 @@ protected:
 
     Vector2d _subRectPos;
     Vector2d _subRectSize;
-    Vector2d _spriteSize;
 
 #ifdef IN_QT
     QGraphicsPixmapItem* _manipulationItem;

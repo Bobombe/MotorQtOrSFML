@@ -18,6 +18,7 @@ StartScreen::StartScreen() : Screen()
     addWorldElement(new Sprite("./Ressources/Fond3.png"));
 
     PersoTest* p = new PersoTest();
+    p->setPosition(Vector2d(200, 180));
     addWorldElement(p);
 
     TestGravity* tg = new TestGravity();
@@ -34,6 +35,20 @@ StartScreen::StartScreen() : Screen()
     colBlock->initRectangular(0, 0, block->getSize().x, block->getSize().y);
     addCollider(0, colPerso);
     addCollider(0, colBlock);
+
+    Sprite *block2 = new Sprite("./Ressources/sprite.png", Vector2d(10, 40), Vector2d(40, 40), Vector2d(40, 100));
+    block2->setPosition(Vector2d(500, 180));
+    addWorldElement(block2);
+    Collider *colBlock2 =  new Collider(block2);
+    colBlock2->initRectangular(0, 0, block2->getSize().x, block2->getSize().y);
+    addCollider(0, colBlock2);
+
+    Sprite *block3 = new Sprite("./Ressources/sprite.png", Vector2d(20, 40), Vector2d(40, 40), Vector2d(40, 100));
+    block3->setPosition(Vector2d(100, 180));
+    addWorldElement(block3);
+    Collider *colBlock3 =  new Collider(block3);
+    colBlock3->initRectangular(0, 0, block3->getSize().x, block3->getSize().y);
+    addCollider(0, colBlock3);
 
 }
 

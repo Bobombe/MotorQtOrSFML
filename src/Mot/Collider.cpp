@@ -36,27 +36,27 @@ void Collider::detectCollisionWith(Collider * collider, double seconds)
         case COLLIDER_RECTANGULAR:
             switch (collider->_colliderType) {
                 case COLLIDER_RECTANGULAR:
-                    detectRectOnRect(this, collider);
+                    detectRectOnRect(this, collider, seconds);
                     break;
                 case COLLIDER_CIRCULAR:
-                    detectRectOnCirc(this, collider);
+                    detectRectOnCirc(this, collider, seconds);
                     break;
             }
             break;
         case COLLIDER_CIRCULAR:
             switch (collider->_colliderType) {
                 case COLLIDER_RECTANGULAR:
-                    detectRectOnCirc(collider, this);
+                    detectRectOnCirc(collider, this, seconds);
                     break;
                 case COLLIDER_CIRCULAR:
-                    detectCircOnCirc(this, collider);
+                    detectCircOnCirc(this, collider, seconds);
                     break;
             }
             break;
     }
 }
 
-void Collider::detectRectOnRect (Collider * collider1, Collider * collider2)
+void Collider::detectRectOnRect (Collider * collider1, Collider * collider2, double seconds)
 {
     double col1X = collider1->_we->getPosition().x + collider1->_deltaX;
     double col1Y = collider1->_we->getPosition().y + collider1->_deltaY;
@@ -69,15 +69,15 @@ void Collider::detectRectOnRect (Collider * collider1, Collider * collider2)
     double col2H = collider2->_compo2;
 
     if (!(col2X > col1X+col1W || col2Y > col1Y+col1H || col2X+col2W < col1X || col2Y+col2H < col1Y)) {
-        collider1->_we->handleCollisionWith(collider2->_we, 0);
-        collider2->_we->handleCollisionWith(collider1->_we, 0);
+        collider1->_we->handleCollisionWith(collider2->_we, seconds, 0);
+        collider2->_we->handleCollisionWith(collider1->_we, seconds, 0);
     }
 }
-void Collider::detectRectOnCirc (Collider * colliderRect, Collider * colliderCirc)
+void Collider::detectRectOnCirc (Collider * colliderRect, Collider * colliderCirc, double seconds)
 {
 
 }
-void Collider::detectCircOnCirc (Collider * collider1, Collider * collider2)
+void Collider::detectCircOnCirc (Collider * collider1, Collider * collider2, double seconds)
 {
 
 }

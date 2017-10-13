@@ -100,7 +100,7 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
         _subRectSize = _texture->getSize();
         _subRectPos.x = _subRectPos.y = 0;
     }
-    _spriteSize = _subRectSize;
+    _size = _subRectSize;
 
 #ifdef IN_QT
     _sprite = _texture->getTexture()->copy(_subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
@@ -127,7 +127,7 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
 
     _subRectPos = subRectPos;
     _subRectSize = subRectSize;
-    _spriteSize = spriteSize;
+    _size = spriteSize;
     // if null size, take the whole texture as sprite
     if (_subRectSize.x == 0 && _subRectSize.y == 0)
     {
@@ -136,12 +136,12 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
     }
 
 #ifdef IN_QT
-    _sprite = CoreSprite(_spriteSize.x, _spriteSize.y);
+    _sprite = CoreSprite(_size.x, _size.y);
     _sprite.fill(Qt::transparent);
     CoreSprite* texture = _texture->getTexture();
     QPainter painter(&_sprite);
-    for (double i = 0; i < _spriteSize.x; i+=_subRectSize.x) {
-        for (double j = 0; j < _spriteSize.y; j+=_subRectSize.y) {
+    for (double i = 0; i < _size.x; i+=_subRectSize.x) {
+        for (double j = 0; j < _size.y; j+=_subRectSize.y) {
             std::cout << "Youpi : draw from " << i << " , " << j << std::endl;
             painter.drawPixmap(i, j, _subRectSize.x, _subRectSize.y, *texture
                     , _subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
@@ -191,7 +191,7 @@ void Sprite::setSubRectSize(Vector2d subRectSize)
 
 Vector2d Sprite::getSize()
 {
-    return _spriteSize;
+    return _size;
 }
 void Sprite::setSize(Vector2d spriteSize)
 {

@@ -37,6 +37,10 @@ Vector2d WorldElement::getAcceleration()
 {
     return _accel;
 }
+Vector2d WorldElement::getSize()
+{
+    return _size;
+}
 
 void WorldElement::setPosition(Vector2d pos)
 {
@@ -49,6 +53,10 @@ void WorldElement::setSpeed(Vector2d speed)
 void WorldElement::setAcceleration(Vector2d accel)
 {
     _accel = accel;
+}
+void WorldElement::setSize(Vector2d size)
+{
+    _size = size;
 }
 
 
