@@ -117,6 +117,9 @@ public:
         return _screenSize;
     }
 
+    Screen* getCurrentScreen();
+    int getCurrentScreenId();
+
 
     // Specific functions
 #ifdef IN_QT

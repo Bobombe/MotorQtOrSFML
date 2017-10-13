@@ -3,11 +3,25 @@
 #include <iostream>
 #include <stdexcept>
 
-ScreenManager::ScreenManager() {
+ScreenManager::ScreenManager() : _currentScreen(0)
+{
 
 }
 
 ScreenManager::~ScreenManager() {
+}
+
+void ScreenManager::baseUpdate(double seconds)
+{
+    update(seconds);
+
+    Screen * scr = screen(_currentScreen);
+    if (scr) {
+        scr->baseUpdate(seconds);
+        scr->baseDraw();
+    } else {
+        std::cout << "[ERROR] : No current screen set" << std::endl;
+    }
 }
 
 
@@ -30,4 +44,14 @@ Screen* ScreenManager::screen(int indexOfScreen)
         scr = 0;
     }
     return scr;
+}
+
+Screen* ScreenManager::getCurrentScreen()
+{
+    return screen(_currentScreen);
+}
+
+int ScreenManager::getCurrentScreenId()
+{
+    return _currentScreen;
 }

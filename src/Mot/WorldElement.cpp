@@ -1,13 +1,16 @@
 
 #include "WorldElement.h"
 
-WorldElement::WorldElement()
+WorldElement::WorldElement() : _collider(0)
 {
 
 }
 
 WorldElement::~WorldElement()
 {
+    if (_collider) {
+        delete _collider;
+    }
 }
 
 int WorldElement::baseUpdate(double seconds)
@@ -71,4 +74,13 @@ void WorldElement::moveSpeed(Vector2d deltaSpeed)
 void WorldElement::moveAcceleration(Vector2d deltaAccel)
 {
     _accel += deltaAccel;
+}
+
+Collider* WorldElement::getCollider()
+{
+    return _collider;
+}
+void WorldElement::setCollider(Collider* collider)
+{
+    _collider = collider;
 }

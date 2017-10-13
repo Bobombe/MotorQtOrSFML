@@ -30,7 +30,9 @@ void EventsManager::keyPressEvent(QKeyEvent * event)
 		std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
 		for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
 		{
-			it->second->keyPressed(KeyboardListener::retrieveKeyFromQt(event->key()));
+		    if (Moteur2D::getInstance()->getCurrentScreenId() == it->second->getScreenIdKeyboard()) {
+		        it->second->keyPressed(KeyboardListener::retrieveKeyFromQt(event->key()));
+		    }
 		}
 	}
 }
@@ -40,7 +42,9 @@ void EventsManager::keyReleaseEvent(QKeyEvent * event)
 		std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
 		for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
 		{
-			it->second->keyReleased(KeyboardListener::retrieveKeyFromQt(event->key()));
+            if (Moteur2D::getInstance()->getCurrentScreenId() == it->second->getScreenIdKeyboard()) {
+                it->second->keyReleased(KeyboardListener::retrieveKeyFromQt(event->key()));
+            }
 		}
 	}
 }
@@ -54,7 +58,9 @@ void EventsManager::mouseMoveEvent(QMouseEvent * event)
     std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
     for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
     {
-        it->second->mouseMoved(mousePos);
+        if (Moteur2D::getInstance()->getCurrentScreenId() == it->second->getScreenIdMouse()) {
+            it->second->mouseMoved(mousePos);
+        }
     }
 }
 void EventsManager::mousePressEvent(QMouseEvent * event)
@@ -83,7 +89,9 @@ void EventsManager::mousePressEvent(QMouseEvent * event)
     std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
     for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
     {
-        it->second->buttonPressed(mb, mousePos);
+        if (Moteur2D::getInstance()->getCurrentScreenId() == it->second->getScreenIdMouse()) {
+            it->second->buttonPressed(mb, mousePos);
+        }
     }
 }
 void EventsManager::mouseReleaseEvent(QMouseEvent * event)
@@ -112,7 +120,9 @@ void EventsManager::mouseReleaseEvent(QMouseEvent * event)
     std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
     for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
     {
-        it->second->buttonReleased(mb, mousePos);
+        if (Moteur2D::getInstance()->getCurrentScreenId() == it->second->getScreenIdMouse()) {
+            it->second->buttonReleased(mb, mousePos);
+        }
     }
 }
 void EventsManager::wheelEvent(QWheelEvent * event)
@@ -122,7 +132,9 @@ void EventsManager::wheelEvent(QWheelEvent * event)
     std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
     for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
     {
-        it->second->mouseWheelMoved(degreeMove);
+        if (Moteur2D::getInstance()->getCurrentScreenId() == it->second->getScreenIdMouse()) {
+            it->second->mouseWheelMoved(degreeMove);
+        }
     }
 }
 
@@ -143,7 +155,9 @@ void EventsManager::eventLoop(sf::RenderWindow &window)
             std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
             for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
             {
-                it->second->keyPressed((Key::Key)_sfEvent.key.code);
+                if (Moteur2D::getInstance()->getCurrentScreenId() == it->second->getScreenIdKeyboard()) {
+                    it->second->keyPressed((Key::Key)_sfEvent.key.code);
+                }
             }
         }
         // Relachement d'une touche -> Appel des listener de clavier
@@ -152,7 +166,9 @@ void EventsManager::eventLoop(sf::RenderWindow &window)
             std::map<int,KeyboardListener*> kls = Moteur2D::getInstance()->getKeyboardListeners();
             for (std::map<int,KeyboardListener*>::iterator it=kls.begin(); it!=kls.end(); ++it)
             {
-                it->second->keyReleased((Key::Key)_sfEvent.key.code);
+                if (Moteur2D::getInstance()->getCurrentScreenId() == it->second->getScreenIdKeyboard()) {
+                    it->second->keyReleased((Key::Key)_sfEvent.key.code);
+                }
             }
         }
 
@@ -177,7 +193,9 @@ void EventsManager::eventLoop(sf::RenderWindow &window)
             std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
             for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
             {
-                it->second->buttonPressed(mb, mousePos);
+                if (Moteur2D::getInstance()->getCurrentScreenId() == it->second->getScreenIdMouse()) {
+                    it->second->buttonPressed(mb, mousePos);
+                }
             }
         }
         // Relachement d'un bouton de la souris -> Appel des listener de souris
@@ -201,7 +219,10 @@ void EventsManager::eventLoop(sf::RenderWindow &window)
             std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
             for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
             {
-                it->second->buttonReleased(mb, mousePos);
+
+                if (Moteur2D::getInstance()->getCurrentScreenId() == it->second->getScreenIdMouse()) {
+                    it->second->buttonReleased(mb, mousePos);
+                }
             }
         }
         // Mouvement de la souris -> Appel des listener de souris
@@ -214,7 +235,9 @@ void EventsManager::eventLoop(sf::RenderWindow &window)
             std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
             for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
             {
-                it->second->mouseMoved(mousePos);
+                if (Moteur2D::getInstance()->getCurrentScreenId() == it->second->getScreenIdMouse()) {
+                    it->second->mouseMoved(mousePos);
+                }
             }
         }
         // Mouvement molette de la souris -> Appel des listener de souris
@@ -223,7 +246,9 @@ void EventsManager::eventLoop(sf::RenderWindow &window)
             std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
             for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
             {
-                it->second->mouseWheelMoved(_sfEvent.mouseWheel.delta*15); // In most case, a "tick" is 15 degree
+                if (Moteur2D::getInstance()->getCurrentScreenId() == it->second->getScreenIdMouse()) {
+                    it->second->mouseWheelMoved(_sfEvent.mouseWheel.delta*15); // In most case, a "tick" is 15 degree
+                }
             }
         }
     }

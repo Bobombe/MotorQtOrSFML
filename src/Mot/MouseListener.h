@@ -18,6 +18,7 @@ class MouseListener {
 
 protected:
     int _id;
+    int _screenIdMouse; // used to pass keyboard inputs only to the current screen
 
 public:
 	MouseListener();
@@ -27,6 +28,9 @@ public:
     virtual void buttonReleased(MouseButton::MouseButton button, Vector2d pos){};
     virtual void mouseMoved(Vector2d pos){};
     virtual void mouseWheelMoved(float wheelMoveInDegree){};
+
+    int getScreenIdMouse();
+    void setScreenIdMouse(int screenId);
 };
 
 #endif

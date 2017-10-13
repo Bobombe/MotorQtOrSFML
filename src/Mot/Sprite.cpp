@@ -142,7 +142,6 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
     QPainter painter(&_sprite);
     for (double i = 0; i < _size.x; i+=_subRectSize.x) {
         for (double j = 0; j < _size.y; j+=_subRectSize.y) {
-            std::cout << "Youpi : draw from " << i << " , " << j << std::endl;
             painter.drawPixmap(i, j, _subRectSize.x, _subRectSize.y, *texture
                     , _subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
         }

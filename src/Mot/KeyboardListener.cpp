@@ -2,7 +2,7 @@
 #include "KeyboardListener.h"
 #include "moteur2d.h"
 
-KeyboardListener::KeyboardListener()
+KeyboardListener::KeyboardListener(): _screenIdKeyboard(-1)
 {
     _id = Moteur2D::getInstance()->addKeyboardListener(this);
 }
@@ -10,6 +10,15 @@ KeyboardListener::KeyboardListener()
 KeyboardListener::~KeyboardListener()
 {
     Moteur2D::getInstance()->deleteKeyboardListener(_id);
+}
+
+int KeyboardListener::getScreenIdKeyboard()
+{
+    return _screenIdKeyboard;
+}
+void KeyboardListener::setScreenIdKeyboard(int screenId)
+{
+    _screenIdKeyboard = screenId;
 }
 
 

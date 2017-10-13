@@ -1,12 +1,11 @@
 
 #include "Mot/AnimatedSprite.h"
-#include "Mot/KeyboardListener.h"
-#include "Mot/MouseListener.h"
+#include "Mot/MouseAndKeyListener.h"
 
 #ifndef SRC_PERSOTEST_H_
 #define SRC_PERSOTEST_H_
 
-class PersoTest : public AnimatedSprite, public KeyboardListener, public MouseListener
+class PersoTest : public AnimatedSprite, public MouseAndKeyListener
 {
 protected:
 	Vector2d _mousePos;

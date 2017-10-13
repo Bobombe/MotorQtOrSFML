@@ -11,7 +11,7 @@
 
 #endif
 #include <iostream>
-
+class Collider;
 class WorldElement {
 
 protected:
@@ -19,6 +19,8 @@ protected:
     Vector2d _speed;
     Vector2d _accel;
     Vector2d _size;
+
+    Collider * _collider;
 
 public:
     WorldElement();
@@ -42,6 +44,8 @@ public:
     void moveAcceleration(Vector2d deltaAccel);
 
     virtual void handleCollisionWith(WorldElement * weColided, double timeSinceLastFrame, int nbAdditionnalInfo...){}
+    Collider* getCollider();
+    void setCollider(Collider* collider);
 
     // Specifics Functions
 #ifdef IN_QT

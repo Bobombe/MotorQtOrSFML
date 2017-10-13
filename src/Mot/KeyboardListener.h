@@ -116,6 +116,7 @@ class KeyboardListener
 
 protected:
     int _id;
+    int _screenIdKeyboard; // used to pass keyboard inputs only to the current screen
 
 public:
     KeyboardListener();
@@ -123,6 +124,9 @@ public:
 
     virtual void keyPressed(Key::Key key){}
     virtual void keyReleased(Key::Key key){}
+
+    int getScreenIdKeyboard();
+    void setScreenIdKeyboard(int screenId);
 
 #ifdef IN_QT
     static Key::Key retrieveKeyFromQt(int k);

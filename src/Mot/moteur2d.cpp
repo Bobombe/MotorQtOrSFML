@@ -155,7 +155,7 @@ void Moteur2D::update()
 
 
     if (_screenManager)
-        _screenManager->update(elapsedTime);
+        _screenManager->baseUpdate(elapsedTime);
 
 #ifdef IN_QT
 
@@ -258,6 +258,16 @@ const std::map <int, KeyboardListener*>& Moteur2D::getKeyboardListeners()
 const std::map <int, MouseListener*>& Moteur2D::getMouseListeners()
 {
     return _mouseListeners;
+}
+
+Screen* Moteur2D::getCurrentScreen()
+{
+    return _screenManager->getCurrentScreen();
+}
+
+int Moteur2D::getCurrentScreenId()
+{
+    return _screenManager->getCurrentScreenId();
 }
 
 
