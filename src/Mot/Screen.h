@@ -29,7 +29,7 @@ protected:
 
     std::vector<WorldElement*> _worldElements;
     std::vector<Force*> _forces;
-    std::map<int, std::vector<Collider*> > _collisionLayers;
+    std::map<int, std::vector<Collider*>* > _collisionLayers;
 
 
 public:

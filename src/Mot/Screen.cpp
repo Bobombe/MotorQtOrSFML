@@ -28,6 +28,11 @@ Screen::~Screen()
     {
         delete _forces[i];
     }
+    for (std::map<int, std::vector<Collider*>* >::iterator it=_collisionLayers.begin(); it!=_collisionLayers.end(); ++it)
+    {
+        delete it->second;
+    }
+
 }
 
 int Screen::update(double seconds)
@@ -41,14 +46,14 @@ int Screen::update(double seconds)
         _worldElements[i]->baseUpdate(seconds);
     }
     // Handle collisions
-    for (std::map<int, std::vector<Collider*> >::iterator it=_collisionLayers.begin(); it!=_collisionLayers.end(); ++it)
+    for (std::map<int, std::vector<Collider*>* >::iterator it=_collisionLayers.begin(); it!=_collisionLayers.end(); ++it)
     {
-        std::vector<Collider*> colliders = it->second;
-        for (unsigned int i = 0; i < colliders.size()-1; i++)
+        std::vector<Collider*>* colliders = it->second;
+        for (unsigned int i = 0; i < colliders->size()-1; i++)
         {
-            for (unsigned int j = i+1; j < colliders.size(); j++)
+            for (unsigned int j = i+1; j < colliders->size(); j++)
             {
-                colliders[i]->detectCollisionWith(colliders[j], seconds);
+                colliders->at(i)->detectCollisionWith(colliders->at(j), seconds);
             }
         }
     }
@@ -106,18 +111,23 @@ void Screen::deleteForce(Force * f)
 
 void Screen::addCollider(int layer, Collider* c)
 {
-    _collisionLayers[layer].push_back(c);
+    if (_collisionLayers.find(layer)==_collisionLayers.end()) {
+        _collisionLayers[layer] = new std::vector<Collider*>();
+    }
+    _collisionLayers[layer]->push_back(c);
 }
 
 void Screen::deleteCollider(int layer, Collider* c)
 {
-    std::vector<Collider*> colliders = _collisionLayers[layer];
-    for (int i = 0; i<colliders.size(); i++)
-    {
-        if (c==colliders[i])
+    if (_collisionLayers.find(layer)!=_collisionLayers.end()) {
+        std::vector<Collider*>* colliders = _collisionLayers[layer];
+        for (int i = 0; i<colliders->size(); i++)
         {
-            colliders.erase(colliders.begin()+i);
-            return;
+            if (c==colliders->at(i))
+            {
+                colliders->erase(colliders->begin()+i);
+                return;
+            }
         }
     }
 }

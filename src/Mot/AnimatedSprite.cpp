@@ -58,16 +58,21 @@ int AnimatedSprite::update(double seconds)
 	int animSize = _subRectangles[_actualSubRect.x].size();
 	if (framePerSec > 0 && animSize > 0) {
 		_tempo+=seconds;
-		if (_tempo > (1./framePerSec)) {
-			_actualSubRect.y++;
-			if (_actualSubRect.y>=animSize) {
-				_actualSubRect.y = 0;
-			}
-			_tempo = 0;
-			setSubRect(_subRectangles[_actualSubRect.x][_actualSubRect.y].pos(),
-					_subRectangles[_actualSubRect.x][_actualSubRect.y].size());
-		}
 
 	}
 	return 0;
+}
+
+int AnimatedSprite::draw(Vector2d pos)
+{
+    if (_tempo > (1./_framePerSecs[_actualSubRect.x])) {
+        _actualSubRect.y++;
+        if (_actualSubRect.y>=_subRectangles[_actualSubRect.x].size()) {
+            _actualSubRect.y = 0;
+        }
+        _tempo = 0;
+        setSubRect(_subRectangles[_actualSubRect.x][_actualSubRect.y].pos(),
+                _subRectangles[_actualSubRect.x][_actualSubRect.y].size());
+    }
+    return Sprite::draw(pos);
 }

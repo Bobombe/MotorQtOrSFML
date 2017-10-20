@@ -49,6 +49,20 @@ StartScreen::StartScreen() : Screen()
     colBlock3->initRectangular(0, 0, block3->getSize().x, block3->getSize().y);
     addCollider(0, colBlock3);
 
+    Sprite *block4 = new Sprite("./Ressources/sprite.png", Vector2d(20, 40), Vector2d(40, 40), Vector2d(800, 100));
+    block4->setPosition(Vector2d(100, 500));
+    addWorldElement(block4);
+    Collider *colBlock4 =  new Collider(block4);
+    colBlock4->initRectangular(0, 0, block4->getSize().x, block4->getSize().y);
+    addCollider(0, colBlock4);
+
+    Sprite *block5 = new Sprite("./Ressources/sprite.png", Vector2d(30, 50), Vector2d(10, 10), Vector2d(40, 50));
+    block5->setPosition(Vector2d(300, 240));
+    addWorldElement(block5);
+    Collider *colBlock5 =  new Collider(block5);
+    colBlock5->initRectangular(0, 0, block5->getSize().x, block5->getSize().y);
+    addCollider(0, colBlock5);
+
 }
 
 StartScreen::~StartScreen()
