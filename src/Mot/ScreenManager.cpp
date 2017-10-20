@@ -13,15 +13,16 @@ ScreenManager::~ScreenManager() {
 
 void ScreenManager::baseUpdate(double seconds)
 {
-    update(seconds);
-
     Screen * scr = screen(_currentScreen);
+    int updateReturn = -1;
+    int drawReturn = -1;
     if (scr) {
-        scr->baseUpdate(seconds);
-        scr->baseDraw();
+        updateReturn = scr->baseUpdate(seconds);
+        drawReturn = scr->baseDraw();
     } else {
         std::cout << "[ERROR] : No current screen set" << std::endl;
     }
+    update(seconds, updateReturn, drawReturn);
 }
 
 

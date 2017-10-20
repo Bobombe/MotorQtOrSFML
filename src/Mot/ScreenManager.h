@@ -17,7 +17,15 @@ public:
     virtual ~ScreenManager();
 
     void baseUpdate(double seconds);
-    virtual void update(double seconds)=0;
+    /**
+     * \param seconds : time elapsed since last frame.
+     * \param updateReturn value returned by currentScreen after its update phase.
+     * \param drawReturn value returned by currentScreen after its draw phase.
+     *
+     * This must be reimplemented in a sub class to manage the game. It is called just after the current screen was drawn.
+     * It can be used to change the _currentScreen for next frame while managing a state machine for example...
+     */
+    virtual void update(double seconds, int updateReturn, int drawReturn)=0;
 
     void addScreen(int,Screen*);
 

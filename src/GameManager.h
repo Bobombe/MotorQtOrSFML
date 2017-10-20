@@ -14,7 +14,7 @@ public:
     GameManager();
     virtual ~GameManager();
 
-    virtual void update(double seconds);
+    virtual void update(double seconds, int updateReturn, int drawReturn);
 
 };
 

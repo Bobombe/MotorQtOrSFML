@@ -24,7 +24,7 @@ int WorldElement::baseDraw(Vector2d pos)
 {
 	int retVal = draw(pos);
 	_accel.toNull();
-    return 0;
+    return retVal;
 }
 
 
