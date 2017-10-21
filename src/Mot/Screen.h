@@ -6,6 +6,7 @@
 #include "Collider.h"
 
 #include <vector>
+#include <map>
 
 
 #ifdef IN_QT

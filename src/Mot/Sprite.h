@@ -32,7 +32,7 @@ protected:
     QGraphicsPixmapItem* _manipulationItem;
 
 #else
-
+    sf::Texture * _intermediateTexture;
 #endif
 
 public:

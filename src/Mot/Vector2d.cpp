@@ -144,3 +144,13 @@ Vector2d Vector2d::operator/(const double & number)
     ret /= number;
     return ret;
 }
+
+// Equality
+bool &Vector2d::operator==(const Vector2d & vec)
+{
+    bool ret = false;
+    if (this->x == vec.x && this->y == vec.y) {
+        ret = true;
+    }
+    return ret;
+}

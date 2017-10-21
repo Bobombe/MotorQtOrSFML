@@ -47,10 +47,32 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="src/GameManager.cpp" />
+		<Unit filename="src/GameManager.h" />
+		<Unit filename="src/Mot/EventsManager.cpp" />
+		<Unit filename="src/Mot/EventsManager.h" />
+		<Unit filename="src/Mot/KeyboardListener.cpp" />
+		<Unit filename="src/Mot/KeyboardListener.h" />
+		<Unit filename="src/Mot/MouseListener.cpp" />
+		<Unit filename="src/Mot/MouseListener.h" />
+		<Unit filename="src/Mot/Screen.cpp" />
+		<Unit filename="src/Mot/Screen.h" />
+		<Unit filename="src/Mot/ScreenManager.cpp" />
+		<Unit filename="src/Mot/ScreenManager.h" />
+		<Unit filename="src/Mot/Sprite.cpp" />
+		<Unit filename="src/Mot/Sprite.h" />
 		<Unit filename="src/Mot/Texture.cpp" />
 		<Unit filename="src/Mot/Texture.h" />
+		<Unit filename="src/Mot/Vector2d.cpp" />
+		<Unit filename="src/Mot/Vector2d.h" />
+		<Unit filename="src/Mot/WorldElement.cpp" />
+		<Unit filename="src/Mot/WorldElement.h" />
 		<Unit filename="src/Mot/moteur2d.cpp" />
 		<Unit filename="src/Mot/moteur2d.h" />
+		<Unit filename="src/PersoTest.cpp" />
+		<Unit filename="src/PersoTest.h" />
+		<Unit filename="src/StartScreen.cpp" />
+		<Unit filename="src/StartScreen.h" />
 		<Unit filename="src/Test.cpp" />
 		<Extensions>
 			<code_completion />

@@ -55,6 +55,8 @@ public:
     // Vector2d &operator/=(const Vector2d & vec);
     Vector2d operator/(const double & number);
     // Vector2d operator/(const Vector2d & vec);
+
+    bool &operator==(const Vector2d & vec);
 };
 
 #endif /* SRC_MOT_VECTOR2D_H_ */

@@ -5,8 +5,8 @@
 
 GameManager::GameManager() : _stateMachine(0)
 {
-    addScreen(1, new ScreenLevel1());
     addScreen(0, new StartScreen());
+    addScreen(1, new ScreenLevel1());
     _currentScreen = 0;
 }
 

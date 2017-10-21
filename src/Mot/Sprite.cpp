@@ -7,7 +7,7 @@
 #include <QRect>
 #include <QPainter>
 #else
-
+#include <SFML/Graphics.hpp>
 #endif
 
 Sprite::Sprite()
@@ -16,7 +16,7 @@ Sprite::Sprite()
 #ifdef IN_QT
     _manipulationItem = 0;
 #else
-
+    _intermediateTexture = 0;
 #endif
 }
 Sprite::Sprite(std::string texturePath)
@@ -24,7 +24,7 @@ Sprite::Sprite(std::string texturePath)
 #ifdef IN_QT
     _manipulationItem = 0;
 #else
-
+    _intermediateTexture = 0;
 #endif
     setSprite(texturePath, Vector2d(), Vector2d());
 }
@@ -33,7 +33,7 @@ Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSiz
 #ifdef IN_QT
     _manipulationItem = 0;
 #else
-
+    _intermediateTexture = 0;
 #endif
     setSprite(texturePath, subRectPos, subRectSize);
 }
@@ -42,7 +42,7 @@ Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSiz
 #ifdef IN_QT
     _manipulationItem = 0;
 #else
-
+    _intermediateTexture = 0;
 #endif
     setSprite(texturePath, subRectPos, subRectSize, spriteSize);
 }
@@ -57,6 +57,9 @@ Sprite::~Sprite()
     }
 
 #else
+    if (_intermediateTexture) {
+        delete _intermediateTexture;
+    }
 
 #endif
 }
@@ -118,13 +121,6 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
 }
 void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize, Vector2d spriteSize)
 {
-    if (_texturePath != texturePath)
-    {
-        Moteur2D::getInstance()->unloadTexture(_texturePath);
-        _texturePath = texturePath;
-        _texture = Moteur2D::getInstance()->getTexture(_texturePath);
-    }
-
     _subRectPos = subRectPos;
     _subRectSize = subRectSize;
     _size = spriteSize;
@@ -134,31 +130,59 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
         _subRectSize = _texture->getSize();
         _subRectPos.x = _subRectPos.y = 0;
     }
+    if (subRectSize == spriteSize) {
+        setSprite(texturePath, _subRectPos, _subRectSize);
+    } else {
 
-#ifdef IN_QT
-    _sprite = CoreSprite(_size.x, _size.y);
-    _sprite.fill(Qt::transparent);
-    CoreSprite* texture = _texture->getTexture();
-    QPainter painter(&_sprite);
-    for (double i = 0; i < _size.x; i+=_subRectSize.x) {
-        for (double j = 0; j < _size.y; j+=_subRectSize.y) {
-            painter.drawPixmap(i, j, _subRectSize.x, _subRectSize.y, *texture
-                    , _subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
+        if (_texturePath != texturePath)
+        {
+            Moteur2D::getInstance()->unloadTexture(_texturePath);
+            _texturePath = texturePath;
+            _texture = Moteur2D::getInstance()->getTexture(_texturePath);
         }
 
-    }
-    painter.end();
-    if (_manipulationItem)
-    {
-        _manipulationItem->setPixmap(_sprite);
-    }
 
-#else
-    _sprite.setTexture(*(_texture->getTexture()));
-    sf::IntRect subTextureRect(_subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
-    _sprite.setTextureRect(subTextureRect);
+    #ifdef IN_QT
+        _sprite = CoreSprite(_size.x, _size.y);
+        _sprite.fill(Qt::transparent);
+        CoreSprite* texture = _texture->getTexture();
+        QPainter painter(&_sprite);
+        for (double i = 0; i < _size.x; i+=_subRectSize.x) {
+            for (double j = 0; j < _size.y; j+=_subRectSize.y) {
+                painter.drawPixmap(i, j, _subRectSize.x, _subRectSize.y, *texture
+                        , _subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
+            }
 
-#endif
+        }
+        painter.end();
+        if (_manipulationItem)
+        {
+            _manipulationItem->setPixmap(_sprite);
+        }
+
+    #else
+        sf::Image smallImg;
+        sf::Image imgFromTexture;
+        smallImg.create(_subRectSize.x, _subRectSize.y);
+        imgFromTexture.loadFromFile(texturePath);
+        for (int i = 0; i < _subRectSize.x; ++i) {
+            for (int j = 0; j<_subRectSize.y; ++j) {
+                smallImg.setPixel(i, j, imgFromTexture.getPixel(_subRectPos.x + i, _subRectPos.y + j));
+            }
+        }
+
+        if (_intermediateTexture) {
+            delete _intermediateTexture;
+        }
+        _intermediateTexture = new sf::Texture();
+        _intermediateTexture->loadFromImage(smallImg);
+        _intermediateTexture->setRepeated(true);
+        _sprite.setTexture(*_intermediateTexture);
+        sf::IntRect subTextureRect(0, 0, _size.x, _size.y);
+        _sprite.setTextureRect(subTextureRect);
+
+    #endif
+    }
 }
 
 std::string Sprite::getTexturePath()

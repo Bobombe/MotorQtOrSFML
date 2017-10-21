@@ -16,6 +16,7 @@ Moteur2D * Moteur2D::getInstance()
 {
     if (_instance == 0)
     {
+
         _instance = new Moteur2D();
     }
     return _instance;
