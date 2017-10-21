@@ -49,12 +49,22 @@
 		</Compiler>
 		<Unit filename="src/GameManager.cpp" />
 		<Unit filename="src/GameManager.h" />
+		<Unit filename="src/Mot/AnimatedSprite.cpp" />
+		<Unit filename="src/Mot/AnimatedSprite.h" />
+		<Unit filename="src/Mot/Collider.cpp" />
+		<Unit filename="src/Mot/Collider.h" />
 		<Unit filename="src/Mot/EventsManager.cpp" />
 		<Unit filename="src/Mot/EventsManager.h" />
+		<Unit filename="src/Mot/Force.cpp" />
+		<Unit filename="src/Mot/Force.h" />
 		<Unit filename="src/Mot/KeyboardListener.cpp" />
 		<Unit filename="src/Mot/KeyboardListener.h" />
+		<Unit filename="src/Mot/MouseAndKeyListener.cpp" />
+		<Unit filename="src/Mot/MouseAndKeyListener.h" />
 		<Unit filename="src/Mot/MouseListener.cpp" />
 		<Unit filename="src/Mot/MouseListener.h" />
+		<Unit filename="src/Mot/Rectangle.cpp" />
+		<Unit filename="src/Mot/Rectangle.h" />
 		<Unit filename="src/Mot/Screen.cpp" />
 		<Unit filename="src/Mot/Screen.h" />
 		<Unit filename="src/Mot/ScreenManager.cpp" />
@@ -71,9 +81,13 @@
 		<Unit filename="src/Mot/moteur2d.h" />
 		<Unit filename="src/PersoTest.cpp" />
 		<Unit filename="src/PersoTest.h" />
+		<Unit filename="src/ScreenLevel1.cpp" />
+		<Unit filename="src/ScreenLevel1.h" />
 		<Unit filename="src/StartScreen.cpp" />
 		<Unit filename="src/StartScreen.h" />
 		<Unit filename="src/Test.cpp" />
+		<Unit filename="src/TestGravity.cpp" />
+		<Unit filename="src/TestGravity.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

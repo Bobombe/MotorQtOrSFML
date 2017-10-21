@@ -14,7 +14,7 @@
 StartScreen::StartScreen() : Screen()
 {
     _pos.y = -400;//Moteur2D::getInstance()->getScreenSize().y;
-    _speed.y = 400;
+    _speed.y = 200;
     addWorldElement(new Sprite("./Ressources/Fond3.png"));
 
     PersoTest* p = new PersoTest();

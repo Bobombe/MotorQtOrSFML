@@ -162,6 +162,7 @@ int PersoTest::update(double seconds)
        if(_jump) {
            _onGround=-1;
            _speed.y += -jumpAccel;
+           _jump = false;
            if (_speed.x>0) {
                if (_state != JUMPING_RIGHT) {
                    _state = JUMPING_RIGHT;

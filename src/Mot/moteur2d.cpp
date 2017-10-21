@@ -142,6 +142,9 @@ void Moteur2D::update()
     double curTime = getMsSinceLaunch();
     double elapsedTime = double(curTime - _lastTime) / 1000.;
     double frameRate = 1000. / double(curTime - _lastTime);
+    if (elapsedTime > 1./15.) {
+        elapsedTime = 1./15.;
+    }
     //std::cout << "RUN at " << frameRate << " frame per sec. elapsedTime = " << elapsedTime << " , curTime = " << curTime << std::endl;
 
     // Things to update here

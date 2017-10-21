@@ -13,7 +13,7 @@ ScreenLevel1::ScreenLevel1()
     p->setPosition(Vector2d(200, 180));
     addWorldElement(p);
     addCollider(0, p->getCollider());
-    p->setScreenId(0);
+    p->setScreenId(1);
 
     TestGravity* tg = new TestGravity();
     tg->addWorldElement(p);
