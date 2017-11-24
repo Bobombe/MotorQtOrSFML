@@ -62,6 +62,8 @@ public:
 
     void setSubRect(Vector2d subRectPos, Vector2d subRectSize);
 
+    virtual void setScale(float scale);
+
 
     // Specifics Functions
 #ifdef IN_QT

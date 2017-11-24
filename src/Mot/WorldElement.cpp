@@ -1,7 +1,7 @@
 
 #include "WorldElement.h"
 
-WorldElement::WorldElement() : _collider(0)
+WorldElement::WorldElement() : _collider(0), _scale(1)
 {
 
 }
@@ -83,4 +83,16 @@ Collider* WorldElement::getCollider()
 void WorldElement::setCollider(Collider* collider)
 {
     _collider = collider;
+}
+
+
+float WorldElement::getScale()
+{
+    return _scale;
+}
+void WorldElement::setScale(float scale)
+{
+    if (scale != _scale) {
+        _scale = scale;
+    }
 }

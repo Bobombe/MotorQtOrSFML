@@ -226,13 +226,25 @@ void Sprite::setSubRect(Vector2d subRectPos, Vector2d subRectSize)
     setSprite(_texturePath, subRectPos, subRectSize);
 }
 
+void Sprite::setScale(float scale)
+{
+    if (scale != _scale) {
+        _scale = scale;
+#ifdef IN_QT
+        _manipulationItem->setScale(_scale);
+#else
+        _sprite.scale(_scale, _scale);
+#endif
+    }
+}
+
 
 // Specifics Functions
 #ifdef IN_QT
 void Sprite::addedInScene(QGraphicsScene * scene)
 {
     _manipulationItem = scene->addPixmap(_sprite);
-    _manipulationItem->setPos(_pos.x, _pos.y);
+    _manipulationItem->setScale(_scale);
 }
 
 #else

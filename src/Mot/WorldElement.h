@@ -21,6 +21,7 @@ protected:
     Vector2d _size;
 
     Collider * _collider;
+    float _scale;
 
 public:
     WorldElement();
@@ -46,6 +47,9 @@ public:
     virtual void handleCollisionWith(WorldElement * weColided, double timeSinceLastFrame, int nbAdditionnalInfo...){}
     Collider* getCollider();
     void setCollider(Collider* collider);
+
+    virtual float getScale();
+    virtual void setScale(float scale);
 
     // Specifics Functions
 #ifdef IN_QT
