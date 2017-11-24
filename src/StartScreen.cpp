@@ -11,7 +11,8 @@
 #include "TestGravity.h"
 #include "Mot/Collider.h"
 
-StartScreen::StartScreen() : Screen()
+StartScreen::StartScreen() : Screen(), _bt("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),
+                                            "./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120))
 {
     _pos.y = -400;//Moteur2D::getInstance()->getScreenSize().y;
     _speed.y = 200;
@@ -63,6 +64,9 @@ StartScreen::StartScreen() : Screen()
     colBlock5->initRectangular(0, 0, block5->getSize().x, block5->getSize().y);
     addCollider(0, colBlock5);
 
+    _bt.setPosition(Vector2d(50, 200));
+    _bt.setScreenId(0);
+    addWorldElement(&_bt);
 }
 
 StartScreen::~StartScreen()
@@ -73,10 +77,12 @@ StartScreen::~StartScreen()
 int StartScreen::draw(Vector2d pos)
 {
     int retValue = 0;
-    if (_pos.y>=0)
-    {
+    if (_pos.y>=200) {
         setSpeed(Vector2d(0, 0));
-        _pos.y=0;
+        _pos.y=200;
+        // retValue = 1;
+    }
+    if (_bt.isActivated()) {
         retValue = 1;
     }
     Screen::draw(pos);

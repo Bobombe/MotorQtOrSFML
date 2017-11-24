@@ -107,8 +107,8 @@ void EventsManager::keyReleaseEvent(QKeyEvent * event)
 void EventsManager::mouseMoveEvent(QMouseEvent * event)
 {
 	Vector2d mousePos;
-	mousePos.x = event->x();
-	mousePos.y = event->y();
+	mousePos.x = event->x()-12;
+	mousePos.y = event->y()-12;
 
     std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
     for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
@@ -138,8 +138,8 @@ void EventsManager::mousePressEvent(QMouseEvent * event)
 	}
 
 	Vector2d mousePos;
-	mousePos.x = event->x();
-	mousePos.y = event->y();
+	mousePos.x = event->x()-12;
+	mousePos.y = event->y()-12;
 
     std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
     for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
@@ -169,8 +169,8 @@ void EventsManager::mouseReleaseEvent(QMouseEvent * event)
 	}
 
 	Vector2d mousePos;
-	mousePos.x = event->x();
-	mousePos.y = event->y();
+	mousePos.x = event->x()-12;
+	mousePos.y = event->y()-12;
 
     std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
     for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)
