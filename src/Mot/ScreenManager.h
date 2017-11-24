@@ -29,9 +29,10 @@ public:
 
     void addScreen(int,Screen*);
 
-    Screen* screen(int indexOfScreen);
+    Screen* screenAt(int indexOfScreen);
     Screen* getCurrentScreen();
     int getCurrentScreenId();
+    void setCurrentScreenId(int screenId);
 
 };
 

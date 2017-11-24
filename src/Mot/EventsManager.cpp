@@ -8,12 +8,15 @@
 
 #ifdef IN_QT
 #include <QKeyEvent>
+#include <QObject>
 #endif
 
 EventsManager::EventsManager()
 {
 #ifdef IN_QT
     setMouseTracking(true);
+    _layout.setParent(this);
+    setLayout(&_layout);
 
 #endif
 }
@@ -24,6 +27,58 @@ EventsManager::~EventsManager()
 
 
 #ifdef IN_QT
+bool EventsManager::eventFilter(QObject *obj, QEvent *event)
+{
+    bool retValue = true;
+    switch (event->type()) {
+        case QEvent::KeyPress: {
+            QKeyEvent * kevent = dynamic_cast<QKeyEvent *>(event);
+            if (kevent) {
+                keyPressEvent(kevent);
+            }
+        }
+            break;
+        case QEvent::KeyRelease: {
+            QKeyEvent * kevent = dynamic_cast<QKeyEvent *>(event);
+            if (kevent) {
+                keyReleaseEvent(kevent);
+            }
+        }
+            break;
+        case QEvent::MouseMove: {
+            QMouseEvent * mEvent = dynamic_cast<QMouseEvent *>(event);
+            if (mEvent) {
+                mouseMoveEvent(mEvent);
+            }
+        }
+            break;
+        case QEvent::MouseButtonPress: {
+            QMouseEvent * mEvent = dynamic_cast<QMouseEvent *>(event);
+            if (mEvent) {
+                mousePressEvent(mEvent);
+            }
+        }
+            break;
+        case QEvent::MouseButtonRelease: {
+            QMouseEvent * mEvent = dynamic_cast<QMouseEvent *>(event);
+            if (mEvent) {
+                mouseReleaseEvent(mEvent);
+            }
+        }
+            break;
+        case QEvent::Wheel: {
+            QWheelEvent * mEvent = dynamic_cast<QWheelEvent *>(event);
+            if (mEvent) {
+                wheelEvent(mEvent);
+            }
+        }
+            break;
+        default:
+            retValue = QObject::eventFilter(obj, event);
+            break;
+    }
+    return retValue;
+}
 void EventsManager::keyPressEvent(QKeyEvent * event)
 {
 	if (!event->isAutoRepeat()) {

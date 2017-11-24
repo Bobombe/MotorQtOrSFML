@@ -82,6 +82,7 @@ void Moteur2D::init(int width, int height, std::string windowName, int argc, cha
     _eventsManager->setFixedWidth(width);
     _eventsManager->setFixedHeight(height);
     _eventsManager->setWindowTitle(QString(windowName.c_str()));
+    _app->installEventFilter(_eventsManager);
 
     _eventsManager->show();
 
@@ -281,7 +282,7 @@ int Moteur2D::getCurrentScreenId()
 
 // Specific functions
 #ifdef IN_QT
-QGraphicsView * Moteur2D::getView()
+QWidget * Moteur2D::getView()
 {
     return _eventsManager;
 }

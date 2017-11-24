@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 
-ScreenManager::ScreenManager() : _currentScreen(0)
+ScreenManager::ScreenManager() : _currentScreen(-1)
 {
 
 }
@@ -13,7 +13,7 @@ ScreenManager::~ScreenManager() {
 
 void ScreenManager::baseUpdate(double seconds)
 {
-    Screen * scr = screen(_currentScreen);
+    Screen * scr = screenAt(_currentScreen);
     int updateReturn = -1;
     int drawReturn = -1;
     if (scr) {
@@ -32,7 +32,7 @@ void ScreenManager::addScreen(int k,Screen*s)
 }
 
 
-Screen* ScreenManager::screen(int indexOfScreen)
+Screen* ScreenManager::screenAt(int indexOfScreen)
 {
     Screen * scr = 0;
     try
@@ -49,10 +49,31 @@ Screen* ScreenManager::screen(int indexOfScreen)
 
 Screen* ScreenManager::getCurrentScreen()
 {
-    return screen(_currentScreen);
+    return screenAt(_currentScreen);
 }
 
 int ScreenManager::getCurrentScreenId()
 {
     return _currentScreen;
+}
+void ScreenManager::setCurrentScreenId(int screenId)
+{
+#ifdef IN_QT
+    if (_currentScreen >=0) {
+        Screen* screen = screenAt(_currentScreen);
+        if (screen) {
+            screen->hide();
+        }
+    }
+    if (screenId >=0) {
+        Screen* screen = screenAt(screenId);
+        if (screen) {
+            screen->show();
+        }
+    }
+
+#else
+
+#endif
+    _currentScreen = screenId;
 }

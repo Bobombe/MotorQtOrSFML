@@ -123,7 +123,7 @@ public:
 
     // Specific functions
 #ifdef IN_QT
-    QGraphicsView * getView();
+    QWidget * getView();
 
 #else
 

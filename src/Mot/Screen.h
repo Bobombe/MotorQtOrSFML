@@ -19,14 +19,16 @@
 
 class Screen : public WorldElement
 {
-protected:
+private:
 
 #ifdef IN_QT
+    QGraphicsView * _view;
     QGraphicsScene * _scene;
 
 #else
 
 #endif
+protected:
 
     std::vector<WorldElement*> _worldElements;
     std::vector<Force*> _forces;
@@ -48,6 +50,14 @@ public:
 
     void addCollider(int layer, Collider* c);
     void deleteCollider(int layer, Collider* c);
+
+#ifdef IN_QT
+    void hide();
+    void show();
+
+#else
+
+#endif
 
 };
 

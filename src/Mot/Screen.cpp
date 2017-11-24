@@ -5,10 +5,14 @@
 Screen::Screen()
 {
 #ifdef IN_QT
-    QGraphicsView * view = Moteur2D::getInstance()->getView();
-    _scene = new QGraphicsScene(view);
-    view->setScene(_scene);
-    _scene->setSceneRect(0, 0, view->geometry().width(), view->geometry().height());
+    QWidget * widget = Moteur2D::getInstance()->getView();
+    _view = new QGraphicsView(widget);
+    widget->layout()->addWidget(_view);
+    _scene = new QGraphicsScene(_view);
+    _view->setScene(_scene);
+    _view->setVisible(false);
+    _view->setStyleSheet("border: 0px");
+    _scene->setSceneRect(0, 0, widget->geometry().width()-22, widget->geometry().height()-22);
 
 #else
 
@@ -32,6 +36,7 @@ Screen::~Screen()
     {
         delete it->second;
     }
+    delete _view;
 
 }
 
@@ -131,6 +136,20 @@ void Screen::deleteCollider(int layer, Collider* c)
         }
     }
 }
+
+#ifdef IN_QT
+    void Screen::hide()
+    {
+        _view->setVisible(false);
+    }
+    void Screen::show()
+    {
+        _view->setVisible(true);
+    }
+
+#else
+
+#endif
 
 
 

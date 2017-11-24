@@ -4,7 +4,8 @@
 
 
 #ifdef IN_QT
-#include <QGraphicsView>
+#include <QWidget>
+#include <QHBoxLayout>
 
 #else
 
@@ -13,7 +14,7 @@
 
 class EventsManager
 #ifdef IN_QT
-: public QGraphicsView
+: public QWidget
 
 #else
 #endif
@@ -26,6 +27,7 @@ Q_OBJECT
 protected:
 
 #ifdef IN_QT
+QHBoxLayout _layout;
 #else
 
 sf::Event _sfEvent;
@@ -35,6 +37,7 @@ public:
     EventsManager();
     virtual ~EventsManager();
 #ifdef IN_QT
+    bool eventFilter(QObject *obj, QEvent *event);
     virtual void keyPressEvent(QKeyEvent * event);
     virtual void keyReleaseEvent(QKeyEvent * event);
 
