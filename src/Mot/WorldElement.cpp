@@ -20,7 +20,7 @@ int WorldElement::baseUpdate(double seconds)
     _pos += _speed*seconds;
     return retVal;
 }
-int WorldElement::baseDraw(Vector2d pos, float scale)
+int WorldElement::baseDraw(Vector2d pos, double scale)
 {
 	int retVal = draw(pos, scale);
 	_accel.toNull();
@@ -98,22 +98,22 @@ void WorldElement::setCollider(Collider* collider)
 }
 
 
-float WorldElement::getScale()
+double WorldElement::getScale()
 {
     return _scale;
 }
-float WorldElement::getAbsoluteScale()
+double WorldElement::getAbsoluteScale()
 {
     return _absoluteScale;
 }
-void WorldElement::setScale(float scale)
+void WorldElement::setScale(double scale)
 {
     if (scale != _scale) {
         _scale = scale;
     }
 }
 
-int WorldElement::draw(Vector2d pos, float scale)
+int WorldElement::draw(Vector2d pos, double scale)
 {
     _absolutePos = pos + _pos*scale;
     _absoluteScale = scale * _scale;

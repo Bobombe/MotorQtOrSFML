@@ -4,7 +4,7 @@
 #include "Mot/Rectangle.h"
 #include "Mot/moteur2d.h"
 
-PersoTest::PersoTest() : AnimatedSprite("./Ressources/Perso.PNG"), _state(STANDING_RIGHT), _movingLeft(false), _movingRight(false), _jump(false), _onGround(-1)
+PersoTest::PersoTest() : AnimatedSprite("./Ressources/Perso.PNG"), _state(STANDING_RIGHT), _movingLeft(false), _movingRight(false), _jump(false), _onGround(-1), _camera(0)
 {
 	_pos.x = 100;
 	_pos.y = 200;
@@ -185,6 +185,22 @@ int PersoTest::update(double seconds)
        _onGround = -1;
    }
 	AnimatedSprite::update(seconds);
+   if (_camera) {
+       Vector2d camPos = _camera->getCameraPosition();
+       //camPos.x += seconds*50;
+       Vector2d camSize = _camera->getCameraSize();
+       if ( _absolutePos.x < camSize.x/10.) {
+           camPos.x += _absolutePos.x - camSize.x/10.;
+       } else if ( _absolutePos.x + _absoluteSize.x > camSize.x*9/10.) {
+           camPos.x += _absolutePos.x + _absoluteSize.x - camSize.x*9/10.;
+       }
+       if ( _absolutePos.y < camSize.y/10.) {
+           camPos.y += _absolutePos.y - camSize.y/10.;
+       } else if ( _absolutePos.y + _absoluteSize.y > camSize.y*9/10.) {
+           camPos.y += _absolutePos.y + _absoluteSize.y - camSize.y*9/10.;
+       }
+       _camera->setCameraPosition(camPos);
+   }
 	return 0;
 }
 void PersoTest::mouseMoved(Vector2d pos)
@@ -271,6 +287,11 @@ void PersoTest::handleCollisionWith(WorldElement * weColided, double secsSinceLa
     }
 
 
+}
+
+void PersoTest::setCamera(Camera *camera)
+{
+    _camera = camera;
 }
 
 

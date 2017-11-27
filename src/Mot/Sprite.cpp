@@ -65,7 +65,7 @@ Sprite::~Sprite()
 }
 
 
-int Sprite::draw(Vector2d pos, float scale)
+int Sprite::draw(Vector2d pos, double scale)
 {
 #ifdef IN_QT
     _manipulationItem->setPos(_pos.x*scale + pos.x, _pos.y*scale + pos.y);
@@ -228,7 +228,7 @@ void Sprite::setSubRect(Vector2d subRectPos, Vector2d subRectSize)
     setSprite(_texturePath, subRectPos, subRectSize);
 }
 
-void Sprite::setScale(float scale)
+void Sprite::setScale(double scale)
 {
     if (scale != _scale) {
         _scale = scale;

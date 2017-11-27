@@ -114,6 +114,13 @@ Vector2d Vector2d::operator-(const Vector2d & vec)
     ret -= vec;
     return ret;
 }
+Vector2d Vector2d::operator-()
+{
+    Vector2d ret(*this);
+    ret.x = -ret.x;
+    ret.y = -ret.y;
+    return ret;
+}
 // Multiplications
 Vector2d &Vector2d::operator*=(const double & number)
 {

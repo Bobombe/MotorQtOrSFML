@@ -2,7 +2,7 @@
 #include <iostream>
 #include "moteur2d.h"
 
-Screen::Screen() : _screenInitialized(false)
+Screen::Screen() : _screenInitialized(false), _camera(0)
 {
 #ifdef IN_QT
     QWidget * widget = Moteur2D::getInstance()->getView();
@@ -69,8 +69,12 @@ int Screen::update(double seconds)
     return 0;
 }
 
-int Screen::draw(Vector2d pos, float scale)
+int Screen::draw(Vector2d pos, double scale)
 {
+    if (_camera) {
+        _pos = -_camera->getCameraPosition();
+        _scale = _camera->getCameraScale();
+    }
     for (unsigned int i = 0; i < _worldElements.size(); i++)
     {
         _worldElements[i]->baseDraw(pos + _pos*scale, scale*_scale);

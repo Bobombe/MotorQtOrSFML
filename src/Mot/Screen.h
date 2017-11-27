@@ -4,6 +4,7 @@
 #include "WorldElement.h"
 #include "Force.h"
 #include "Collider.h"
+#include "Camera.h"
 
 #include <vector>
 #include <map>
@@ -33,6 +34,7 @@ protected:
     std::vector<WorldElement*> _worldElements;
     std::vector<Force*> _forces;
     std::map<int, std::vector<Collider*>* > _collisionLayers;
+    Camera * _camera;
 
     bool _screenInitialized;
 
@@ -61,7 +63,7 @@ public:
 
 protected:
     virtual int update(double seconds);
-    virtual int draw(Vector2d pos = Vector2d(), float scale = 1);
+    virtual int draw(Vector2d pos = Vector2d(), double scale = 1);
 
 };
 

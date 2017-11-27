@@ -52,7 +52,7 @@ public:
 
 protected:
     void swichTexture();
-    virtual int draw(Vector2d pos = Vector2d(), float scale = 1);
+    virtual int draw(Vector2d pos = Vector2d(), double scale = 1);
 
 };
 

@@ -63,7 +63,7 @@ int AnimatedSprite::update(double seconds)
 	return 0;
 }
 
-int AnimatedSprite::draw(Vector2d pos, float scale)
+int AnimatedSprite::draw(Vector2d pos, double scale)
 {
     if (_tempo > (1./_framePerSecs[_actualSubRect.x])) {
         _actualSubRect.y++;

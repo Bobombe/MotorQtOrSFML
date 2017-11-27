@@ -1,6 +1,7 @@
 
 #include "Mot/AnimatedSprite.h"
 #include "Mot/MouseAndKeyListener.h"
+#include "Mot/Camera.h"
 
 #ifndef SRC_PERSOTEST_H_
 #define SRC_PERSOTEST_H_
@@ -31,6 +32,9 @@ protected:
 	bool _jump;
 
 	double _onGround; // Store the y position when on ground
+
+	Camera * _camera;
+
 public:
 	PersoTest();
 	virtual ~PersoTest();
@@ -40,6 +44,8 @@ public:
     virtual void keyReleased(Key::Key key);
 
     virtual void handleCollisionWith(WorldElement * weColided, double secsSinceLastFrame, int nbAdditionnalInfo...);
+
+    void setCamera(Camera *camera);
 
 protected:
     virtual int update(double seconds);

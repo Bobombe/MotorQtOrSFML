@@ -62,7 +62,7 @@ public:
 
     void setSubRect(Vector2d subRectPos, Vector2d subRectSize);
 
-    virtual void setScale(float scale);
+    virtual void setScale(double scale);
 
 
     // Specifics Functions
@@ -75,7 +75,7 @@ public:
 
 protected:
 
-    virtual int draw(Vector2d pos = Vector2d(), float scale = 1);
+    virtual int draw(Vector2d pos = Vector2d(), double scale = 1);
 };
 
 #endif /* SRC_MOT_SPRITE_H_ */

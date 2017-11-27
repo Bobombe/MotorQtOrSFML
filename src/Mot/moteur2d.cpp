@@ -107,7 +107,7 @@ void Moteur2D::run(ScreenManager* screenManager)
 
     sf::Time t1 = _clock.getElapsedTime();
     sf::Time t2;
-    float s = 0;
+    double s = 0;
 
     while(_window->isOpen())
     {

@@ -106,7 +106,7 @@ void Button::swichTexture()
     }
 }
 
-int Button::draw(Vector2d pos, float scale)
+int Button::draw(Vector2d pos, double scale)
 {
     if (_activated>0) {
         _activated--;

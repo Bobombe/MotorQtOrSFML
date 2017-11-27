@@ -21,18 +21,18 @@ protected:
     Vector2d _size;
 
     Collider * _collider;
-    float _scale;
+    double _scale;
     Vector2d _absolutePos;
     Vector2d _absoluteSize;
     Vector2d _relativeSize;
-    float _absoluteScale;
+    double _absoluteScale;
 
 public:
     WorldElement();
     virtual ~WorldElement();
 
     int baseUpdate(double seconds);
-    int baseDraw(Vector2d pos = Vector2d(), float scale = 1);
+    int baseDraw(Vector2d pos = Vector2d(), double scale = 1);
 
     Vector2d getPosition();
     Vector2d getSpeed();
@@ -56,9 +56,9 @@ public:
     Collider* getCollider();
     void setCollider(Collider* collider);
 
-    virtual float getScale();
-    virtual float getAbsoluteScale();
-    virtual void setScale(float scale);
+    virtual double getScale();
+    virtual double getAbsoluteScale();
+    virtual void setScale(double scale);
 
     // Specifics Functions
 #ifdef IN_QT
@@ -70,7 +70,7 @@ public:
 
 protected:
     virtual int update(double seconds){return 0;}
-    virtual int draw(Vector2d pos = Vector2d(), float scale = 1);
+    virtual int draw(Vector2d pos = Vector2d(), double scale = 1);
 
 };
 

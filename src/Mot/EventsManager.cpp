@@ -182,7 +182,7 @@ void EventsManager::mouseReleaseEvent(QMouseEvent * event)
 }
 void EventsManager::wheelEvent(QWheelEvent * event)
 {
-	float degreeMove = event->angleDelta().y()/8.;
+    float degreeMove = event->angleDelta().y()/8.;
 
     std::map<int,MouseListener*> mls = Moteur2D::getInstance()->getMouseListeners();
     for (std::map<int,MouseListener*>::iterator it=mls.begin(); it!=mls.end(); ++it)

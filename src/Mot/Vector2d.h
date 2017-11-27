@@ -44,6 +44,7 @@ public:
     Vector2d &operator-=(const Vector2d & vec);
     Vector2d operator-(const double & number);
     Vector2d operator-(const Vector2d & vec);
+    Vector2d operator-();
     // Multiplications
     Vector2d &operator*=(const double & number);
     // Vector2d &operator*=(const Vector2d & vec);

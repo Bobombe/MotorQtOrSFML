@@ -77,7 +77,7 @@ StartScreen::~StartScreen()
 }
 
 
-int StartScreen::draw(Vector2d pos, float scale)
+int StartScreen::draw(Vector2d pos, double scale)
 {
     int retValue = 0;
     if (_pos.y>=20) {
