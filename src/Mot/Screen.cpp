@@ -1,6 +1,7 @@
 #include "Screen.h"
 #include <iostream>
 #include "moteur2d.h"
+#include "Camera.h"
 
 Screen::Screen() : _screenInitialized(false), _camera(0)
 {
@@ -36,7 +37,11 @@ Screen::~Screen()
     {
         delete it->second;
     }
+#ifdef IN_QT
     delete _view;
+#else
+
+#endif
 
 }
 

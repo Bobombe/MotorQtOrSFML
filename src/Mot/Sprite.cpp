@@ -74,7 +74,7 @@ int Sprite::draw(Vector2d pos, double scale)
 #else
 
     _sprite.setPosition(_pos.x*scale + pos.x, _pos.y*scale + pos.y);
-    _sprite.scale(_scale*scale, _scale*scale);
+    _sprite.setScale(_scale*scale, _scale*scale);
     Moteur2D::getInstance()->getWindow()->draw(_sprite);
 #endif
     return WorldElement::draw(pos, scale);

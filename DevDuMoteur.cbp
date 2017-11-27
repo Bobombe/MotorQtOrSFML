@@ -51,6 +51,10 @@
 		<Unit filename="src/GameManager.h" />
 		<Unit filename="src/Mot/AnimatedSprite.cpp" />
 		<Unit filename="src/Mot/AnimatedSprite.h" />
+		<Unit filename="src/Mot/Button.cpp" />
+		<Unit filename="src/Mot/Button.h" />
+		<Unit filename="src/Mot/Camera.cpp" />
+		<Unit filename="src/Mot/Camera.h" />
 		<Unit filename="src/Mot/Collider.cpp" />
 		<Unit filename="src/Mot/Collider.h" />
 		<Unit filename="src/Mot/EventsManager.cpp" />
