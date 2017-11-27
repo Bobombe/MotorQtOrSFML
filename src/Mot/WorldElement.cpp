@@ -1,7 +1,7 @@
 
 #include "WorldElement.h"
 
-WorldElement::WorldElement() : _collider(0), _scale(1)
+WorldElement::WorldElement() : _collider(0), _scale(1), _absoluteScale(1)
 {
 
 }
@@ -20,9 +20,9 @@ int WorldElement::baseUpdate(double seconds)
     _pos += _speed*seconds;
     return retVal;
 }
-int WorldElement::baseDraw(Vector2d pos)
+int WorldElement::baseDraw(Vector2d pos, float scale)
 {
-	int retVal = draw(pos);
+	int retVal = draw(pos, scale);
 	_accel.toNull();
     return retVal;
 }
@@ -31,6 +31,10 @@ int WorldElement::baseDraw(Vector2d pos)
 Vector2d WorldElement::getPosition()
 {
     return _pos;
+}
+Vector2d WorldElement::getAbsolutePosition()
+{
+    return _absolutePos;
 }
 Vector2d WorldElement::getSpeed()
 {
@@ -43,6 +47,14 @@ Vector2d WorldElement::getAcceleration()
 Vector2d WorldElement::getSize()
 {
     return _size;
+}
+Vector2d WorldElement::getAbsoluteSize()
+{
+    return _absoluteSize;
+}
+Vector2d WorldElement::getRelativeSize()
+{
+    return _relativeSize;
 }
 
 void WorldElement::setPosition(Vector2d pos)
@@ -90,9 +102,35 @@ float WorldElement::getScale()
 {
     return _scale;
 }
+float WorldElement::getAbsoluteScale()
+{
+    return _absoluteScale;
+}
 void WorldElement::setScale(float scale)
 {
     if (scale != _scale) {
         _scale = scale;
     }
 }
+
+int WorldElement::draw(Vector2d pos, float scale)
+{
+    _absolutePos = pos + _pos*scale;
+    _absoluteScale = scale * _scale;
+    _absoluteSize = _size * _absoluteScale;
+    _relativeSize = _size * _scale;
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -75,7 +75,7 @@ public:
 
 protected:
 
-    virtual int draw(Vector2d pos = Vector2d());
+    virtual int draw(Vector2d pos = Vector2d(), float scale = 1);
 };
 
 #endif /* SRC_MOT_SPRITE_H_ */

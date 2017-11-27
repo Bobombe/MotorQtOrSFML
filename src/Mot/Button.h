@@ -25,7 +25,6 @@ protected:
 
     ButtonState _buttonState;
     int _activated;
-    Vector2d _absolutePos;
     std::string _texturePathStateUp;
     Vector2d _subRectPosStateUp;
     Vector2d _subRectSizeStateUp;
@@ -53,7 +52,7 @@ public:
 
 protected:
     void swichTexture();
-    virtual int draw(Vector2d pos = Vector2d());
+    virtual int draw(Vector2d pos = Vector2d(), float scale = 1);
 
 };
 

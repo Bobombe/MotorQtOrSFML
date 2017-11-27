@@ -13,7 +13,7 @@ public:
     StartScreen();
     virtual ~StartScreen();
 
-    virtual int draw(Vector2d pos = Vector2d());
+    virtual int draw(Vector2d pos = Vector2d(), float scale = 1);
 };
 
 #endif /* SRC_STARTSCREEN_H_ */

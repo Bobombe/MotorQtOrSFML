@@ -14,12 +14,12 @@
 StartScreen::StartScreen() : Screen(), _bt("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),
                                             "./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120))
 {
-    _pos.y = -400;//Moteur2D::getInstance()->getScreenSize().y;
+    _pos.y = -50;//Moteur2D::getInstance()->getScreenSize().y;
     _speed.y = 200;
     addWorldElement(new Sprite("./Ressources/Fond3.png"));
 
     PersoTest* p = new PersoTest();
-    p->setPosition(Vector2d(200, 180));
+    p->setPosition(Vector2d(200, 160));
     addWorldElement(p);
     addCollider(0, p->getCollider());
     p->setScreenId(0);
@@ -67,6 +67,9 @@ StartScreen::StartScreen() : Screen(), _bt("./Ressources/Perso.PNG", Vector2d(0,
     _bt.setPosition(Vector2d(50, 200));
     _bt.setScreenId(0);
     addWorldElement(&_bt);
+
+    setScale(0.8);
+    p->setScale(1.25);
 }
 
 StartScreen::~StartScreen()
@@ -74,17 +77,18 @@ StartScreen::~StartScreen()
 }
 
 
-int StartScreen::draw(Vector2d pos)
+int StartScreen::draw(Vector2d pos, float scale)
 {
     int retValue = 0;
-    if (_pos.y>=200) {
+    if (_pos.y>=20) {
         setSpeed(Vector2d(0, 0));
-        _pos.y=200;
+        _pos.x=10;
+        _pos.y=20;
         // retValue = 1;
     }
     if (_bt.isActivated()) {
         retValue = 1;
     }
-    Screen::draw(pos);
+    Screen::draw(pos, scale);
     return retValue;
 }

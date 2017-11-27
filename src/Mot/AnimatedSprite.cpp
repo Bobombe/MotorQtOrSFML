@@ -63,7 +63,7 @@ int AnimatedSprite::update(double seconds)
 	return 0;
 }
 
-int AnimatedSprite::draw(Vector2d pos)
+int AnimatedSprite::draw(Vector2d pos, float scale)
 {
     if (_tempo > (1./_framePerSecs[_actualSubRect.x])) {
         _actualSubRect.y++;
@@ -74,5 +74,5 @@ int AnimatedSprite::draw(Vector2d pos)
         setSubRect(_subRectangles[_actualSubRect.x][_actualSubRect.y].pos(),
                 _subRectangles[_actualSubRect.x][_actualSubRect.y].size());
     }
-    return Sprite::draw(pos);
+    return Sprite::draw(pos, scale);
 }

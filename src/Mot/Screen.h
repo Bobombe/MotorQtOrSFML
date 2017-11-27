@@ -34,12 +34,12 @@ protected:
     std::vector<Force*> _forces;
     std::map<int, std::vector<Collider*>* > _collisionLayers;
 
+    bool _screenInitialized;
+
 
 public:
     Screen();
     virtual ~Screen();
-    virtual int update(double seconds);
-    virtual int draw(Vector2d pos = Vector2d());
 
     // Fonctions d'ajout/delete
     void addWorldElement(WorldElement* we);
@@ -58,6 +58,10 @@ public:
 #else
 
 #endif
+
+protected:
+    virtual int update(double seconds);
+    virtual int draw(Vector2d pos = Vector2d(), float scale = 1);
 
 };
 

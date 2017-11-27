@@ -65,17 +65,19 @@ Sprite::~Sprite()
 }
 
 
-int Sprite::draw(Vector2d pos)
+int Sprite::draw(Vector2d pos, float scale)
 {
 #ifdef IN_QT
-    _manipulationItem->setPos(_pos.x + pos.x, _pos.y + pos.y);
+    _manipulationItem->setPos(_pos.x*scale + pos.x, _pos.y*scale + pos.y);
+    _manipulationItem->setScale(_scale*scale);
 
 #else
 
-    _sprite.setPosition(_pos.x + pos.x, _pos.y + pos.y);
+    _sprite.setPosition(_pos.x*scale + pos.x, _pos.y*scale + pos.y);
+    _sprite.scale(_scale*scale, _scale*scale);
     Moteur2D::getInstance()->getWindow()->draw(_sprite);
 #endif
-    return 0;
+    return WorldElement::draw(pos, scale);
 }
 
 CoreSprite Sprite::getCoreSprite()
@@ -230,11 +232,6 @@ void Sprite::setScale(float scale)
 {
     if (scale != _scale) {
         _scale = scale;
-#ifdef IN_QT
-        _manipulationItem->setScale(_scale);
-#else
-        _sprite.scale(_scale, _scale);
-#endif
     }
 }
 

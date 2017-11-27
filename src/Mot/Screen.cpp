@@ -2,7 +2,7 @@
 #include <iostream>
 #include "moteur2d.h"
 
-Screen::Screen()
+Screen::Screen() : _screenInitialized(false)
 {
 #ifdef IN_QT
     QWidget * widget = Moteur2D::getInstance()->getView();
@@ -42,6 +42,10 @@ Screen::~Screen()
 
 int Screen::update(double seconds)
 {
+    if (!_screenInitialized) {
+        _screenInitialized = true;
+        draw();
+    }
     for (unsigned int i = 0; i < _forces.size(); i++)
     {
     	_forces[i]->apply();
@@ -65,13 +69,13 @@ int Screen::update(double seconds)
     return 0;
 }
 
-int Screen::draw(Vector2d pos)
+int Screen::draw(Vector2d pos, float scale)
 {
     for (unsigned int i = 0; i < _worldElements.size(); i++)
     {
-        _worldElements[i]->baseDraw(pos + _pos);
+        _worldElements[i]->baseDraw(pos + _pos*scale, scale*_scale);
     }
-    return 0;
+    return WorldElement::draw(pos, scale);
 }
 
 // Fonctions d'ajouts

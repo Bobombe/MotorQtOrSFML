@@ -78,7 +78,7 @@ bool Button::posOverButton(Vector2d pos)
     bool retValue = false;
 
     if (pos.x >=_absolutePos.x && pos.y >= _absolutePos.y &&
-            pos.x <=_absolutePos.x + _size.x && pos.y <= _absolutePos.y + _size.y) {
+            pos.x <=(_absolutePos.x + _absoluteSize.x) && pos.y <= (_absolutePos.y + _absoluteSize.y)) {
         retValue = true;
     }
 
@@ -106,11 +106,10 @@ void Button::swichTexture()
     }
 }
 
-int Button::draw(Vector2d pos)
+int Button::draw(Vector2d pos, float scale)
 {
     if (_activated>0) {
         _activated--;
     }
-    _absolutePos = pos+_pos;
-    return Sprite::draw(pos);
+    return Sprite::draw(pos, scale);
 }

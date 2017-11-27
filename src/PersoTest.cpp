@@ -228,14 +228,15 @@ void PersoTest::handleCollisionWith(WorldElement * weColided, double secsSinceLa
 {
     Vector2d oldPos = _pos - (_speed*secsSinceLastFrame);
     Vector2d oldPosColided = weColided->getPosition()- (weColided->getSpeed()*secsSinceLastFrame);
-    double diffLR = oldPos.x - (oldPosColided.x+weColided->getSize().x);
-    double diffRL = oldPos.x+_size.x - oldPosColided.x;
-    double diffTB = oldPos.y - (oldPosColided.y+weColided->getSize().y);
-    double diffBT = oldPos.y+_size.y - oldPosColided.y;
+    double diffLR = oldPos.x - (oldPosColided.x+weColided->getRelativeSize().x);
+    double diffRL = oldPos.x+_relativeSize.x - oldPosColided.x;
+    double diffTB = oldPos.y - (oldPosColided.y+weColided->getRelativeSize().y);
+    double diffBT = oldPos.y+_relativeSize.y - oldPosColided.y;
+
     if (diffRL <= 0 && diffRL < diffBT && diffRL < -diffTB) {
         // Collision on Right of Perso
         _speed.x = 0;
-        _pos.x = weColided->getPosition().x-_size.x;
+        _pos.x = weColided->getPosition().x-_relativeSize.x;
         if (_onGround==_pos.y && _state != STANDING_RIGHT) {
             _state = STANDING_RIGHT;
             setAnimation(STANDING_RIGHT);
@@ -244,15 +245,15 @@ void PersoTest::handleCollisionWith(WorldElement * weColided, double secsSinceLa
     } else if (diffLR >= 0 && diffLR > -diffBT && diffLR > diffTB) {
         // Collision on Left of Perso
         _speed.x = 0;
-        _pos.x = weColided->getPosition().x+weColided->getSize().x;
+        _pos.x = weColided->getPosition().x+weColided->getRelativeSize().x;
         if (_onGround==_pos.y && _state != STANDING_LEFT) {
             _state = STANDING_LEFT;
             setAnimation(STANDING_LEFT);
         }
-    } else if (diffBT <= 0) {
+    } else if (diffBT <= -diffTB) {
         // Collision on Bottom of Perso
         _speed.y = 0;
-        _pos.y = weColided->getPosition().y-_size.y;
+        _pos.y = weColided->getPosition().y-_relativeSize.y;
         _onGround = _pos.y;
         if (_speed.x==0) {
             if (_state == STANDING_RIGHT || _state == JUMPING_RIGHT) {
@@ -266,7 +267,7 @@ void PersoTest::handleCollisionWith(WorldElement * weColided, double secsSinceLa
     } else {
         // Collision on top of Perso
         _speed.y = 0;
-        _pos.y = weColided->getPosition().y+weColided->getSize().y;
+        _pos.y = weColided->getPosition().y+weColided->getRelativeSize().y;
     }
 
 

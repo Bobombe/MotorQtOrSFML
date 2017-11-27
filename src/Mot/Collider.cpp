@@ -58,15 +58,18 @@ void Collider::detectCollisionWith(Collider * collider, double seconds)
 
 void Collider::detectRectOnRect (Collider * collider1, Collider * collider2, double seconds)
 {
-    double col1X = collider1->_we->getPosition().x + collider1->_deltaX;
-    double col1Y = collider1->_we->getPosition().y + collider1->_deltaY;
-    double col1W = collider1->_compo1;
-    double col1H = collider1->_compo2;
+    double scale1 = collider1->_we->getScale();
+    double scale2 = collider2->_we->getScale();
 
-    double col2X = collider2->_we->getPosition().x + collider2->_deltaX;
-    double col2Y = collider2->_we->getPosition().y + collider2->_deltaY;
-    double col2W = collider2->_compo1;
-    double col2H = collider2->_compo2;
+    double col1X = collider1->_we->getPosition().x + collider1->_deltaX*scale1;
+    double col1Y = collider1->_we->getPosition().y + collider1->_deltaY*scale1;
+    double col1W = collider1->_compo1*scale1;
+    double col1H = collider1->_compo2*scale1;
+
+    double col2X = collider2->_we->getPosition().x + collider2->_deltaX*scale2;
+    double col2Y = collider2->_we->getPosition().y + collider2->_deltaY*scale2;
+    double col2W = collider2->_compo1*scale2;
+    double col2H = collider2->_compo2*scale2;
 
     if (!(col2X > col1X+col1W || col2Y > col1Y+col1H || col2X+col2W < col1X || col2Y+col2H < col1Y)) {
         collider1->_we->handleCollisionWith(collider2->_we, seconds, 0);
