@@ -24,14 +24,12 @@ private:
 
 #ifdef IN_QT
     QGraphicsView * _view;
-    QGraphicsScene * _scene;
 
 #else
 
 #endif
 protected:
 
-    std::vector<WorldElement*> _worldElements;
     std::vector<Force*> _forces;
     std::map<int, std::vector<Collider*>* > _collisionLayers;
     Camera * _camera;
@@ -44,9 +42,6 @@ public:
     virtual ~Screen();
 
     // Fonctions d'ajout/delete
-    void addWorldElement(WorldElement* we);
-    void deleteWorldElement(WorldElement* we);
-
     void addForce(Force* f);
     void deleteForce(Force* f);
 
@@ -63,7 +58,6 @@ public:
 
 protected:
     virtual int update(double seconds);
-    virtual int draw(Vector2d pos = Vector2d(), double scale = 1);
 
 };
 

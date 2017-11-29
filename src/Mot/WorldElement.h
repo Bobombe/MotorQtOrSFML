@@ -11,66 +11,103 @@
 
 #endif
 #include <iostream>
+#include <string>
 class Collider;
 class WorldElement {
 
-protected:
-    Vector2d _pos;
+private:
+    Vector2d _pos;                  //// Position relative to parent WorldElement
     Vector2d _speed;
     Vector2d _accel;
-    Vector2d _size;
+    Vector2d _size;                 //// Original size (without scaling)
+
+    double _scale;                  //// Original scale of this WE (without parent scale
+
+    Vector2d _absolutePos;          //// Absolute position top left app corner being ref.
+    Vector2d _relativeSize;         //// Size relative to parent (= _size*_scale)
+    Vector2d _absoluteSize;         //// Real size after scaling from parent scale and this object scale)
+    double _absoluteScale;          //// = _scale*_parent->_absoluteScale
+
+protected:
 
     Collider * _collider;
-    double _scale;
-    Vector2d _absolutePos;
-    Vector2d _absoluteSize;
-    Vector2d _relativeSize;
-    double _absoluteScale;
 
-public:
-    WorldElement();
-    virtual ~WorldElement();
+    WorldElement * _parent;
+    std::vector<WorldElement *> _children;
 
-    int baseUpdate(double seconds);
-    int baseDraw(Vector2d pos = Vector2d(), double scale = 1);
-
-    Vector2d getPosition();
-    Vector2d getSpeed();
-    Vector2d getAcceleration();
-    Vector2d getSize();
-
-    Vector2d getAbsolutePosition();
-    Vector2d getAbsoluteSize();
-    Vector2d getRelativeSize();
-
-    void setPosition(Vector2d pos);
-    void setSpeed(Vector2d speed);
-    void setAcceleration(Vector2d accel);
-    void setSize(Vector2d size);
-
-    void movePosition(Vector2d deltaPos);
-    void moveSpeed(Vector2d deltaSpeed);
-    void moveAcceleration(Vector2d deltaAccel);
-
-    virtual void handleCollisionWith(WorldElement * weColided, double timeSinceLastFrame, int nbAdditionnalInfo...){}
-    Collider* getCollider();
-    void setCollider(Collider* collider);
-
-    virtual double getScale();
-    virtual double getAbsoluteScale();
-    virtual void setScale(double scale);
-
-    // Specifics Functions
 #ifdef IN_QT
-    virtual void addedInScene(QGraphicsScene * scene){}
+    QGraphicsScene * _scene;
 
 #else
 
 #endif
 
+public:
+    WorldElement();
+    WorldElement(WorldElement * parent);
+    virtual ~WorldElement();
+
+    int baseUpdate(double seconds);
+    int baseDraw();
+
+    /////////////////////////////////////////////////
+    // GETTER OF BASED CHARACTERISTIQUES
+    /////////////////////////////////////////////////
+    Vector2d getPosition();
+    Vector2d getSpeed();
+    Vector2d getAcceleration();
+    Vector2d getSize();
+    virtual double getScale();
+
+
+    /////////////////////////////////////////////////
+    // GETTER OF DERIVATIVE FROM CHARACTERISTIQUES
+    /////////////////////////////////////////////////
+    Vector2d getAbsolutePosition();
+    Vector2d getRelativeSize();
+    Vector2d getAbsoluteSize();
+    virtual double getAbsoluteScale();
+
+    /////////////////////////////////////////////////
+    // SETTER OF BASED CHARACTERISTICS
+    /////////////////////////////////////////////////
+    void setPosition(Vector2d pos);
+    void setSpeed(Vector2d speed);
+    void setAcceleration(Vector2d accel);
+    void setSize(Vector2d size);
+    virtual void setScale(double scale);
+    void updateCharacteristics();
+
+    /////////////////////////////////////////////////
+    // MOVER OF BASED CHARACTERISTIQUES
+    /////////////////////////////////////////////////
+    void movePosition(Vector2d deltaPos);
+    void moveSpeed(Vector2d deltaSpeed);
+    void moveAcceleration(Vector2d deltaAccel);
+
+    /////////////////////////////////////////////////
+    // HANDLE COLLIDER
+    /////////////////////////////////////////////////
+    virtual void handleCollisionWith(WorldElement * weColided, double timeSinceLastFrame, int nbAdditionnalInfo...){}
+    Collider* getCollider();
+    void setCollider(Collider* collider);
+
+
+    void setParent(WorldElement * parent);
+
 protected:
-    virtual int update(double seconds){return 0;}
-    virtual int draw(Vector2d pos = Vector2d(), double scale = 1);
+    virtual int update(double seconds);
+    virtual int draw();
+
+    // Specifics Functions
+#ifdef IN_QT
+    void updateScene();
+    void setScene(QGraphicsScene * scene);
+    virtual void updateScene(QGraphicsScene * scene);
+
+#else
+
+#endif
 
 };
 

@@ -16,7 +16,7 @@ else
 
 	echo "Adding conf to $projectName.pro ..."
 
-	echo "QT += $config"$'\n'"DEFINES += \"$defines\"" > temp_file
+	echo "CONFIG += qt debug"$'\n'"QT += $config"$'\n'"DEFINES += \"$defines\"" > temp_file
 	cat $projectName.pro >> temp_file
 	mv temp_file $projectName.pro
 

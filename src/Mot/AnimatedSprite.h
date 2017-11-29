@@ -34,7 +34,7 @@ public:
 
 protected:
     virtual int update(double seconds);
-    virtual int draw(Vector2d pos = Vector2d(), double scale = 1);
+    virtual int draw();
 
 };
 

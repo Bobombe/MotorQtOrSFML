@@ -9,7 +9,7 @@ Screen::Screen() : _screenInitialized(false), _camera(0)
     QWidget * widget = Moteur2D::getInstance()->getView();
     _view = new QGraphicsView(widget);
     widget->layout()->addWidget(_view);
-    _scene = new QGraphicsScene(_view);
+    setScene(new QGraphicsScene(_view));
     _view->setScene(_scene);
     _view->setVisible(false);
     _view->setStyleSheet("border: 0px");
@@ -24,11 +24,6 @@ Screen::Screen() : _screenInitialized(false), _camera(0)
 Screen::~Screen()
 {
     //dtor
-    std::cout << "delete Screen " << this << std::endl;
-    for (unsigned int i = 0; i<_worldElements.size(); i++)
-    {
-        delete _worldElements[i];
-    }
     for (unsigned int i = 0; i<_forces.size(); i++)
     {
         delete _forces[i];
@@ -55,10 +50,8 @@ int Screen::update(double seconds)
     {
     	_forces[i]->apply();
     }
-    for (unsigned int i = 0; i < _worldElements.size(); i++)
-    {
-        _worldElements[i]->baseUpdate(seconds);
-    }
+    // Update children
+    WorldElement::update(seconds);
     // Handle collisions
     for (std::map<int, std::vector<Collider*>* >::iterator it=_collisionLayers.begin(); it!=_collisionLayers.end(); ++it)
     {
@@ -71,43 +64,11 @@ int Screen::update(double seconds)
             }
         }
     }
-    return 0;
-}
-
-int Screen::draw(Vector2d pos, double scale)
-{
     if (_camera) {
-        _pos = -_camera->getCameraPosition();
-        _scale = _camera->getCameraScale();
+        setPosition(-_camera->getCameraPosition());
+        setScale(_camera->getCameraScale());
     }
-    for (unsigned int i = 0; i < _worldElements.size(); i++)
-    {
-        _worldElements[i]->baseDraw(pos + _pos*scale, scale*_scale);
-    }
-    return WorldElement::draw(pos, scale);
-}
-
-// Fonctions d'ajouts
-void Screen::addWorldElement(WorldElement * we)
-{
-    _worldElements.push_back(we);
-#ifdef IN_QT
-    we->addedInScene(_scene);
-#else
-
-#endif
-}
-
-void Screen::deleteWorldElement(WorldElement * we)
-{
-    for (int i = 0; i<_worldElements.size(); i++)
-    {
-        if (we==_worldElements[i])
-        {
-            _worldElements.erase(_worldElements.begin()+i);
-            return;
-        }
-    }
+    return 0;
 }
 
 void Screen::addForce(Force * f)

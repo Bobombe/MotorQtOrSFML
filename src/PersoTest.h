@@ -49,6 +49,7 @@ public:
 
 protected:
     virtual int update(double seconds);
+    virtual int draw();
 };
 
 #endif

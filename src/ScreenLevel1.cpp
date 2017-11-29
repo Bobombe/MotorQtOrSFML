@@ -7,11 +7,12 @@
 
 ScreenLevel1::ScreenLevel1() : _zoomin(true)
 {
-    addWorldElement(new Sprite("./Ressources/Fond3.png"));
+    Sprite * s = new Sprite("./Ressources/Fond3.png");
+    s->setParent(this);
 
     PersoTest* p = new PersoTest();
     p->setPosition(Vector2d(200, 0));
-    addWorldElement(p);
+    p->setParent(this);
     addCollider(0, p->getCollider());
     p->setScreenId(1);
 
@@ -21,13 +22,23 @@ ScreenLevel1::ScreenLevel1() : _zoomin(true)
 
     Sprite *block4 = new Sprite("./Ressources/sprite.png", Vector2d(20, 40), Vector2d(40, 40), Vector2d(2000, 100));
     block4->setPosition(Vector2d(0, 600));
-    addWorldElement(block4);
+    block4->setParent(this);
     Collider *colBlock4 =  new Collider(block4);
+    colBlock4->initRectangular(0, 0, block4->getSize().x, block4->getSize().y);
+    addCollider(0, colBlock4);
+
+    block4 = new Sprite("./Ressources/sprite.png", Vector2d(20, 40), Vector2d(40, 40), Vector2d(2000, 1000));
+    block4->setPosition(Vector2d(0, 6000));
+    block4->setParent(this);
+    colBlock4 =  new Collider(block4);
     colBlock4->initRectangular(0, 0, block4->getSize().x, block4->getSize().y);
     addCollider(0, colBlock4);
 
     _camera = new Camera();
     p->setCamera(_camera);
+    block4 = new Sprite("./Ressources/sprite.png", Vector2d(20, 40), Vector2d(40, 40));
+    block4->setPosition(Vector2d(-40, -40));
+    block4->setParent(p);
 
 }
 
@@ -52,5 +63,6 @@ int ScreenLevel1::update(double seconds)
 //    } else if (_scale >= 1.5) {
 //        _zoomin = false;
 //    }
-    return Screen::update(seconds);
+    int ret = Screen::update(seconds);
+    return ret;
 }

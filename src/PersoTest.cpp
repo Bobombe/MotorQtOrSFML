@@ -4,11 +4,11 @@
 #include "Mot/Rectangle.h"
 #include "Mot/moteur2d.h"
 
-PersoTest::PersoTest() : AnimatedSprite("./Ressources/Perso.PNG"), _state(STANDING_RIGHT), _movingLeft(false), _movingRight(false), _jump(false), _onGround(-1), _camera(0)
+PersoTest::PersoTest() : AnimatedSprite("./Ressources/Perso.PNG"), _state(STANDING_RIGHT), _movingLeft(false), _movingRight(false),
+                        _jump(false), _onGround(-1), _camera(0)
 {
-	_pos.x = 100;
-	_pos.y = 200;
-	_mousePos = _pos;
+	setPosition(Vector2d(100, 200));
+	_mousePos = getPosition();
 	_trust = 0;
 	// Stand still
 	addSubRect(STANDING_RIGHT, Rectangle(0, 60, 40, 60));
@@ -72,137 +72,147 @@ int PersoTest::update(double seconds)
 	double fixedThrust = 100;
 	if (_trust) {
 		_trust+= fixedThrust*seconds;
-		Vector2d accelTrust = (_mousePos-_pos);
+		Vector2d accelTrust = (_mousePos-getPosition());
 		accelTrust.normalize();
 		accelTrust*=_trust;
-		_accel += accelTrust;
+		moveAcceleration(accelTrust);
 	}
     /////////////////////////////////////////
    //       DEPLACEMENTS HORIZONTAUX      //
   /////////////////////////////////////////
-   if (_movingRight && !_movingLeft) {
-       _speed.x+=maxAccel*seconds;
-       if (_speed.x>maxSpeed) {
-           _speed.x=maxSpeed;
-       }
-       if(_onGround!=_pos.y) {
-           if (_state != JUMPING_RIGHT) {
-               _state = JUMPING_RIGHT;
-               setAnimation(JUMPING_RIGHT);
-           }
-       } else {
-           if (_speed.x < 0) {
-               if (_state != STOPPING_RIGHT) {
-                   _state = STOPPING_RIGHT;
-                   setAnimation(STOPPING_RIGHT);
-               }
-           } else {
-               if (_state != RUNNING_RIGHT) {
-                   _state = RUNNING_RIGHT;
-                   setAnimation(RUNNING_RIGHT);
-               }
-           }
-       }
-   } else if (_movingLeft && !_movingRight) {
-       _speed.x-=maxAccel*seconds;
-       if (_speed.x<-maxSpeed) {
-           _speed.x=-maxSpeed;
-       }
-       if(_onGround!=_pos.y) {
-           if (_state != JUMPING_LEFT) {
-               _state = JUMPING_LEFT;
-               setAnimation(JUMPING_LEFT);
-           }
-       } else {
-           if (_speed.x > 0) {
-               if (_state != STOPPING_LEFT) {
-                   _state = STOPPING_LEFT;
-                   setAnimation(STOPPING_LEFT);
-               }
-           } else {
-               if (_state != RUNNING_LEFT) {
-                   _state = RUNNING_LEFT;
-                   setAnimation(RUNNING_LEFT);
-               }
-           }
-       }
-   } else { // Slowing
-       if (_speed.x > 0) {
-           //m_orienteDroite = true;
-           _speed.x-=maxAccel/1.2*seconds;
-           if (_speed.x<=0) {
-               _speed.x=0;
-               if (_onGround==_pos.y && _state != STANDING_RIGHT) {
-                   _state = STANDING_RIGHT;
-                   setAnimation(STANDING_RIGHT);
-               }
-           } else if (_onGround==_pos.y && _state != STOPPING_RIGHT) {
-               _state = STOPPING_RIGHT;
-               setAnimation(STOPPING_RIGHT);
-           }
-       } else if (_speed.x < 0) {
-           //m_orienteDroite = false;
-           _speed.x+=maxAccel/1.2*seconds;
-           if (_speed.x>=0) {
-               _speed.x=0;
-               if (_onGround==_pos.y && _state != STANDING_LEFT) {
-                   _state = STANDING_LEFT;
-                   setAnimation(STANDING_LEFT);
-               }
-           } else if (_onGround==_pos.y && _state != STOPPING_LEFT) {
-               _state = STOPPING_LEFT;
-               setAnimation(STOPPING_LEFT);
-           }
-       }
-   }
+    Vector2d newSpeed = getSpeed();
+    if (_movingRight && !_movingLeft) {
+        newSpeed.x+=maxAccel*seconds;
+        if (newSpeed.x>maxSpeed) {
+            newSpeed.x=maxSpeed;
+        }
+        if(_onGround!=getPosition().y) {
+            if (_state != JUMPING_RIGHT) {
+                _state = JUMPING_RIGHT;
+                setAnimation(JUMPING_RIGHT);
+            }
+        } else {
+            if (newSpeed.x < 0) {
+                if (_state != STOPPING_RIGHT) {
+                    _state = STOPPING_RIGHT;
+                    setAnimation(STOPPING_RIGHT);
+                }
+            } else {
+                if (_state != RUNNING_RIGHT) {
+                    _state = RUNNING_RIGHT;
+                    setAnimation(RUNNING_RIGHT);
+                }
+            }
+        }
+    } else if (_movingLeft && !_movingRight) {
+        newSpeed.x-=maxAccel*seconds;
+        if (newSpeed.x<-maxSpeed) {
+            newSpeed.x=-maxSpeed;
+        }
+        if(_onGround!=getPosition().y) {
+            if (_state != JUMPING_LEFT) {
+                _state = JUMPING_LEFT;
+                setAnimation(JUMPING_LEFT);
+            }
+        } else {
+            if (newSpeed.x > 0) {
+                if (_state != STOPPING_LEFT) {
+                    _state = STOPPING_LEFT;
+                    setAnimation(STOPPING_LEFT);
+                }
+            } else {
+                if (_state != RUNNING_LEFT) {
+                    _state = RUNNING_LEFT;
+                    setAnimation(RUNNING_LEFT);
+                }
+            }
+        }
+    } else { // Slowing
+        if (newSpeed.x > 0) {
+            //m_orienteDroite = true;
+            newSpeed.x-=maxAccel/1.2*seconds;
+            if (newSpeed.x<=0) {
+                newSpeed.x=0;
+                if (_onGround==getPosition().y && _state != STANDING_RIGHT) {
+                    _state = STANDING_RIGHT;
+                    setAnimation(STANDING_RIGHT);
+                }
+            } else if (_onGround==getPosition().y && _state != STOPPING_RIGHT) {
+                _state = STOPPING_RIGHT;
+                setAnimation(STOPPING_RIGHT);
+            }
+        } else if (newSpeed.x < 0) {
+            //m_orienteDroite = false;
+            newSpeed.x+=maxAccel/1.2*seconds;
+            if (newSpeed.x>=0) {
+                newSpeed.x=0;
+                if (_onGround==getPosition().y && _state != STANDING_LEFT) {
+                    _state = STANDING_LEFT;
+                    setAnimation(STANDING_LEFT);
+                }
+            } else if (_onGround==getPosition().y && _state != STOPPING_LEFT) {
+                _state = STOPPING_LEFT;
+                setAnimation(STOPPING_LEFT);
+            }
+        }
+    }
     /////////////////////////////////////////
-   //        DEPLACEMENTS VERTICAUX       //
-  /////////////////////////////////////////
-   if(_onGround==_pos.y) {
-       if(_jump) {
-           _onGround=-1;
-           _speed.y += -jumpAccel;
-           _jump = false;
-           if (_speed.x>0) {
-               if (_state != JUMPING_RIGHT) {
-                   _state = JUMPING_RIGHT;
-                   setAnimation(JUMPING_RIGHT);
-               }
-           } else if (_speed.x<0) {
-               if (_state != JUMPING_LEFT) {
-                  _state = JUMPING_LEFT;
-                  setAnimation(JUMPING_LEFT);
-              }
-           } else if (_state == STANDING_RIGHT) {
-               _state = JUMPING_RIGHT;
-               setAnimation(JUMPING_RIGHT);
-           } else {
-               _state = JUMPING_LEFT;
-               setAnimation(JUMPING_LEFT);
-           }
-       }
-   } else {
-       _onGround = -1;
-   }
+    //        DEPLACEMENTS VERTICAUX       //
+    /////////////////////////////////////////
+    if(_onGround==getPosition().y) {
+        if(_jump) {
+            _onGround=-1;
+            newSpeed.y += -jumpAccel;
+            _jump = false;
+            if (newSpeed.x>0) {
+                if (_state != JUMPING_RIGHT) {
+                    _state = JUMPING_RIGHT;
+                    setAnimation(JUMPING_RIGHT);
+                }
+            } else if (newSpeed.x<0) {
+                if (_state != JUMPING_LEFT) {
+                    _state = JUMPING_LEFT;
+                    setAnimation(JUMPING_LEFT);
+                }
+            } else if (_state == STANDING_RIGHT) {
+                _state = JUMPING_RIGHT;
+                setAnimation(JUMPING_RIGHT);
+            } else {
+                _state = JUMPING_LEFT;
+                setAnimation(JUMPING_LEFT);
+            }
+        }
+    } else {
+        _onGround = -1;
+    }
+    setSpeed(newSpeed);
 	AnimatedSprite::update(seconds);
-   if (_camera) {
-       Vector2d camPos = _camera->getCameraPosition();
-       //camPos.x += seconds*50;
-       Vector2d camSize = _camera->getCameraSize();
-       if ( _absolutePos.x < camSize.x/10.) {
-           camPos.x += _absolutePos.x - camSize.x/10.;
-       } else if ( _absolutePos.x + _absoluteSize.x > camSize.x*9/10.) {
-           camPos.x += _absolutePos.x + _absoluteSize.x - camSize.x*9/10.;
-       }
-       if ( _absolutePos.y < camSize.y/10.) {
-           camPos.y += _absolutePos.y - camSize.y/10.;
-       } else if ( _absolutePos.y + _absoluteSize.y > camSize.y*9/10.) {
-           camPos.y += _absolutePos.y + _absoluteSize.y - camSize.y*9/10.;
-       }
-       _camera->setCameraPosition(camPos);
-   }
-	return 0;
+    if (_camera) {
+        Vector2d camPos = _camera->getCameraPosition();
+        //camPos.x += seconds*50;
+        Vector2d camSize = _camera->getCameraSize();
+        if ( getAbsolutePosition().x < camSize.x/10.) {
+            camPos.x += getAbsolutePosition().x - camSize.x/10.;
+        } else if ( getAbsolutePosition().x + getAbsoluteSize().x > camSize.x*9./10.) {
+            camPos.x += getAbsolutePosition().x + getAbsoluteSize().x - camSize.x*9./10.;
+        }
+        if ( getAbsolutePosition().y < camSize.y/10.) {
+            camPos.y += getAbsolutePosition().y - camSize.y/10.;
+        } else if ( getAbsolutePosition().y + getAbsoluteSize().y > camSize.y*9./10.) {
+            camPos.y += getAbsolutePosition().y + getAbsoluteSize().y - camSize.y*9./10.;
+        }
+        _camera->setCameraPosition(camPos);
+    }
+    return 0;
 }
+
+int PersoTest::draw()
+{
+    AnimatedSprite::draw();
+
+    return 0;
+}
+
 void PersoTest::mouseMoved(Vector2d pos)
 {
 	_mousePos = pos;
@@ -217,7 +227,7 @@ void PersoTest::keyPressed(Key::Key key)
 	} else if (key == Key::Right) {
         _movingRight= true;
 	} else if (key == Key::Up) {
-	    if (_onGround==_pos.y) {
+	    if (_onGround==getPosition().y) {
 	        _jump = true;
 	    }
 	} else if (key == Key::S) {
@@ -242,36 +252,38 @@ void PersoTest::keyReleased(Key::Key key)
 
 void PersoTest::handleCollisionWith(WorldElement * weColided, double secsSinceLastFrame, int nbAdditionnalInfo...)
 {
-    Vector2d oldPos = _pos - (_speed*secsSinceLastFrame);
+    Vector2d oldPos = getPosition() - (getSpeed()*secsSinceLastFrame);
     Vector2d oldPosColided = weColided->getPosition()- (weColided->getSpeed()*secsSinceLastFrame);
     double diffLR = oldPos.x - (oldPosColided.x+weColided->getRelativeSize().x);
-    double diffRL = oldPos.x+_relativeSize.x - oldPosColided.x;
+    double diffRL = oldPos.x+getRelativeSize().x - oldPosColided.x;
     double diffTB = oldPos.y - (oldPosColided.y+weColided->getRelativeSize().y);
-    double diffBT = oldPos.y+_relativeSize.y - oldPosColided.y;
+    double diffBT = oldPos.y+getRelativeSize().y - oldPosColided.y;
 
+    Vector2d newPos = getPosition();
+    Vector2d newSpeed = getSpeed();
     if (diffRL <= 0 && diffRL < diffBT && diffRL < -diffTB) {
         // Collision on Right of Perso
-        _speed.x = 0;
-        _pos.x = weColided->getPosition().x-_relativeSize.x;
-        if (_onGround==_pos.y && _state != STANDING_RIGHT) {
+        newSpeed.x = 0;
+        newPos.x = weColided->getPosition().x-getRelativeSize().x;
+        if (_onGround==newPos.y && _state != STANDING_RIGHT) {
             _state = STANDING_RIGHT;
             setAnimation(STANDING_RIGHT);
         }
 
     } else if (diffLR >= 0 && diffLR > -diffBT && diffLR > diffTB) {
         // Collision on Left of Perso
-        _speed.x = 0;
-        _pos.x = weColided->getPosition().x+weColided->getRelativeSize().x;
-        if (_onGround==_pos.y && _state != STANDING_LEFT) {
+        newSpeed.x = 0;
+        newPos.x = weColided->getPosition().x+weColided->getRelativeSize().x;
+        if (_onGround==newPos.y && _state != STANDING_LEFT) {
             _state = STANDING_LEFT;
             setAnimation(STANDING_LEFT);
         }
     } else if (diffBT <= -diffTB) {
         // Collision on Bottom of Perso
-        _speed.y = 0;
-        _pos.y = weColided->getPosition().y-_relativeSize.y;
-        _onGround = _pos.y;
-        if (_speed.x==0) {
+        newSpeed.y = 0;
+        newPos.y = weColided->getPosition().y-getRelativeSize().y;
+        _onGround = newPos.y;
+        if (newSpeed.x==0) {
             if (_state == STANDING_RIGHT || _state == JUMPING_RIGHT) {
                 _state = STANDING_RIGHT;
                 setAnimation(STANDING_RIGHT);
@@ -282,9 +294,11 @@ void PersoTest::handleCollisionWith(WorldElement * weColided, double secsSinceLa
         }
     } else {
         // Collision on top of Perso
-        _speed.y = 0;
-        _pos.y = weColided->getPosition().y+weColided->getRelativeSize().y;
+        newSpeed.y = 0;
+        newPos.y = weColided->getPosition().y+weColided->getRelativeSize().y;
     }
+    setPosition(newPos);
+    setSpeed(newSpeed);
 
 
 }

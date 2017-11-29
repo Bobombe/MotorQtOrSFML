@@ -57,25 +57,19 @@ public:
     Vector2d getSubRectSize();
     void setSubRectSize(Vector2d subRectSize);
 
-    Vector2d getSize();
-    void setSize(Vector2d spriteSize);
-
     void setSubRect(Vector2d subRectPos, Vector2d subRectSize);
 
-    virtual void setScale(double scale);
+protected:
 
+    virtual int draw();
 
     // Specifics Functions
 #ifdef IN_QT
-    virtual void addedInScene(QGraphicsScene * scene);
+    virtual void updateScene(QGraphicsScene * scene);
 
 #else
 
 #endif
-
-protected:
-
-    virtual int draw(Vector2d pos = Vector2d(), double scale = 1);
 };
 
 #endif /* SRC_MOT_SPRITE_H_ */

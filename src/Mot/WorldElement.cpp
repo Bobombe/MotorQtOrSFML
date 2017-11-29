@@ -1,9 +1,21 @@
 
 #include "WorldElement.h"
 
-WorldElement::WorldElement() : _collider(0), _scale(1), _absoluteScale(1)
+WorldElement::WorldElement() : _collider(0), _scale(1), _absoluteScale(1), _parent(0)
 {
+#ifdef IN_QT
+    _scene = 0;
+#else
+#endif
+}
 
+WorldElement::WorldElement(WorldElement * parent) : _collider(0), _scale(1), _absoluteScale(1), _parent(0)
+{
+#ifdef IN_QT
+    _scene = 0;
+#else
+#endif
+    setParent(parent);
 }
 
 WorldElement::~WorldElement()
@@ -11,30 +23,38 @@ WorldElement::~WorldElement()
     if (_collider) {
         delete _collider;
     }
+    if (_parent) {
+        for (int i = 0; i < _parent->_children.size(); i++) {
+            if (_parent->_children[i] == this) {
+                _parent->_children.erase(_parent->_children.begin()+i);
+            }
+        }
+    }
+    for (int i = 0; i < _children.size(); i++) {
+        delete _children[i];
+    }
 }
 
 int WorldElement::baseUpdate(double seconds)
 {
 	int retVal = update(seconds);
-    _speed += _accel*seconds;
-    _pos += _speed*seconds;
     return retVal;
 }
-int WorldElement::baseDraw(Vector2d pos, double scale)
+int WorldElement::baseDraw()
 {
-	int retVal = draw(pos, scale);
+	int retVal = draw();
 	_accel.toNull();
     return retVal;
 }
 
 
+
+/////////////////////////////////////////////////
+// GETTER OF BASED CHARACTERISTIQUES
+/////////////////////////////////////////////////
 Vector2d WorldElement::getPosition()
 {
     return _pos;
-}
-Vector2d WorldElement::getAbsolutePosition()
-{
-    return _absolutePos;
 }
 Vector2d WorldElement::getSpeed()
 {
@@ -48,18 +68,45 @@ Vector2d WorldElement::getSize()
 {
     return _size;
 }
-Vector2d WorldElement::getAbsoluteSize()
+double WorldElement::getScale()
 {
-    return _absoluteSize;
+    return _scale;
+}
+
+/////////////////////////////////////////////////
+// GETTER OF DERIVATIVE FROM CHARACTERISTIQUES
+/////////////////////////////////////////////////
+Vector2d WorldElement::getAbsolutePosition()
+{
+    return _absolutePos;
 }
 Vector2d WorldElement::getRelativeSize()
 {
     return _relativeSize;
 }
+Vector2d WorldElement::getAbsoluteSize()
+{
+    return _absoluteSize;
+}
+double WorldElement::getAbsoluteScale()
+{
+    return _absoluteScale;
+}
 
+/////////////////////////////////////////////////
+// SETTER OF BASED CHARACTERISTIQUES
+/////////////////////////////////////////////////
 void WorldElement::setPosition(Vector2d pos)
 {
     _pos = pos;
+    if (_parent) {
+        _absolutePos = _pos*_parent->_absoluteScale + _parent->_absolutePos;
+    } else {
+        _absolutePos = _pos;
+    }
+    for (int i = 0; i < _children.size(); i++) {
+        _children[i]->setPosition(_children[i]->getPosition());
+    }
 }
 void WorldElement::setSpeed(Vector2d speed)
 {
@@ -72,12 +119,46 @@ void WorldElement::setAcceleration(Vector2d accel)
 void WorldElement::setSize(Vector2d size)
 {
     _size = size;
+    _relativeSize = _size*_scale;
+    _absoluteSize = _size*_absoluteScale;
+}
+void WorldElement::setScale(double scale)
+{
+    _scale = scale;
+    _relativeSize = _size*_scale;
+    _absoluteSize = _size*_absoluteScale;
+    if (_parent) {
+        _absoluteScale = _scale*_parent->_absoluteScale;
+    } else {
+        _absoluteScale = _scale;
+    }
+    for (int i = 0; i < _children.size(); i++) {
+        _children[i]->updateCharacteristics();
+    }
+}
+void WorldElement::updateCharacteristics()
+{
+    _relativeSize = _size*_scale;
+    _absoluteSize = _size*_absoluteScale;
+
+    if (_parent) {
+        _absoluteScale = _scale*_parent->_absoluteScale;
+        _absolutePos = _pos*_parent->_absoluteScale + _parent->_absolutePos;
+    } else {
+        _absoluteScale = _scale;
+        _absolutePos = _pos;
+    }
+    for (int i = 0; i < _children.size(); i++) {
+        _children[i]->updateCharacteristics();
+    }
 }
 
-
+/////////////////////////////////////////////////
+// MOVER OF BASED CHARACTERISTIQUES
+/////////////////////////////////////////////////
 void WorldElement::movePosition(Vector2d deltaPos)
 {
-    _pos += deltaPos;
+    setPosition(_pos + deltaPos);
 }
 void WorldElement::moveSpeed(Vector2d deltaSpeed)
 {
@@ -88,6 +169,9 @@ void WorldElement::moveAcceleration(Vector2d deltaAccel)
     _accel += deltaAccel;
 }
 
+/////////////////////////////////////////////////
+// HANDLE COLLIDER
+/////////////////////////////////////////////////
 Collider* WorldElement::getCollider()
 {
     return _collider;
@@ -98,33 +182,78 @@ void WorldElement::setCollider(Collider* collider)
 }
 
 
-double WorldElement::getScale()
+
+void WorldElement::setParent(WorldElement * parent)
 {
-    return _scale;
+    // first unset
+    if (_parent) {
+        for (int i = 0; i < _parent->_children.size(); i++) {
+            if (_parent->_children[i] == this) {
+                _parent->_children.erase(_parent->_children.begin()+i);
+            }
+        }
+    }
+    // Set
+    _parent = parent;
+    if (_parent) {
+        _parent->_children.push_back(this);
+    }
+#ifdef IN_QT
+    updateScene();
+#else
+#endif
+    updateCharacteristics();
 }
-double WorldElement::getAbsoluteScale()
+
+int WorldElement::update(double seconds)
 {
-    return _absoluteScale;
+    int ret = 0;
+    _speed += _accel*seconds;
+    movePosition(_speed*seconds);
+    for (int i = 0; i < _children.size(); i++) {
+        ret = _children[i]->baseUpdate(seconds);
+    }
+    return ret;
 }
-void WorldElement::setScale(double scale)
+int WorldElement::draw()
 {
-    if (scale != _scale) {
-        _scale = scale;
+    int ret = 0;
+    for (int i = 0; i < _children.size(); i++) {
+        ret = _children[i]->baseDraw();
+    }
+    return ret;
+}
+
+
+
+#ifdef IN_QT
+void WorldElement::updateScene()
+{
+    QGraphicsScene * scene = 0;
+    WorldElement * parent = _parent;
+    while (parent && !scene) {
+        scene = parent->_scene;
+        parent = parent->_parent;
+    }
+    setScene(scene);
+}
+
+void WorldElement::setScene(QGraphicsScene * scene)
+{
+    updateScene(scene);
+    for (int i = 0; i < _children.size(); i++) {
+        _children[i]->updateScene(scene);
     }
 }
 
-int WorldElement::draw(Vector2d pos, double scale)
+void WorldElement::updateScene(QGraphicsScene * scene)
 {
-    _absolutePos = pos + _pos*scale;
-    _absoluteScale = scale * _scale;
-    _absoluteSize = _size * _absoluteScale;
-    _relativeSize = _size * _scale;
-    return 0;
+    _scene = scene;
 }
 
+#else
 
-
-
+#endif
 
 
 

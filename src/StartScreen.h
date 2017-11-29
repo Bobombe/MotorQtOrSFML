@@ -13,7 +13,8 @@ public:
     StartScreen();
     virtual ~StartScreen();
 
-    virtual int draw(Vector2d pos = Vector2d(), double scale = 1);
+protected:
+    virtual int draw();
 };
 
 #endif /* SRC_STARTSCREEN_H_ */

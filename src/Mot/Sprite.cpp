@@ -65,19 +65,20 @@ Sprite::~Sprite()
 }
 
 
-int Sprite::draw(Vector2d pos, double scale)
+int Sprite::draw()
 {
 #ifdef IN_QT
-    _manipulationItem->setPos(_pos.x*scale + pos.x, _pos.y*scale + pos.y);
-    _manipulationItem->setScale(_scale*scale);
+    _manipulationItem->setPos(getAbsolutePosition().x, getAbsolutePosition().y);
+    _manipulationItem->setScale(getAbsoluteScale());
 
 #else
 
-    _sprite.setPosition(_pos.x*scale + pos.x, _pos.y*scale + pos.y);
-    _sprite.setScale(_scale*scale, _scale*scale);
+    _sprite.setPosition(getAbsolutePosition().x, getAbsolutePosition().y);
+    _sprite.setScale(_absoluteScale, _absoluteScale);
     Moteur2D::getInstance()->getWindow()->draw(_sprite);
 #endif
-    return WorldElement::draw(pos, scale);
+    int ret = WorldElement::draw();
+    return ret;
 }
 
 CoreSprite Sprite::getCoreSprite()
@@ -105,7 +106,7 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
         _subRectSize = _texture->getSize();
         _subRectPos.x = _subRectPos.y = 0;
     }
-    _size = _subRectSize;
+    setSize(_subRectSize);
 
 #ifdef IN_QT
     _sprite = _texture->getTexture()->copy(_subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
@@ -125,7 +126,7 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
 {
     _subRectPos = subRectPos;
     _subRectSize = subRectSize;
-    _size = spriteSize;
+    setSize(spriteSize);
     // if null size, take the whole texture as sprite
     if (_subRectSize.x == 0 && _subRectSize.y == 0)
     {
@@ -145,12 +146,12 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
 
 
     #ifdef IN_QT
-        _sprite = CoreSprite(_size.x, _size.y);
+        _sprite = CoreSprite(getSize().x, getSize().y);
         _sprite.fill(Qt::transparent);
         CoreSprite* texture = _texture->getTexture();
         QPainter painter(&_sprite);
-        for (double i = 0; i < _size.x; i+=_subRectSize.x) {
-            for (double j = 0; j < _size.y; j+=_subRectSize.y) {
+        for (double i = 0; i < getSize().x; i+=_subRectSize.x) {
+            for (double j = 0; j < getSize().y; j+=_subRectSize.y) {
                 painter.drawPixmap(i, j, _subRectSize.x, _subRectSize.y, *texture
                         , _subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
             }
@@ -180,7 +181,7 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
         _intermediateTexture->loadFromImage(smallImg);
         _intermediateTexture->setRepeated(true);
         _sprite.setTexture(*_intermediateTexture);
-        sf::IntRect subTextureRect(0, 0, _size.x, _size.y);
+        sf::IntRect subTextureRect(0, 0, getSize().x, getSize().y);
         _sprite.setTextureRect(subTextureRect);
 
     #endif
@@ -214,34 +215,25 @@ void Sprite::setSubRectSize(Vector2d subRectSize)
     setSprite(_texturePath, _subRectPos, subRectSize);
 }
 
-Vector2d Sprite::getSize()
-{
-    return _size;
-}
-void Sprite::setSize(Vector2d spriteSize)
-{
-    setSprite(_texturePath, _subRectPos, _subRectSize, spriteSize);
-}
-
 void Sprite::setSubRect(Vector2d subRectPos, Vector2d subRectSize)
 {
     setSprite(_texturePath, subRectPos, subRectSize);
 }
 
-void Sprite::setScale(double scale)
-{
-    if (scale != _scale) {
-        _scale = scale;
-    }
-}
-
 
 // Specifics Functions
 #ifdef IN_QT
-void Sprite::addedInScene(QGraphicsScene * scene)
+void Sprite::updateScene(QGraphicsScene * scene)
 {
-    _manipulationItem = scene->addPixmap(_sprite);
-    _manipulationItem->setScale(_scale);
+    if (_manipulationItem) {
+        delete _manipulationItem;
+        _manipulationItem = 0;
+    }
+    if (scene) {
+        _manipulationItem = scene->addPixmap(_sprite);
+        _manipulationItem->setScale(getAbsoluteScale());
+    }
+    WorldElement::updateScene(scene);
 }
 
 #else
