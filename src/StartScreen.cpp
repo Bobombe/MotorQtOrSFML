@@ -10,6 +10,7 @@
 #include "PersoTest.h"
 #include "TestGravity.h"
 #include "Mot/Collider.h"
+#include "Mot/Text.h"
 
 StartScreen::StartScreen() : Screen(), _bt("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),
                                             "./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120))
@@ -71,6 +72,9 @@ StartScreen::StartScreen() : Screen(), _bt("./Ressources/Perso.PNG", Vector2d(0,
 
     setScale(0.8);
     p->setScale(1.25);
+
+    Text * text = new Text("Space Cab", this);
+    text->setPosition(Vector2d(500, 400));
 }
 
 StartScreen::~StartScreen()

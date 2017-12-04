@@ -61,13 +61,13 @@ void Collider::detectRectOnRect (Collider * collider1, Collider * collider2, dou
     double scale1 = collider1->_we->getScale();
     double scale2 = collider2->_we->getScale();
 
-    double col1X = collider1->_we->getPosition().x + collider1->_deltaX*scale1;
-    double col1Y = collider1->_we->getPosition().y + collider1->_deltaY*scale1;
+    double col1X = collider1->_we->getAbsolutePosition().x + collider1->_deltaX*scale1;
+    double col1Y = collider1->_we->getAbsolutePosition().y + collider1->_deltaY*scale1;
     double col1W = collider1->_compo1*scale1;
     double col1H = collider1->_compo2*scale1;
 
-    double col2X = collider2->_we->getPosition().x + collider2->_deltaX*scale2;
-    double col2Y = collider2->_we->getPosition().y + collider2->_deltaY*scale2;
+    double col2X = collider2->_we->getAbsolutePosition().x + collider2->_deltaX*scale2;
+    double col2Y = collider2->_we->getAbsolutePosition().y + collider2->_deltaY*scale2;
     double col2W = collider2->_compo1*scale2;
     double col2H = collider2->_compo2*scale2;
 

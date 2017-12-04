@@ -46,14 +46,13 @@ void Button::buttonPressed(MouseButton::MouseButton button, Vector2d pos)
 }
 void Button::buttonReleased(MouseButton::MouseButton button, Vector2d pos)
 {
-    if (posOverButton(pos)) {
-        if (_buttonState == BS_SELECTED) {
-            _activated = 2;// Activate button during 2 frames
-            _buttonState = BS_UP;
+    if (posOverButton(pos) && _buttonState == BS_SELECTED) {
+            _activated = 1;// Activate button during 2 frames
+            _buttonState = BS_HOVER;
             swichTexture();
-        }
+    } else {
+        _buttonState == BS_UP;
     }
-    _buttonState = BS_UP;
 }
 void Button::mouseMoved(Vector2d pos)
 {

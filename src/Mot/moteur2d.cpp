@@ -69,9 +69,12 @@ void Moteur2D::init(int width, int height, std::string windowName, int argc, cha
 
     sf::ContextSettings settings;
     settings.antialiasingLevel = 4;
-    _window = new sf::RenderWindow(sf::VideoMode(width, height), windowName, sf::Style::Default, settings);
+    _window = new sf::RenderWindow(sf::VideoMode(width, height), windowName, sf::Style::Close, settings);
     _window->setVerticalSyncEnabled(true);
     _window->setKeyRepeatEnabled(false);
+
+    // Prepare Font
+    _font.loadFromFile("./motorResources/OpenSans-Regular.ttf");
 #endif
 
     _screenSize.x = width;
@@ -291,5 +294,14 @@ QWidget * Moteur2D::getView()
 sf::RenderWindow * Moteur2D::getWindow()
 {
     return _window;
+}
+sf::Font & Moteur2D::getFont()
+{
+    return _font;
+}
+sf::Font & Moteur2D::setFont(std::string fontPath)
+{
+    _font.loadFromFile(fontPath);
+    return _font;
 }
 #endif

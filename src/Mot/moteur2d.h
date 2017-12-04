@@ -1,6 +1,9 @@
 #ifndef MOTEUR2D_H
 #define MOTEUR2D_H
+#include <sstream>
 
+#define STOI( x ) static_cast< std::ostringstream & >( \
+        ( std::ostringstream() << std::dec << x ) ).str()
 
 //// ToDo reimplement
 //#include "mouselistener.h"
@@ -62,6 +65,7 @@ protected:
 #else
     sf::RenderWindow *_window;
     sf::Clock _clock;
+    sf::Font _font;
 #endif
 
     // Managing Textures
@@ -128,6 +132,8 @@ public:
 #else
 
     sf::RenderWindow * getWindow();
+    sf::Font & getFont();
+    sf::Font & setFont(std::string fontPath);
 #endif
 
 

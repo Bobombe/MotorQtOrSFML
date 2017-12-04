@@ -16,6 +16,8 @@
 					<Add directory="../SFML/include" />
 					<Add directory="./src" />
 					<Add directory="./src/Mot" />
+					<Add directory="src" />
+					<Add directory="src/Mot" />
 				</Compiler>
 				<Linker>
 					<Add library="sfml-graphics-d" />
@@ -34,6 +36,8 @@
 					<Add directory="../SFML/include" />
 					<Add directory="./src" />
 					<Add directory="./src/Mot" />
+					<Add directory="src" />
+					<Add directory="src/Mot" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -47,6 +51,8 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="src/Dephazor.cpp" />
+		<Unit filename="src/Dephazor.h" />
 		<Unit filename="src/GameManager.cpp" />
 		<Unit filename="src/GameManager.h" />
 		<Unit filename="src/Mot/AnimatedSprite.cpp" />
@@ -67,6 +73,8 @@
 		<Unit filename="src/Mot/MouseAndKeyListener.h" />
 		<Unit filename="src/Mot/MouseListener.cpp" />
 		<Unit filename="src/Mot/MouseListener.h" />
+		<Unit filename="src/Mot/Obstacle.cpp" />
+		<Unit filename="src/Mot/Obstacle.h" />
 		<Unit filename="src/Mot/Rectangle.cpp" />
 		<Unit filename="src/Mot/Rectangle.h" />
 		<Unit filename="src/Mot/Screen.cpp" />
@@ -75,6 +83,8 @@
 		<Unit filename="src/Mot/ScreenManager.h" />
 		<Unit filename="src/Mot/Sprite.cpp" />
 		<Unit filename="src/Mot/Sprite.h" />
+		<Unit filename="src/Mot/Text.cpp" />
+		<Unit filename="src/Mot/Text.h" />
 		<Unit filename="src/Mot/Texture.cpp" />
 		<Unit filename="src/Mot/Texture.h" />
 		<Unit filename="src/Mot/Vector2d.cpp" />
@@ -83,12 +93,22 @@
 		<Unit filename="src/Mot/WorldElement.h" />
 		<Unit filename="src/Mot/moteur2d.cpp" />
 		<Unit filename="src/Mot/moteur2d.h" />
+		<Unit filename="src/Opponent.cpp" />
+		<Unit filename="src/Opponent.h" />
 		<Unit filename="src/PersoTest.cpp" />
 		<Unit filename="src/PersoTest.h" />
+		<Unit filename="src/Planet.cpp" />
+		<Unit filename="src/Planet.h" />
+		<Unit filename="src/Pod.cpp" />
+		<Unit filename="src/Pod.h" />
 		<Unit filename="src/ScreenLevel1.cpp" />
 		<Unit filename="src/ScreenLevel1.h" />
+		<Unit filename="src/Spaceship.cpp" />
+		<Unit filename="src/Spaceship.h" />
 		<Unit filename="src/StartScreen.cpp" />
 		<Unit filename="src/StartScreen.h" />
+		<Unit filename="src/StartScreenLD40.cpp" />
+		<Unit filename="src/StartScreenLD40.h" />
 		<Unit filename="src/Test.cpp" />
 		<Unit filename="src/TestGravity.cpp" />
 		<Unit filename="src/TestGravity.h" />

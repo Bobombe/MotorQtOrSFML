@@ -74,7 +74,7 @@ int Sprite::draw()
 #else
 
     _sprite.setPosition(getAbsolutePosition().x, getAbsolutePosition().y);
-    _sprite.setScale(_absoluteScale, _absoluteScale);
+    _sprite.setScale(getAbsoluteScale(), getAbsoluteScale());
     Moteur2D::getInstance()->getWindow()->draw(_sprite);
 #endif
     int ret = WorldElement::draw();

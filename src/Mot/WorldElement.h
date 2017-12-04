@@ -12,6 +12,7 @@
 #endif
 #include <iostream>
 #include <string>
+#include <vector>
 class Collider;
 class WorldElement {
 
@@ -71,7 +72,7 @@ public:
     /////////////////////////////////////////////////
     // SETTER OF BASED CHARACTERISTICS
     /////////////////////////////////////////////////
-    void setPosition(Vector2d pos);
+    virtual void setPosition(Vector2d pos);
     void setSpeed(Vector2d speed);
     void setAcceleration(Vector2d accel);
     void setSize(Vector2d size);
@@ -93,6 +94,7 @@ public:
     void setCollider(Collider* collider);
 
 
+    WorldElement * getParent();
     void setParent(WorldElement * parent);
 
 protected:

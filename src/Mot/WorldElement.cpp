@@ -183,6 +183,10 @@ void WorldElement::setCollider(Collider* collider)
 
 
 
+WorldElement * WorldElement::getParent()
+{
+    return _parent;
+}
 void WorldElement::setParent(WorldElement * parent)
 {
     // first unset
@@ -202,6 +206,7 @@ void WorldElement::setParent(WorldElement * parent)
     updateScene();
 #else
 #endif
+    _pos = (_absolutePos-_parent->getAbsolutePosition())/_parent->getAbsoluteScale();
     updateCharacteristics();
 }
 
