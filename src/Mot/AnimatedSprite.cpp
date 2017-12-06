@@ -3,16 +3,19 @@
 
 AnimatedSprite::AnimatedSprite() : Sprite(), _tempo(0)
 {
+    _weName = "AnimatedSprite";
 }
 AnimatedSprite::AnimatedSprite(std::string texturePath) : Sprite(texturePath), _tempo(0)
 {
+    _weName = "AnimatedSprite";
 
 }
 
 AnimatedSprite::AnimatedSprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize) :
-		Sprite(texturePath, subRectPos, subRectSize), _tempo(0)
+		Sprite(texturePath, subRectPos, subRectSize), _tempo(0)//, _weName("AnimatedSprite")
 {
 	addSubRect(0, Rectangle(subRectPos, subRectSize) );
+    _weName = "AnimatedSprite";
 }
 
 AnimatedSprite::~AnimatedSprite()

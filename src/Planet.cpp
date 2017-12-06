@@ -3,6 +3,7 @@
 
 Planet::Planet(PlanetType podType, bool left, WorldElement * parent) : Sprite(), _planetType(podType), _cabCaller(0), _freeCab(false)
 {
+    _weName = "Planet";
     setParent(parent);
 
     double baseSpeed = 100;

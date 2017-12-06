@@ -13,6 +13,7 @@ Spaceship::Spaceship() : Sprite("./resLD40/spaceship.png"),
                         _invincible(0), _usingEnergy(3), _maxAccel(4000), _maxSpeed(600), _maxPosX(ScreenLevel1::SIZEX-70), _minPosX(10),
                         _minPosY(10), _maxPosY(ScreenLevel1::SIZEY-90), _nbPodDocked(0), _credits(100), _power(100)
 {
+    _weName = "Spaceship";
 	setPosition(Vector2d(420, 900));
 
     _collider =  new Collider(this);

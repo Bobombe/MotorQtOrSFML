@@ -15,6 +15,7 @@
 StartScreenLD40::StartScreenLD40() : Screen(), _btStart("./resLD40/spaceship.png", Vector2d(0, 0), Vector2d(60, 80),
                                             "./resLD40/spaceship.png", Vector2d(0, 0), Vector2d(60, 80))
 {
+    _weName = "StartScreenLD40";
     Sprite *s = new Sprite("./resLD40/FondStartScreenLD40.png");
     s->setParent(this);
     s->setScale(1.3);

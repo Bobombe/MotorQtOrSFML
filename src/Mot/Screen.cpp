@@ -3,7 +3,7 @@
 #include "moteur2d.h"
 #include "Camera.h"
 
-Screen::Screen() : _screenInitialized(false), _camera(0)
+Screen::Screen() : WorldElement(), _screenInitialized(false), _camera(0)//, _weName("Screen")
 {
 #ifdef IN_QT
     QWidget * widget = Moteur2D::getInstance()->getView();
@@ -19,10 +19,12 @@ Screen::Screen() : _screenInitialized(false), _camera(0)
 
 #endif
     //ctor
+    _weName = "Screen";
 }
 
 Screen::~Screen()
 {
+    std::cout << "Youpi : Screen::~Screen" << std::endl;
     //dtor
     for (unsigned int i = 0; i<_forces.size(); i++)
     {
@@ -33,10 +35,13 @@ Screen::~Screen()
         delete it->second;
     }
 #ifdef IN_QT
+    setScene(0);
+    std::cout << "Youpi : delete _view" << std::endl;
     delete _view;
 #else
 
 #endif
+    std::cout << "Youpi : Screen::~Screen FIN" << std::endl;
 
 }
 

@@ -15,6 +15,7 @@
 StartScreen::StartScreen() : Screen(), _bt("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),
                                             "./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120))
 {
+    _weName = "StartScreen";
     setPosition(Vector2d(0, -Moteur2D::getInstance()->getScreenSize().y));
     setSpeed(Vector2d(0, 200));
     Sprite *s = new Sprite("./Ressources/Fond3.png");

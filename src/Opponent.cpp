@@ -11,6 +11,7 @@
 Opponent::Opponent(Spaceship * player, OpponentType oppType, WorldElement * parent) : Sprite(), _oppType(oppType), _player(player),
                 _movingLeft(false), _movingRight(false), _movingUp(false), _movingDown(false), _dead(false), _state(0)
 {
+    _weName = "Opponent";
     _state = rand() % 2 + 1;
 
     double baseSpeed = 100;
@@ -63,7 +64,6 @@ Opponent::~Opponent()
     } else {
         std::cout << "Problem in Opponent::~Opponent " << std::endl;
     }
-    delete _collider;
 }
 
 int Opponent::update(double seconds)

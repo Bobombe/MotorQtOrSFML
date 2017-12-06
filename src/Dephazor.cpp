@@ -5,6 +5,7 @@
 
 Dephazor::Dephazor(WorldElement * parent) : Sprite("./resLD40/dephazor.png"), _dead(false)
 {
+    _weName = "Dephazor";
     _collider =  new Collider(this);
     _collider->initRectangular(0, 0, getSize().x, getSize().y);
     setSpeed(Vector2d(0, -900));
@@ -25,7 +26,6 @@ Dephazor::~Dephazor()
     } else {
         std::cout << "Problem in Dephazor::~Dephazor " << std::endl;
     }
-    delete _collider;
 }
 
 int Dephazor::update(double seconds)

@@ -4,7 +4,7 @@
 #include "WorldElement.h"
 
 #ifdef IN_QT
-
+#include <QGraphicsTextItem>
 #else
 #include <SFML/Graphics.hpp>
 #endif
@@ -13,7 +13,8 @@ class Text : public WorldElement
 {
 protected:
 #ifdef IN_QT
-
+    QGraphicsTextItem *_coreText;
+    QFont _font;
 #else
     sf::Text _coreText;
 #endif
@@ -56,6 +57,14 @@ public:
 protected:
 
     virtual int draw();
+
+    // Specifics Functions
+    #ifdef IN_QT
+    virtual void updateScene(QGraphicsScene * scene);
+
+    #else
+
+    #endif
 };
 
 #endif // TEXT_H

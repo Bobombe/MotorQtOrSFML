@@ -7,6 +7,7 @@
 PersoTest::PersoTest() : AnimatedSprite("./Ressources/Perso.PNG"), _state(STANDING_RIGHT), _movingLeft(false), _movingRight(false),
                         _jump(false), _onGround(-1), _camera(0)
 {
+    _weName = "PersoTest";
 	setPosition(Vector2d(100, 200));
 	_mousePos = getPosition();
 	_trust = 0;

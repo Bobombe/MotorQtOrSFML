@@ -3,6 +3,7 @@
 
 Button::Button() : _buttonState(BS_UP), _activated(0)
 {
+    _weName = "Button";
 }
 
 Button::Button(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize) :
@@ -13,6 +14,7 @@ Button::Button(std::string texturePath, Vector2d subRectPos, Vector2d subRectSiz
         _subRectPosStateUp(subRectPos),
         _subRectSizeStateUp(subRectSize)
 {
+    _weName = "Button";
 
 }
 
@@ -29,6 +31,7 @@ Button::Button(std::string texturePathStateUp, Vector2d subRectPosStateUp, Vecto
                 _subRectSizeStateDown(subRectSizeStateDown)
 {
 
+    _weName = "Button";
 }
 
 Button::~Button()

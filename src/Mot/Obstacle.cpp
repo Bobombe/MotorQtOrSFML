@@ -3,6 +3,7 @@
 Obstacle::Obstacle(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize, WorldElement * parent) :
     Sprite(texturePath, subRectPos, subRectSize)
 {
+    _weName = "Obstacle";
     setParent(parent);
 
     // Add in first screen parent
@@ -20,8 +21,9 @@ Obstacle::Obstacle(std::string texturePath, Vector2d subRectPos, Vector2d subRec
     }
 }
 Obstacle::Obstacle(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize, Vector2d spriteSize, WorldElement * parent) :
-    Sprite(texturePath, subRectPos, subRectSize, spriteSize)
+    Sprite(texturePath, subRectPos, subRectSize, spriteSize)//, _weName("Obstacle")
 {
+    _weName = "Obstacle";
     setParent(parent);
 
     // Add in first screen parent

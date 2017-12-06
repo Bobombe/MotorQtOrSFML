@@ -35,6 +35,7 @@ protected:
 
     WorldElement * _parent;
     std::vector<WorldElement *> _children;
+    std::string _weName;
 
 #ifdef IN_QT
     QGraphicsScene * _scene;
@@ -44,6 +45,7 @@ protected:
 #endif
 
 public:
+
     WorldElement();
     WorldElement(WorldElement * parent);
     virtual ~WorldElement();

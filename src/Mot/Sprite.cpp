@@ -18,6 +18,7 @@ Sprite::Sprite()
 #else
     _intermediateTexture = 0;
 #endif
+    _weName = "Sprite";
 }
 Sprite::Sprite(std::string texturePath)
 {
@@ -27,6 +28,7 @@ Sprite::Sprite(std::string texturePath)
     _intermediateTexture = 0;
 #endif
     setSprite(texturePath, Vector2d(), Vector2d());
+    _weName = "Sprite";
 }
 Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize)
 {
@@ -36,6 +38,7 @@ Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSiz
     _intermediateTexture = 0;
 #endif
     setSprite(texturePath, subRectPos, subRectSize);
+    _weName = "Sprite";
 }
 Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize, Vector2d spriteSize)
 {
@@ -45,6 +48,7 @@ Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSiz
     _intermediateTexture = 0;
 #endif
     setSprite(texturePath, subRectPos, subRectSize, spriteSize);
+    _weName = "Sprite";
 }
 
 Sprite::~Sprite()

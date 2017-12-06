@@ -10,6 +10,7 @@
 Pod::Pod(Spaceship * player, Planet::PlanetType podType, bool left, WorldElement * parent) : Sprite(), _podType(podType), _player(player),
                 _planet(0), _cabCaller(0), _dead(false), _state(STATE_NONE)
 {
+    _weName = "Pod";
     setParent(parent);
 
     double baseSpeed = 100;

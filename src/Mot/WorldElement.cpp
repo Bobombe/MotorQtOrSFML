@@ -1,7 +1,7 @@
 
 #include "WorldElement.h"
 
-WorldElement::WorldElement() : _collider(0), _scale(1), _absoluteScale(1), _parent(0)
+WorldElement::WorldElement() : _collider(0), _scale(1), _absoluteScale(1), _parent(0), _weName("WorldElement")
 {
 #ifdef IN_QT
     _scene = 0;
@@ -247,7 +247,7 @@ void WorldElement::setScene(QGraphicsScene * scene)
 {
     updateScene(scene);
     for (int i = 0; i < _children.size(); i++) {
-        _children[i]->updateScene(scene);
+        _children[i]->setScene(scene);
     }
 }
 
