@@ -10,11 +10,11 @@ Text::Text() : WorldElement()
 {
     init("");
 }
-Text::Text(WorldElement * parent) : WorldElement(parent)
+Text::Text(WorldElement * parent, int layer) : WorldElement(parent, layer)
 {
     init("");
 }
-Text::Text(std::string text, WorldElement * parent) : WorldElement(parent)
+Text::Text(std::string text, WorldElement * parent, int layer) : WorldElement(parent, layer)
 {
     init(text);
 }
@@ -45,6 +45,7 @@ void Text::init(std::string text)
 #endif
     setText(text);
     setParent(_parent);
+    setPosition(Vector2d(0, 0));
 }
 
 void Text::setText(std::string text)

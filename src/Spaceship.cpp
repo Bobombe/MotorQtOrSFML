@@ -193,7 +193,7 @@ void Spaceship::handleCollisionWith(WorldElement * weColided, double secsSinceLa
 
     } else if (opponent) {
         if (_invincible<=0) {
-            _power-=20;
+            _power-=50;
             _invincible = 1;
         }
     } else {

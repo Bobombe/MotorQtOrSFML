@@ -24,7 +24,6 @@ Screen::Screen() : WorldElement(), _screenInitialized(false), _camera(0)//, _weN
 
 Screen::~Screen()
 {
-    std::cout << "Youpi : Screen::~Screen" << std::endl;
     //dtor
     for (unsigned int i = 0; i<_forces.size(); i++)
     {
@@ -36,12 +35,10 @@ Screen::~Screen()
     }
 #ifdef IN_QT
     setScene(0);
-    std::cout << "Youpi : delete _view" << std::endl;
     delete _view;
 #else
 
 #endif
-    std::cout << "Youpi : Screen::~Screen FIN" << std::endl;
 
 }
 

@@ -10,6 +10,9 @@
 #include <SFML/Graphics.hpp>
 #endif
 
+int Sprite::_s_layer(0);
+
+
 Sprite::Sprite()
 {
     _texture = 0;
@@ -55,8 +58,7 @@ Sprite::~Sprite()
 {
     Moteur2D::getInstance()->unloadTexture(_texturePath);
 #ifdef IN_QT
-    if (_manipulationItem)
-    {
+    if (_manipulationItem) {
         delete _manipulationItem;
     }
 
@@ -69,9 +71,15 @@ Sprite::~Sprite()
 }
 
 
+int Sprite::update(double seconds)
+{
+    _s_layer = 0;
+    return WorldElement::update(seconds);
+}
 int Sprite::draw()
 {
 #ifdef IN_QT
+    _manipulationItem->setZValue(_s_layer);
     _manipulationItem->setPos(getAbsolutePosition().x, getAbsolutePosition().y);
     _manipulationItem->setScale(getAbsoluteScale());
 
@@ -81,6 +89,7 @@ int Sprite::draw()
     _sprite.setScale(getAbsoluteScale(), getAbsoluteScale());
     Moteur2D::getInstance()->getWindow()->draw(_sprite);
 #endif
+    _s_layer++;
     int ret = WorldElement::draw();
     return ret;
 }

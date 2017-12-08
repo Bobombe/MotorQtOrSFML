@@ -13,6 +13,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 class Collider;
 class WorldElement {
 
@@ -34,7 +35,8 @@ protected:
     Collider * _collider;
 
     WorldElement * _parent;
-    std::vector<WorldElement *> _children;
+    std::map<int, std::vector<WorldElement *> > _children;
+    int _layer;
     std::string _weName;
 
 #ifdef IN_QT
@@ -47,7 +49,7 @@ protected:
 public:
 
     WorldElement();
-    WorldElement(WorldElement * parent);
+    WorldElement(WorldElement * parent, int layer = 0);
     virtual ~WorldElement();
 
     int baseUpdate(double seconds);
@@ -97,7 +99,7 @@ public:
 
 
     WorldElement * getParent();
-    void setParent(WorldElement * parent);
+    void setParent(WorldElement * parent, int layer = 0);
 
 protected:
     virtual int update(double seconds);

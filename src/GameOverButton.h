@@ -8,7 +8,6 @@ class GameOverButton : public Button
 {
 
 protected:
-    Text * _gameOverText;
 
 public:
     GameOverButton();

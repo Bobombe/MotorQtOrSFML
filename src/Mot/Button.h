@@ -6,6 +6,7 @@
 #include "Vector2d.h"
 #include "Rectangle.h"
 #include "MouseAndKeyListener.h"
+#include "Text.h"
 
 #include <map>
 #include <vector>
@@ -32,12 +33,15 @@ protected:
     Vector2d _subRectPosStateDown;
     Vector2d _subRectSizeStateDown;
 
+    Text * _textOnButton;
+
 
 public:
-	Button();
-    Button(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize);
+	Button(std::string textOnButton = std::string(""));
+    Button(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize, std::string textOnButton = std::string(""));
 	Button(std::string texturePathStateUp, Vector2d subRectPosStateUp, Vector2d subRectSizeStateUp,
-	        std::string texturePathStateDown, Vector2d subRectPosStateDown, Vector2d subRectSizeStateDown);
+	        std::string texturePathStateDown, Vector2d subRectPosStateDown, Vector2d subRectSizeStateDown,
+	        std::string textOnButton = std::string(""));
 
 	virtual ~Button();
 

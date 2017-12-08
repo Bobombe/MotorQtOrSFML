@@ -5,7 +5,7 @@
 #include "Mot/Screen.h"
 #include "Mot/Text.h"
 #include "Spaceship.h"
-#include "GameOverButton.h"
+#include "Mot/Button.h"
 
 class ScreenLevel1 : public Screen
 {
@@ -22,7 +22,7 @@ protected:
     Text* _happinessLabel;
 
     bool _gameOver;
-    GameOverButton* _goButton;
+    Button* _goButton;
 
 
 public:

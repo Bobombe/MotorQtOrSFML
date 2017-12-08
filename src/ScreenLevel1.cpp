@@ -53,30 +53,30 @@ ScreenLevel1::ScreenLevel1() : _opponentCoolDown(1), _state(5), _gameOver(false)
     // D�cord Droite
     deco = new Sprite("./resLD40/palette.png", Vector2d(20, 40), Vector2d(10, 10), Vector2d(1200-SIZEX, SIZEY));
     deco->setPosition(Vector2d(SIZEX,0));
-    deco->setParent(this);
+    deco->setParent(this, 42);
     deco = new Sprite("./resLD40/palette.png", Vector2d(20, 20), Vector2d(10, 10), Vector2d(1200-SIZEX, 5));
     deco->setPosition(Vector2d(SIZEX, 0));
-    deco->setParent(this);
+    deco->setParent(this, 42);
     deco = new Sprite("./resLD40/palette.png", Vector2d(20, 20), Vector2d(10, 10), Vector2d(1200-SIZEX, 5));
     deco->setPosition(Vector2d(SIZEX, SIZEY-5));
-    deco->setParent(this);
+    deco->setParent(this, 42);
     deco = new Sprite("./resLD40/palette.png", Vector2d(20, 20), Vector2d(10, 10), Vector2d(5, SIZEY));
     deco->setPosition(Vector2d(SIZEX, 0));
-    deco->setParent(this);
+    deco->setParent(this, 42);
     deco = new Sprite("./resLD40/palette.png", Vector2d(20, 20), Vector2d(10, 10), Vector2d(5, SIZEY));
     deco->setPosition(Vector2d(1195, 0));
-    deco->setParent(this);
+    deco->setParent(this, 42);
 
     _player = new Spaceship();
-    _player->setParent(this);
+    _player->setParent(this, 41);
     addCollider(0, _player->getCollider());
     _player->setScreenId(1);
 
     // Set Interface,
-    _creditsLabel = new Text("Credits", this);
-    _creditsValue = new Text(this);
-    _powerLabel = new Text("Power", this);
-    _powerValue = new Text(this);
+    _creditsLabel = new Text("Credits", this, 43);
+    _creditsValue = new Text(this, 43);
+    _powerLabel = new Text("Power", this, 43);
+    _powerValue = new Text(this, 43);
     _happinessLabel = new Text("Passengers Happiness", this);
     _creditsLabel->setPosition(Vector2d(SIZEX + 10, 10));
     _creditsValue->setPosition(Vector2d(SIZEX + 200, 10));
@@ -155,14 +155,15 @@ int ScreenLevel1::update(double seconds)
     _powerValue->setText(STOI(power)+ " %");
 
     if (power>0) {
-            ret = Screen::update(seconds);
+        ret = Screen::update(seconds);
     } else {
         if (!_gameOver) {
-            ret = 42;
+            //ret = 42;
             _gameOver = true;
-            _goButton = new GameOverButton();
+            _goButton = new Button("./resLD40/buttonGameOver.png", Vector2d(0, 0), Vector2d(200,100), "         Game Over\nClick here to play again");
             _goButton->setParent(this);
-            _goButton->setScreenId(0);
+            _goButton->setScreenId(1);
+            _goButton->setPosition(Vector2d(300, 400));
         } else if (_goButton->isActivated()) {
             ret = 42;
         }
@@ -172,8 +173,7 @@ int ScreenLevel1::update(double seconds)
 }
 int ScreenLevel1::draw()
 {
-
-            Screen::draw();
+    return Screen::draw();
 
 }
 void ScreenLevel1::randSpawn()

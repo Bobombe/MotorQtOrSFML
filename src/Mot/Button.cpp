@@ -1,25 +1,37 @@
 
 #include "Button.h"
 
-Button::Button() : _buttonState(BS_UP), _activated(0)
+Button::Button(std::string textOnButton) : _buttonState(BS_UP), _activated(0), _textOnButton(0)
 {
     _weName = "Button";
+    if (!textOnButton.empty()) {
+        _textOnButton = new Text(textOnButton, this);
+        Vector2d buttonSize = getSize();
+        Vector2d textSize = _textOnButton->getSize();
+        _textOnButton->setPosition((buttonSize - textSize)/2);
+    }
 }
 
-Button::Button(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize) :
+Button::Button(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize, std::string textOnButton) :
         Sprite(texturePath, subRectPos, subRectSize),
         _buttonState(BS_UP),
         _activated(0),
         _texturePathStateUp(texturePath),
         _subRectPosStateUp(subRectPos),
-        _subRectSizeStateUp(subRectSize)
+        _subRectSizeStateUp(subRectSize), _textOnButton(0)
 {
     _weName = "Button";
+    if (!textOnButton.empty()) {
+        _textOnButton = new Text(textOnButton, this);
+        Vector2d buttonSize = getSize();
+        Vector2d textSize = _textOnButton->getSize();
+        _textOnButton->setPosition((buttonSize - textSize)/2);
+    }
 
 }
 
 Button::Button(std::string texturePathStateUp, Vector2d subRectPosStateUp, Vector2d subRectSizeStateUp,
-        std::string texturePathStateDown, Vector2d subRectPosStateDown, Vector2d subRectSizeStateDown) :
+        std::string texturePathStateDown, Vector2d subRectPosStateDown, Vector2d subRectSizeStateDown, std::string textOnButton) :
                 Sprite(texturePathStateUp, subRectPosStateUp, subRectSizeStateUp),
                 _buttonState(BS_UP),
                 _activated(0),
@@ -28,10 +40,16 @@ Button::Button(std::string texturePathStateUp, Vector2d subRectPosStateUp, Vecto
                 _subRectSizeStateUp(subRectSizeStateUp),
                 _texturePathStateDown(texturePathStateDown),
                 _subRectPosStateDown(subRectPosStateDown),
-                _subRectSizeStateDown(subRectSizeStateDown)
+                _subRectSizeStateDown(subRectSizeStateDown), _textOnButton(0)
 {
 
     _weName = "Button";
+    if (!textOnButton.empty()) {
+        _textOnButton = new Text(textOnButton, this);
+        Vector2d buttonSize = getSize();
+        Vector2d textSize = _textOnButton->getSize();
+        _textOnButton->setPosition((buttonSize - textSize)/2);
+    }
 }
 
 Button::~Button()

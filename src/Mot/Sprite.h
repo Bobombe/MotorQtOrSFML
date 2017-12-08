@@ -18,6 +18,8 @@
 
 class Sprite : public WorldElement
 {
+private:
+    static int _s_layer;
 
 protected:
 
@@ -61,6 +63,7 @@ public:
 
 protected:
 
+    virtual int update(double seconds);
     virtual int draw();
 
     // Specifics Functions
