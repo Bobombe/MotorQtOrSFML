@@ -4,6 +4,8 @@
 
 #include "Mot/Screen.h"
 #include "Mot/Sprite.h"
+#include "Mot/WorldElement.h"
+#include "Mot/Text.h"
 #include "Mot/MouseAndKeyListener.h"
 #include <map>
 
@@ -14,6 +16,7 @@ protected:
     std::map<int, std::map<int, Sprite*> > _cellGrid2;
     Vector2d _cellSize;
     double _timeSinceLastGeneration;
+    double _stepsSinceLastGeneration;
     bool _play;
     bool _step;
     bool _movingLeft;
@@ -21,6 +24,20 @@ protected:
     bool _movingUp;
     bool _movingDown;
     Vector2d _mousePos;
+
+    WorldElement * _rootForCells;
+
+    Text _fps;
+    Text _nbCellsText;
+    int _nbCells;
+    Text _nbGenerationsText;
+    int _nbGenerations;
+
+    int _gpsCible;
+    Text _gpsText;
+
+
+
 public:
     LifeGameScreen();
     virtual ~LifeGameScreen();
