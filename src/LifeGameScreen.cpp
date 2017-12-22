@@ -12,11 +12,170 @@
 #include <sstream>
 #define SSTR( x ) static_cast< std::ostringstream & >( \
         ( std::ostringstream() << std::dec << x ) ).str()
+
+std::map<int, std::map<int, Cell*> > LifeGameScreen::_cellGrid;
+WorldElement * LifeGameScreen::_rootForCells(0);
+
+int LifeGameScreen::_nbCells(0);
+
+Cell::Cell(int column, int line) : sprite(0), ul(0), u(0), ur(0), l(0), r(0), dl(0), d(0), dr(0), column(column), line(line),
+        alive1(false), alive2(false)
+{
+
+}
+
+Cell::~Cell()
+{
+    if (sprite) delete sprite;
+}
+
+void Cell::born(int currentState)
+{
+    sprite = new Sprite("./Ressources/cell.png");
+    sprite->setParent(LifeGameScreen::_rootForCells);
+    sprite->setPosition(Vector2d(column*sprite->getSize().x, line*sprite->getSize().y));
+    if (currentState == 0) {
+        alive2 = true;
+    } else {
+        alive1 = true;
+    }
+
+    // Retrieve all neighbor
+    if (!ul) {
+        ul = LifeGameScreen::cellAt(column-1, line-1);
+        ul->dr = this;
+    }
+    if (!u) {
+        u = LifeGameScreen::cellAt(column, line-1);
+        u->d = this;
+    }
+    if (!ur) {
+        ur = LifeGameScreen::cellAt(column+1, line-1);
+        ur->dl = this;
+    }
+    if (!l) {
+        l = LifeGameScreen::cellAt(column-1, line);
+        l->r = this;
+    }
+    if (!r) {
+        r = LifeGameScreen::cellAt(column+1, line);
+        r->l = this;
+    }
+    if (!dl) {
+        dl = LifeGameScreen::cellAt(column-1, line+1);
+        dl->ur = this;
+    }
+    if (!d) {
+        d = LifeGameScreen::cellAt(column, line+1);
+        d->u = this;
+    }
+    if (!dr) {
+        dr = LifeGameScreen::cellAt(column+1, line+1);
+        dr->ul = this;
+    }
+
+    LifeGameScreen::_nbCells ++;
+}
+
+void Cell::kill(int currentState)
+{
+    delete sprite;
+    sprite = 0;
+    if (currentState == 0) {
+        alive2 = false;
+    } else {
+        alive1 = false;
+    }
+
+    LifeGameScreen::_nbCells --;
+}
+
+void Cell::updateCell(int currentState)
+{
+    int count = 0;
+    if (ul && ul->alive(currentState)) count++;
+    if (u && u->alive(currentState)) count++;
+    if (ur && ur->alive(currentState)) count++;
+    if (l && l->alive(currentState)) count++;
+    if (r && r->alive(currentState)) count++;
+    if (dl && dl->alive(currentState)) count++;
+    if (d && d->alive(currentState)) count++;
+    if (dr && dr->alive(currentState)) count++;
+
+    if (alive(currentState) && (count < 2 || count > 3)) {
+        kill(currentState);
+    } else if (!alive(currentState) && count == 3) {
+        born(currentState);
+    } else {
+        if (currentState == 0) {
+            alive2 = alive1;
+        } else {
+            alive1 = alive2;
+        }
+        if (!alive1 && !alive2 && count==0) {
+
+            // Retrieve all neighbor
+            if (ul) {
+                ul->dr = 0;
+            }
+            if (u) {
+                u->d = 0;
+            }
+            if (ur) {
+                ur->dl = 0;
+            }
+            if (l) {
+                l->r = 0;
+            }
+            if (r) {
+                r->l = 0;
+            }
+            if (dl) {
+                dl->ur = 0;
+            }
+            if (d) {
+                d->u = 0;
+            }
+            if (dr) {
+                dr->ul = 0;
+            }
+            std::map<int, std::map<int, Cell*> >::iterator itC = LifeGameScreen::_cellGrid.find(column);
+            if (itC != LifeGameScreen::_cellGrid.end()) {
+                std::map<int, Cell*> &cellLine = LifeGameScreen::_cellGrid[column];
+                std::map<int, Cell*>::iterator itL = cellLine.find(line);
+                if (itL != cellLine.end()) {
+                    cellLine.erase(itL);
+                    if (cellLine.empty()) {
+                        LifeGameScreen::_cellGrid.erase(itC);
+                    }
+                }
+            }
+            delete this;
+        }
+    }
+}
+
+bool Cell::alive(int currentState)
+{
+    if (currentState == 0) {
+        return alive1;
+    }
+    return alive2;
+}
+
+
+
+
+
+
+
+
+
 LifeGameScreen::LifeGameScreen() : Screen(), _timeSinceLastGeneration(0), _stepsSinceLastGeneration(0),
         _play(false), _step(false),
         _movingLeft(false), _movingRight(false), _movingUp(false), _movingDown(false),
-        _fps("0 fps", this, 10), _nbCellsText("0 fps", this, 10), _nbCells(0),
-        _nbGenerationsText("0th generation", this, 10), _nbGenerations(0), _gpsCible(60), _gpsText("0/60gps", this, 10)
+        _fps("0 fps", this, 10), _nbGenerationsText("0th generation", this, 10),
+        _nbGenerations(0), _gpsCible(60), _gpsText("0/60gps", this, 10), _nbCellsText("0 fps", this, 10), _state(0)
 {
     _fps.setPosition(Vector2d(5, 5));
     _nbCellsText.setPosition(Vector2d(5, 25));
@@ -34,68 +193,94 @@ LifeGameScreen::LifeGameScreen() : Screen(), _timeSinceLastGeneration(0), _steps
     _cellSize = cell->getSize();
     delete cell;
 
+/*
+    switchCell(0, 0);
+    switchCell(1, 0);
+    switchCell(2, 0);
 
-//    newCell(0, 0);
-//    newCell(1, 0);
-//    newCell(2, 0);
-//    newCell(2, 1);
-//    newCell(1, 2);
-//    newCell(-10, 0);
-//    newCell(-9, 0);
-//    newCell(-8, 0);
-//    newCell(-8, 1);
-//    newCell(-9, 2);
+    /*/
 
-    newCell(0, 0);
-    newCell(0, 1);
-    newCell(1, 0);
-    newCell(1, 1);
+    switchCell(0, 0);
+    switchCell(0, 1);
+    switchCell(1, 0);
+    switchCell(1, 1);
 
-    newCell(4, 0);
-    newCell(4, 1);
-    newCell(4, 2);
-    newCell(5, 0);
-    newCell(5, 1);
-    newCell(5, 2);
+    switchCell(4, 0);
+    switchCell(4, 1);
+    switchCell(4, 2);
+    switchCell(5, 0);
+    switchCell(5, 1);
+    switchCell(5, 2);
 
-    newCell(9, -2);
-    newCell(9, -1);
-    newCell(9, 3);
-    newCell(9, 4);
-    newCell(10, -1);
-    newCell(10, 0);
-    newCell(10, 1);
-    newCell(10, 2);
-    newCell(10, 3);
-    newCell(11, 0);
-    newCell(11, 1);
-    newCell(11, 2);
-    newCell(12, 1);
+    switchCell(9, -2);
+    switchCell(9, -1);
+    switchCell(9, 3);
+    switchCell(9, 4);
+    switchCell(10, -1);
+    switchCell(10, 0);
+    switchCell(10, 1);
+    switchCell(10, 2);
+    switchCell(10, 3);
+    switchCell(11, 0);
+    switchCell(11, 1);
+    switchCell(11, 2);
+    switchCell(12, 1);
 
-    newCell(26, 1);
-    newCell(26, 2);
-    newCell(26, -3);
-    newCell(26, -4);
-    newCell(27, -2);
-    newCell(27, -1);
-    newCell(27, 0);
-    newCell(28, -3);
-    newCell(28, 1);
-    newCell(29, -2);
-    newCell(29, 0);
-    newCell(30, -1);
+    switchCell(26, 1);
+    switchCell(26, 2);
+    switchCell(26, -3);
+    switchCell(26, -4);
+    switchCell(27, -2);
+    switchCell(27, -1);
+    switchCell(27, 0);
+    switchCell(28, -3);
+    switchCell(28, 1);
+    switchCell(29, -2);
+    switchCell(29, 0);
+    switchCell(30, -1);
 
-    newCell(34, -1);
-    newCell(34, -2);
-    newCell(35, -1);
-    newCell(35, -2);
+    switchCell(34, -1);
+    switchCell(34, -2);
+    switchCell(35, -1);
+    switchCell(35, -2);
+    //*/
 
-    _cellGrid = _cellGrid2;
+    //_cellGrid = _cellGrid2;
     setScreenId(2);
 }
 
 LifeGameScreen::~LifeGameScreen()
 {
+}
+Cell * LifeGameScreen::switchCell(int column, int line)
+{
+    Cell * cell = cellAt(column, line);
+    int prevState = _state+1;
+    if (prevState>1) prevState = 0;
+    // update same state
+    if (cell->alive(prevState)) {
+        cell->kill(_state);
+    } else {
+        cell->born(_state);
+    }
+    return cell;
+}
+Cell * LifeGameScreen::cellAt(int column, int line)
+{
+    Cell * ret = 0;
+    std::map<int, std::map<int, Cell*> >::iterator itC = _cellGrid.find(column);
+    if (itC != _cellGrid.end()) {
+        std::map<int, Cell*> cellLine = _cellGrid[column];
+        std::map<int, Cell*>::iterator itL = cellLine.find(line);
+        if (itL != cellLine.end()) {
+            ret = itL->second;
+        }
+    }
+    if (!ret) {
+        ret = new Cell(column, line);
+        _cellGrid[column][line] = ret;
+    }
+    return ret;
 }
 
 
@@ -112,6 +297,8 @@ int LifeGameScreen::update(double seconds)
     } else if (_movingDown) {
         _rootForCells->movePosition(Vector2d(0, -speed));
     }
+    _nbCellsText.setText(SSTR(LifeGameScreen::_nbCells << " cells."));
+
     if (_play) {
         _step = false;
         double stepByframe = ((double)(_gpsCible))*seconds;
@@ -121,16 +308,16 @@ int LifeGameScreen::update(double seconds)
             int steps = _stepsSinceLastGeneration;
             double trueGps = ((double)(steps))/_timeSinceLastGeneration;
             for (int i = 0; i < steps; i++) {
-                for (std::map<int, std::map<int, Sprite*> >::iterator itC=_cellGrid.begin(); itC!=_cellGrid.end(); ++itC) {
-                    for (std::map<int, Sprite*>::iterator itL=itC->second.begin(); itL!=itC->second.end(); ++itL) {
-                        for (int i = -1; i < 2; i++) {
-                            for (int j = -1; j < 2; j++) {
-                                updateCell(itC->first + i, itL->first + j);
-                            }
-                        }
+
+                _state++; if (_state>1) _state = 0;
+                // Begin Algo
+                for (std::map<int, std::map<int, Cell*> >::iterator itC=_cellGrid.begin(); itC!=_cellGrid.end(); ++itC) {
+                    for (std::map<int, Cell*>::iterator itL=itC->second.begin(); itL!=itC->second.end(); ++itL) {
+                        itL->second->updateCell(_state);
                     }
                 }
-                _cellGrid = _cellGrid2;
+                //_cellGrid = _cellGrid2;
+                // END Algo
             }
             _stepsSinceLastGeneration -= steps;
             _timeSinceLastGeneration = 0;
@@ -141,158 +328,55 @@ int LifeGameScreen::update(double seconds)
         }
     } else if (_step) {
         _step = false;
-        for (std::map<int, std::map<int, Sprite*> >::iterator itC=_cellGrid.begin(); itC!=_cellGrid.end(); ++itC) {
-            for (std::map<int, Sprite*>::iterator itL=itC->second.begin(); itL!=itC->second.end(); ++itL) {
-                for (int i = -1; i < 2; i++) {
-                    for (int j = -1; j < 2; j++) {
-                        updateCell(itC->first + i, itL->first + j);
-                    }
-                }
+        _state++; if (_state>1) _state = 0;
+        for (std::map<int, std::map<int, Cell*> >::iterator itC=_cellGrid.begin(); itC!=_cellGrid.end(); ++itC) {
+            for (std::map<int, Cell*>::iterator itL=itC->second.begin(); itL!=itC->second.end(); ++itL) {
+                itL->second->updateCell(_state);
             }
         }
-        _cellGrid = _cellGrid2;
+        _nbGenerations ++;
+        _nbGenerationsText.setText(SSTR(_nbGenerations << "th generation."));
+        //_cellGrid = _cellGrid2;
     }
     _fps.setText(SSTR(1./seconds << " fps"));
     return 0;//Screen::update(seconds);
 }
 
-void LifeGameScreen::keyPressed(Key::Key key)
-{
-    if (key == Key::Left) {
-        _movingLeft = true;
-    } else if (key == Key::Right) {
-        _movingRight = true;
-    } else if (key == Key::Up) {
-        _movingUp = true;
-    } else if (key == Key::Down) {
-        _movingDown = true;
-    }
-}
-void LifeGameScreen::keyReleased(Key::Key key)
-{
-    if (key == Key::Space) {
-        _play = !_play;
-    } else if (key == Key::Left) {
-        _movingLeft = false;
-    } else if (key == Key::Right) {
-        _movingRight = false;
-    } else if (key == Key::Up) {
-        _movingUp = false;
-    } else if (key == Key::Down) {
-        _movingDown = false;
-    } else if (key == Key::R) {
-        std::map<int, std::map<int, Sprite*> >::iterator itC = _cellGrid2.begin();
-        for (; itC != _cellGrid2.end(); ++itC) {
-            std::map<int, Sprite*>::iterator itL = itC->second.begin();
-            for (; itL != itC->second.end(); ++itL) {
-                delete itL->second;
-            }
-        }
-        _cellGrid.clear();
-        _cellGrid2.clear();
-        _nbCells = 0;
-        _nbCellsText.setText(SSTR(_nbCells << " cells."));
-        _nbGenerations = 0;
-        _nbGenerationsText.setText(SSTR(_nbGenerations << "th generation."));
-    } else if (key == Key::P) {
-        _gpsCible *= 2;
-    } else if (key == Key::M) {
-        _gpsCible /= 2;
-    } else if (key == Key::S) {
-        _step = true;
-    } else if (key == Key::C) {
-        _rootForCells->setScale(0.5);
-        _rootForCells->setPosition(Vector2d(Moteur2D::getInstance()->getScreenSize().x/2, Moteur2D::getInstance()->getScreenSize().y/2));
-    }
-}
-void LifeGameScreen::buttonPressed(MouseButton::MouseButton button, Vector2d pos)
-{
-    pos = (pos - _rootForCells->getPosition())/_rootForCells->getScale();
-    double column = pos.x/_cellSize.x;
-    if (column < 0) {
-        column--;
-    }
-    double line = pos.y/_cellSize.y;
-    if (line < 0) {
-        line--;
-    }
-    if (cellAlive(column, line)) {
-        killCell(column, line);
-    } else {
-        newCell(column, line);
-    }
-    _cellGrid = _cellGrid2;
-}
-void LifeGameScreen::mouseMoved(Vector2d pos)
-{
-    _mousePos = pos;
-}
-void LifeGameScreen::mouseWheelMoved(float wheelMoveInDegree)
-{
-    Vector2d screenPos = _rootForCells->getPosition();
-    double screenScale = _rootForCells->getScale();
-    double newScreenScale = screenScale;
-    Vector2d mouseRelativPos = (_mousePos-screenPos)/screenScale;
-
-    if (wheelMoveInDegree > 0) {
-        newScreenScale = screenScale*2.;
-        _rootForCells->setScale(newScreenScale);
-    } else {
-        newScreenScale = screenScale/2.;
-        _rootForCells->setScale(newScreenScale);
-    }
-
-    Vector2d newScreenPos = mouseRelativPos*screenScale + screenPos - mouseRelativPos*newScreenScale;
-    _rootForCells->setPosition(newScreenPos);
-}
 
 
 
 
-void LifeGameScreen::newCell(int column, int line)
-{
-    bool addIt = true;
-    std::map<int, std::map<int, Sprite*> >::iterator itC = _cellGrid2.find(column);
-    if (itC != _cellGrid2.end()) {
-        std::map<int, Sprite*> cellLine = _cellGrid2[column];
-        std::map<int, Sprite*>::iterator itL = cellLine.find(line);
-        if (itL != cellLine.end()) {
-            addIt = false;
-        }
-    }
-    if (addIt) {
-        Sprite * cell = new Sprite("./Ressources/cell.png");
-        cell->setParent(_rootForCells);
-        cell->setPosition(Vector2d(column*cell->getSize().x, line*cell->getSize().y));
-        _cellGrid2[column][line] = cell;
-        _nbCells ++;
-        _nbCellsText.setText(SSTR(_nbCells << " cells."));
-    }
-}
+
+
+
+
+
+
+
+
+/*
+
+
+
+
+
 void LifeGameScreen::killCell(int column, int line)
 {
-    std::map<int, std::map<int, Sprite*> >::iterator itC = _cellGrid2.find(column);
-    if (itC != _cellGrid2.end()) {
-        std::map<int, Sprite*> &cellLine = _cellGrid2[column];
-        std::map<int, Sprite*>::iterator itL = cellLine.find(line);
+    std::map<int, std::map<int, Cell*> >::iterator itC = _cellGrid.find(column);
+    if (itC != _cellGrid.end()) {
+        std::map<int, Cell*> &cellLine = _cellGrid[column];
+        std::map<int, Cell*>::iterator itL = cellLine.find(line);
         if (itL != cellLine.end()) {
             delete cellLine[line];
             cellLine.erase(itL);
             if (cellLine.empty()) {
-                _cellGrid2.erase(itC);
+                _cellGrid.erase(itC);
             }
             _nbCells --;
             _nbCellsText.setText(SSTR(_nbCells << " cells."));
         }
     }
 }
-int LifeGameScreen::draw()
-{
-    int retValue = 0;
-    retValue = Screen::draw();
-    return retValue;
-}
-
 void LifeGameScreen::updateCell(int column, int line)
 {
     int count = countNeighbourAlive(column, line);
@@ -329,4 +413,109 @@ int LifeGameScreen::countNeighbourAlive(int column, int line)
         }
     }
     return count;
+} //*/
+
+void LifeGameScreen::keyPressed(Key::Key key)
+{
+    if (key == Key::Left) {
+        _movingLeft = true;
+    } else if (key == Key::Right) {
+        _movingRight = true;
+    } else if (key == Key::Up) {
+        _movingUp = true;
+    } else if (key == Key::Down) {
+        _movingDown = true;
+    }
 }
+void LifeGameScreen::keyReleased(Key::Key key)
+{
+    if (key == Key::Space) {
+        _play = !_play;
+    } else if (key == Key::Left) {
+        _movingLeft = false;
+    } else if (key == Key::Right) {
+        _movingRight = false;
+    } else if (key == Key::Up) {
+        _movingUp = false;
+    } else if (key == Key::Down) {
+        _movingDown = false;
+    } else if (key == Key::R) {
+        std::map<int, std::map<int, Cell*> >::iterator itC = _cellGrid.begin();
+        for (; itC != _cellGrid.end(); ++itC) {
+            std::map<int, Cell*>::iterator itL = itC->second.begin();
+            for (; itL != itC->second.end(); ++itL) {
+                delete itL->second;
+            }
+        }
+        _cellGrid.clear();
+        //_cellGrid2.clear();
+        _nbCells = 0;
+        _nbCellsText.setText(SSTR(_nbCells << " cells."));
+        _nbGenerations = 0;
+        _nbGenerationsText.setText(SSTR(_nbGenerations << "th generation."));
+    } else if (key == Key::P) {
+        _gpsCible *= 2;
+    } else if (key == Key::M) {
+        _gpsCible /= 2;
+    } else if (key == Key::S) {
+        _step = true;
+    } else if (key == Key::C) {
+        _rootForCells->setScale(0.5);
+        _rootForCells->setPosition(Vector2d(Moteur2D::getInstance()->getScreenSize().x/2, Moteur2D::getInstance()->getScreenSize().y/2));
+    }
+}
+void LifeGameScreen::buttonPressed(MouseButton::MouseButton button, Vector2d pos)
+{
+    pos = (pos - _rootForCells->getPosition())/_rootForCells->getScale();
+    double column = pos.x/_cellSize.x;
+    if (column < 0) {
+        column--;
+    }
+    double line = pos.y/_cellSize.y;
+    if (line < 0) {
+        line--;
+    }
+    Cell * cell = cellAt(column, line);
+    int prevState = _state+1;
+    if (prevState>1) prevState = 0;
+    // update same state
+    if (cell->alive(prevState)) {
+        cell->kill(_state);
+    } else {
+        cell->born(_state);
+    }
+    //_cellGrid = _cellGrid2;
+}
+void LifeGameScreen::mouseMoved(Vector2d pos)
+{
+    _mousePos = pos;
+}
+void LifeGameScreen::mouseWheelMoved(float wheelMoveInDegree)
+{
+    Vector2d screenPos = _rootForCells->getPosition();
+    double screenScale = _rootForCells->getScale();
+    double newScreenScale = screenScale;
+    Vector2d mouseRelativPos = (_mousePos-screenPos)/screenScale;
+
+    if (wheelMoveInDegree > 0) {
+        newScreenScale = screenScale*2.;
+        _rootForCells->setScale(newScreenScale);
+    } else {
+        newScreenScale = screenScale/2.;
+        _rootForCells->setScale(newScreenScale);
+    }
+
+    Vector2d newScreenPos = mouseRelativPos*screenScale + screenPos - mouseRelativPos*newScreenScale;
+    _rootForCells->setPosition(newScreenPos);
+}
+
+
+
+int LifeGameScreen::draw()
+{
+    int retValue = 0;
+    retValue = Screen::draw();
+    return retValue;
+}
+
+

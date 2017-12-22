@@ -9,11 +9,47 @@
 #include "Mot/MouseAndKeyListener.h"
 #include <map>
 
+class Cell
+{
+public :
+    Sprite* sprite;
+    Cell * ul;
+    Cell * u;
+    Cell * ur;
+    Cell * l;
+    Cell * r;
+    Cell * dl;
+    Cell * d;
+    Cell * dr;
+
+    int column;
+    int line;
+    bool alive1;
+    bool alive2;
+
+    Cell(int column, int row);
+    virtual ~Cell();
+
+    void born(int currentState = 0);
+    void kill(int currentState = 0);
+    void updateCell(int currentState);
+
+    bool alive(int state);
+
+};
+
 class LifeGameScreen : public Screen, public MouseAndKeyListener
 {
+public:
+
+    static std::map<int, std::map<int, Cell*> > _cellGrid;
+    //static std::map<int, std::map<int, Cell*> > _cellGrid2;
+
+    static WorldElement * _rootForCells;
+
+    static int _nbCells;
+
 protected:
-    std::map<int, std::map<int, Sprite*> > _cellGrid;
-    std::map<int, std::map<int, Sprite*> > _cellGrid2;
     Vector2d _cellSize;
     double _timeSinceLastGeneration;
     double _stepsSinceLastGeneration;
@@ -25,16 +61,15 @@ protected:
     bool _movingDown;
     Vector2d _mousePos;
 
-    WorldElement * _rootForCells;
-
     Text _fps;
-    Text _nbCellsText;
-    int _nbCells;
     Text _nbGenerationsText;
     int _nbGenerations;
 
     int _gpsCible;
     Text _gpsText;
+    Text _nbCellsText;
+
+    int _state;
 
 
 
@@ -42,9 +77,20 @@ public:
     LifeGameScreen();
     virtual ~LifeGameScreen();
 
-    void newCell(int column, int line);
-    void killCell(int column, int line);
+    Cell * switchCell(int column, int line);
+    static Cell * cellAt(int column, int line);
 
+protected:
+    virtual int update(double seconds);
+
+public:
+
+
+
+
+
+
+    //void killCell(int column, int line);
 
     virtual void keyPressed(Key::Key key);
     virtual void keyReleased(Key::Key key);
@@ -53,12 +99,11 @@ public:
     virtual void mouseWheelMoved(float wheelMoveInDegree);
 
 protected:
-    virtual int update(double seconds);
     virtual int draw();
 
-    void updateCell(int column, int line);
-    bool cellAlive(int column, int line);
-    int countNeighbourAlive(int column, int line);
+//    void updateCell(int column, int line);
+//    bool cellAlive(int column, int line);
+//    int countNeighbourAlive(int column, int line);
 };
 
 #endif /* SRC_LifeGameScreen_H_ */
