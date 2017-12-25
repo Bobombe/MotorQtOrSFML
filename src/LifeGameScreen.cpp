@@ -19,9 +19,11 @@ WorldElement * LifeGameScreen::_rootForCells(0);
 int LifeGameScreen::_nbCells(0);
 
 Cell::Cell(int column, int line) : sprite(0), ul(0), u(0), ur(0), l(0), r(0), dl(0), d(0), dr(0), column(column), line(line),
-        alive1(false), alive2(false)
+        alive1(false), alive2(false), stepsStayingDead(0)
 {
-
+        sprite = new Sprite("./Ressources/deadCell.png");
+        sprite->setParent(LifeGameScreen::_rootForCells);
+        sprite->setPosition(Vector2d(column*sprite->getSize().x, line*sprite->getSize().y));
 }
 
 Cell::~Cell()
@@ -31,9 +33,13 @@ Cell::~Cell()
 
 void Cell::born(int currentState)
 {
-    sprite = new Sprite("./Ressources/cell.png");
-    sprite->setParent(LifeGameScreen::_rootForCells);
-    sprite->setPosition(Vector2d(column*sprite->getSize().x, line*sprite->getSize().y));
+    if (sprite) {
+        sprite->setTexturePath("./Ressources/cell.png");
+    } else {
+        sprite = new Sprite("./Ressources/cell.png");
+        sprite->setParent(LifeGameScreen::_rootForCells);
+        sprite->setPosition(Vector2d(column*sprite->getSize().x, line*sprite->getSize().y));
+    }
     if (currentState == 0) {
         alive2 = true;
     } else {
@@ -79,8 +85,7 @@ void Cell::born(int currentState)
 
 void Cell::kill(int currentState)
 {
-    delete sprite;
-    sprite = 0;
+    sprite->setTexturePath("./Ressources/deadCell.png");
     if (currentState == 0) {
         alive2 = false;
     } else {
@@ -90,8 +95,9 @@ void Cell::kill(int currentState)
     LifeGameScreen::_nbCells --;
 }
 
-void Cell::updateCell(int currentState)
+bool Cell::updateCell(int currentState)
 {
+    bool needToBeDeleted = false;
     int count = 0;
     if (ul && ul->alive(currentState)) count++;
     if (u && u->alive(currentState)) count++;
@@ -106,6 +112,7 @@ void Cell::updateCell(int currentState)
         kill(currentState);
     } else if (!alive(currentState) && count == 3) {
         born(currentState);
+        stepsStayingDead = 0;
     } else {
         if (currentState == 0) {
             alive2 = alive1;
@@ -113,46 +120,15 @@ void Cell::updateCell(int currentState)
             alive1 = alive2;
         }
         if (!alive1 && !alive2 && count==0) {
-
-            // Retrieve all neighbor
-            if (ul) {
-                ul->dr = 0;
+            stepsStayingDead++;
+            if (stepsStayingDead>2) {
+                needToBeDeleted = true;
             }
-            if (u) {
-                u->d = 0;
-            }
-            if (ur) {
-                ur->dl = 0;
-            }
-            if (l) {
-                l->r = 0;
-            }
-            if (r) {
-                r->l = 0;
-            }
-            if (dl) {
-                dl->ur = 0;
-            }
-            if (d) {
-                d->u = 0;
-            }
-            if (dr) {
-                dr->ul = 0;
-            }
-            std::map<int, std::map<int, Cell*> >::iterator itC = LifeGameScreen::_cellGrid.find(column);
-            if (itC != LifeGameScreen::_cellGrid.end()) {
-                std::map<int, Cell*> &cellLine = LifeGameScreen::_cellGrid[column];
-                std::map<int, Cell*>::iterator itL = cellLine.find(line);
-                if (itL != cellLine.end()) {
-                    cellLine.erase(itL);
-                    if (cellLine.empty()) {
-                        LifeGameScreen::_cellGrid.erase(itC);
-                    }
-                }
-            }
-            delete this;
+        } else {
+            stepsStayingDead = 0;
         }
     }
+    return needToBeDeleted;
 }
 
 bool Cell::alive(int currentState)
@@ -161,6 +137,58 @@ bool Cell::alive(int currentState)
         return alive1;
     }
     return alive2;
+}
+void Cell::safeDelete()
+{
+
+    int count = 0;
+    if (ul && (ul->alive(0) || ul->alive(1))) count++;
+    if (u && (u->alive(0) || u->alive(1))) count++;
+    if (ur && (ur->alive(0) || ur->alive(1))) count++;
+    if (l && (l->alive(0) || l->alive(1))) count++;
+    if (r && (r->alive(0) || r->alive(1))) count++;
+    if (dl && (dl->alive(0) || dl->alive(1))) count++;
+    if (d && (d->alive(0) || d->alive(1))) count++;
+    if (dr && (dr->alive(0) || dr->alive(1))) count++;
+    if (count==0) {
+        // Retrieve all neighbor
+        if (ul) {
+            ul->dr = 0;
+        }
+        if (u) {
+            u->d = 0;
+        }
+        if (ur) {
+            ur->dl = 0;
+        }
+        if (l) {
+            l->r = 0;
+        }
+        if (r) {
+            r->l = 0;
+        }
+        if (dl) {
+            dl->ur = 0;
+        }
+        if (d) {
+            d->u = 0;
+        }
+        if (dr) {
+            dr->ul = 0;
+        }
+        std::map<int, std::map<int, Cell*> >::iterator itC = LifeGameScreen::_cellGrid.find(column);
+        if (itC != LifeGameScreen::_cellGrid.end()) {
+            std::map<int, Cell*> &cellLine = LifeGameScreen::_cellGrid[column];
+            std::map<int, Cell*>::iterator itL = cellLine.find(line);
+            if (itL != cellLine.end()) {
+                cellLine.erase(itL);
+                if (cellLine.empty()) {
+                    LifeGameScreen::_cellGrid.erase(itC);
+                }
+            }
+        }
+        delete this;
+    }
 }
 
 
@@ -308,13 +336,18 @@ int LifeGameScreen::update(double seconds)
             int steps = _stepsSinceLastGeneration;
             double trueGps = ((double)(steps))/_timeSinceLastGeneration;
             for (int i = 0; i < steps; i++) {
-
+                std::vector<Cell*> cellToDelete;
                 _state++; if (_state>1) _state = 0;
                 // Begin Algo
                 for (std::map<int, std::map<int, Cell*> >::iterator itC=_cellGrid.begin(); itC!=_cellGrid.end(); ++itC) {
                     for (std::map<int, Cell*>::iterator itL=itC->second.begin(); itL!=itC->second.end(); ++itL) {
-                        itL->second->updateCell(_state);
+                        if (itL->second->updateCell(_state)) {
+                            cellToDelete.push_back(itL->second);
+                        }
                     }
+                }
+                for (int j = 0; j < cellToDelete.size(); j++) {
+                    cellToDelete[j]->safeDelete();
                 }
                 //_cellGrid = _cellGrid2;
                 // END Algo
@@ -329,10 +362,16 @@ int LifeGameScreen::update(double seconds)
     } else if (_step) {
         _step = false;
         _state++; if (_state>1) _state = 0;
+        std::vector<Cell*> cellToDelete;
         for (std::map<int, std::map<int, Cell*> >::iterator itC=_cellGrid.begin(); itC!=_cellGrid.end(); ++itC) {
             for (std::map<int, Cell*>::iterator itL=itC->second.begin(); itL!=itC->second.end(); ++itL) {
-                itL->second->updateCell(_state);
+                if (itL->second->updateCell(_state)) {
+                    cellToDelete.push_back(itL->second);
+                }
             }
+        }
+        for (int j = 0; j < cellToDelete.size(); j++) {
+            cellToDelete[j]->safeDelete();
         }
         _nbGenerations ++;
         _nbGenerationsText.setText(SSTR(_nbGenerations << "th generation."));

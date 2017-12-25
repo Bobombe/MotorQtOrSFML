@@ -41,7 +41,7 @@ void Text::init(std::string text)
 #else
     _coreText.setFont(Moteur2D::getInstance()->getFont());
     _coreText.setCharacterSize(30);
-    _coreText.setColor(sf::Color::Black);
+    _coreText.setColor(sf::Color::White);
 #endif
     setText(text);
     setParent(_parent);

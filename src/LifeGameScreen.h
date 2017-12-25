@@ -27,14 +27,18 @@ public :
     bool alive1;
     bool alive2;
 
+    int stepsStayingDead;
+
     Cell(int column, int row);
     virtual ~Cell();
 
     void born(int currentState = 0);
     void kill(int currentState = 0);
-    void updateCell(int currentState);
+    bool updateCell(int currentState);
 
     bool alive(int state);
+
+    void safeDelete();
 
 };
 

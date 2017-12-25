@@ -55,6 +55,10 @@
 		<Unit filename="src/Dephazor.h" />
 		<Unit filename="src/GameManager.cpp" />
 		<Unit filename="src/GameManager.h" />
+		<Unit filename="src/GameOverButton.cpp" />
+		<Unit filename="src/GameOverButton.h" />
+		<Unit filename="src/LifeGameScreen.cpp" />
+		<Unit filename="src/LifeGameScreen.h" />
 		<Unit filename="src/Mot/AnimatedSprite.cpp" />
 		<Unit filename="src/Mot/AnimatedSprite.h" />
 		<Unit filename="src/Mot/Button.cpp" />
