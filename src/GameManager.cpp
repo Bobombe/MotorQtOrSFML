@@ -6,10 +6,10 @@
 
 GameManager::GameManager() : _stateMachine(0)
 {
-//    addScreen(0, new StartScreenLD40());
-//    addScreen(1, new ScreenLevel1());
+    addScreen(0, new StartScreenLD40());
+    addScreen(1, new ScreenLevel1());
     addScreen(2, new LifeGameScreen());
-    setCurrentScreenId(2);
+    setCurrentScreenId(0);
 }
 
 GameManager::~GameManager()

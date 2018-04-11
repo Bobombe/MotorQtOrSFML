@@ -19,7 +19,7 @@ WorldElement * LifeGameScreen::_rootForCells(0);
 int LifeGameScreen::_nbCells(0);
 
 Cell::Cell(int column, int line) : sprite(0), ul(0), u(0), ur(0), l(0), r(0), dl(0), d(0), dr(0), column(column), line(line),
-        alive1(false), alive2(false), stepsStayingDead(0)
+        alive1(false), alive2(false), stepsStayingStill(0)
 {
         sprite = new Sprite("./Ressources/deadCell.png");
         sprite->setParent(LifeGameScreen::_rootForCells);
@@ -110,22 +110,21 @@ bool Cell::updateCell(int currentState)
 
     if (alive(currentState) && (count < 2 || count > 3)) {
         kill(currentState);
+        stepsStayingStill = 0;
     } else if (!alive(currentState) && count == 3) {
         born(currentState);
-        stepsStayingDead = 0;
+        stepsStayingStill = 0;
     } else {
+        stepsStayingStill++;
         if (currentState == 0) {
             alive2 = alive1;
         } else {
             alive1 = alive2;
         }
         if (!alive1 && !alive2 && count==0) {
-            stepsStayingDead++;
-            if (stepsStayingDead>2) {
+            if (stepsStayingStill>2) {
                 needToBeDeleted = true;
             }
-        } else {
-            stepsStayingDead = 0;
         }
     }
     return needToBeDeleted;
@@ -203,7 +202,7 @@ LifeGameScreen::LifeGameScreen() : Screen(), _timeSinceLastGeneration(0), _steps
         _play(false), _step(false),
         _movingLeft(false), _movingRight(false), _movingUp(false), _movingDown(false),
         _fps("0 fps", this, 10), _nbGenerationsText("0th generation", this, 10),
-        _nbGenerations(0), _gpsCible(60), _gpsText("0/60gps", this, 10), _nbCellsText("0 fps", this, 10), _state(0)
+        _nbGenerations(0), _gpsCible(1), _gpsText("0gps (0 gen/step)", this, 10), _nbCellsText("0 fps", this, 10), _state(0)
 {
     _fps.setPosition(Vector2d(5, 5));
     _nbCellsText.setPosition(Vector2d(5, 25));
@@ -329,36 +328,28 @@ int LifeGameScreen::update(double seconds)
 
     if (_play) {
         _step = false;
-        double stepByframe = ((double)(_gpsCible))*seconds;
-        _stepsSinceLastGeneration+= stepByframe;
-        _timeSinceLastGeneration += seconds;
-        if (_stepsSinceLastGeneration >= 1) {
-            int steps = _stepsSinceLastGeneration;
-            double trueGps = ((double)(steps))/_timeSinceLastGeneration;
-            for (int i = 0; i < steps; i++) {
-                std::vector<Cell*> cellToDelete;
-                _state++; if (_state>1) _state = 0;
-                // Begin Algo
-                for (std::map<int, std::map<int, Cell*> >::iterator itC=_cellGrid.begin(); itC!=_cellGrid.end(); ++itC) {
-                    for (std::map<int, Cell*>::iterator itL=itC->second.begin(); itL!=itC->second.end(); ++itL) {
-                        if (itL->second->updateCell(_state)) {
-                            cellToDelete.push_back(itL->second);
-                        }
+        double trueGps = ((double)(_gpsCible))/seconds;
+        for (int i = 0; i < _gpsCible; i++) {
+            std::vector<Cell*> cellToDelete;
+            _state++; if (_state>1) _state = 0;
+            // Begin Algo
+            for (std::map<int, std::map<int, Cell*> >::iterator itC=_cellGrid.begin(); itC!=_cellGrid.end(); ++itC) {
+                for (std::map<int, Cell*>::iterator itL=itC->second.begin(); itL!=itC->second.end(); ++itL) {
+                    if (itL->second->updateCell(_state)) {
+                        cellToDelete.push_back(itL->second);
                     }
                 }
-                for (int j = 0; j < cellToDelete.size(); j++) {
-                    cellToDelete[j]->safeDelete();
-                }
-                //_cellGrid = _cellGrid2;
-                // END Algo
             }
-            _stepsSinceLastGeneration -= steps;
-            _timeSinceLastGeneration = 0;
-            // Update texts
-            _nbGenerations += stepByframe;
-            _nbGenerationsText.setText(SSTR(_nbGenerations << "th generation."));
-            _gpsText.setText(SSTR(trueGps << "/" << _gpsCible <<"gps"));
+            for (int j = 0; j < cellToDelete.size(); j++) {
+                cellToDelete[j]->safeDelete();
+            }
+            //_cellGrid = _cellGrid2;
+            // END Algo
         }
+        // Update texts
+        _nbGenerations += _gpsCible;
+        _nbGenerationsText.setText(SSTR(_nbGenerations << "th generation."));
+        _gpsText.setText(SSTR(trueGps <<"gps (" << _gpsCible << " gen/step)"));
     } else if (_step) {
         _step = false;
         _state++; if (_state>1) _state = 0;

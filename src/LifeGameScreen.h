@@ -27,7 +27,7 @@ public :
     bool alive1;
     bool alive2;
 
-    int stepsStayingDead;
+    int stepsStayingStill;
 
     Cell(int column, int row);
     virtual ~Cell();
