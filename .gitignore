@@ -1,7 +1,6 @@
 *.[oa]
 Makefile
-MotorQtOrSFML
-MotorQtOrSFML.pro
+MotorQtOrSFML*
 moc*
 *~
 .cproject
@@ -13,3 +12,5 @@ moc*
 *.exe
 Debug
 core*
+.qmake.stash
+.gitignore.swp
