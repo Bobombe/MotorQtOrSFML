@@ -16,25 +16,24 @@
 #define CoreSprite sf::Sprite
 #endif
 
-class Sprite : public WorldElement
+class Sprite: public WorldElement
 {
 private:
     static int _s_layer;
 
 protected:
-
-    CoreSprite _sprite;
+    CoreSprite  _sprite;
     std::string _texturePath;
-    Texture * _texture;
+    Texture     *_texture;
 
     Vector2d _subRectPos;
     Vector2d _subRectSize;
 
 #ifdef IN_QT
-    QGraphicsPixmapItem* _manipulationItem;
+    QGraphicsPixmapItem *_manipulationItem;
 
 #else
-    sf::Texture * _intermediateTexture;
+    sf::Texture *_intermediateTexture;
 #endif
 
 public:
@@ -51,24 +50,23 @@ public:
     void setSprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize, Vector2d spriteSize);
 
     std::string getTexturePath();
-    void setTexturePath(std::string texturePath);
+    void        setTexturePath(std::string texturePath);
 
     Vector2d getSubRectPos();
-    void setSubRectPos(Vector2d subRectPos);
+    void     setSubRectPos(Vector2d subRectPos);
 
     Vector2d getSubRectSize();
-    void setSubRectSize(Vector2d subRectSize);
+    void     setSubRectSize(Vector2d subRectSize);
 
     void setSubRect(Vector2d subRectPos, Vector2d subRectSize);
 
 protected:
-
     virtual int update(double seconds);
     virtual int draw();
 
     // Specifics Functions
 #ifdef IN_QT
-    virtual void updateScene(QGraphicsScene * scene);
+    virtual void updateScene(QGraphicsScene *scene);
 
 #else
 

@@ -15,7 +15,8 @@
 #include <vector>
 #include <map>
 class Collider;
-class WorldElement {
+class WorldElement
+{
 
 private:
     Vector2d _pos;                  //// Position relative to parent WorldElement
@@ -28,28 +29,28 @@ private:
     Vector2d _absolutePos;          //// Absolute position top left app corner being ref.
     Vector2d _relativeSize;         //// Size relative to parent (= _size*_scale)
     Vector2d _absoluteSize;         //// Real size after scaling from parent scale and this object scale)
-    double _absoluteScale;          //// = _scale*_parent->_absoluteScale
+    double   _absoluteScale;        //// = _scale*_parent->_absoluteScale
 
 protected:
+    Collider *_collider;
 
-    Collider * _collider;
+    WorldElement                                   *_parent;
+    std::map< int, std::vector< WorldElement * > > _children;
+    int                                            _layer;
+    std::string                                    _weName;
 
-    WorldElement * _parent;
-    std::map<int, std::vector<WorldElement *> > _children;
-    int _layer;
-    std::string _weName;
+    bool _visible;
 
 #ifdef IN_QT
-    QGraphicsScene * _scene;
+    QGraphicsScene *_scene;
 
 #else
 
 #endif
 
 public:
-
     WorldElement();
-    WorldElement(WorldElement * parent, int layer = 0);
+    WorldElement(WorldElement *parent, int layer = 0);
     virtual ~WorldElement();
 
     int baseUpdate(double seconds);
@@ -58,30 +59,29 @@ public:
     /////////////////////////////////////////////////
     // GETTER OF BASED CHARACTERISTIQUES
     /////////////////////////////////////////////////
-    Vector2d getPosition();
-    Vector2d getSpeed();
-    Vector2d getAcceleration();
-    Vector2d getSize();
+    Vector2d       getPosition();
+    Vector2d       getSpeed();
+    Vector2d       getAcceleration();
+    Vector2d       getSize();
     virtual double getScale();
-
 
     /////////////////////////////////////////////////
     // GETTER OF DERIVATIVE FROM CHARACTERISTIQUES
     /////////////////////////////////////////////////
-    Vector2d getAbsolutePosition();
-    Vector2d getRelativeSize();
-    Vector2d getAbsoluteSize();
+    Vector2d       getAbsolutePosition();
+    Vector2d       getRelativeSize();
+    Vector2d       getAbsoluteSize();
     virtual double getAbsoluteScale();
 
     /////////////////////////////////////////////////
     // SETTER OF BASED CHARACTERISTICS
     /////////////////////////////////////////////////
     virtual void setPosition(Vector2d pos);
-    void setSpeed(Vector2d speed);
-    void setAcceleration(Vector2d accel);
-    void setSize(Vector2d size);
+    void         setSpeed(Vector2d speed);
+    void         setAcceleration(Vector2d accel);
+    void         setSize(Vector2d size);
     virtual void setScale(double scale);
-    void updateCharacteristics();
+    void         updateCharacteristics();
 
     /////////////////////////////////////////////////
     // MOVER OF BASED CHARACTERISTIQUES
@@ -93,13 +93,17 @@ public:
     /////////////////////////////////////////////////
     // HANDLE COLLIDER
     /////////////////////////////////////////////////
-    virtual void handleCollisionWith(WorldElement * weColided, double timeSinceLastFrame, int nbAdditionnalInfo...){}
-    Collider* getCollider();
-    void setCollider(Collider* collider);
+    virtual void handleCollisionWith(WorldElement *weColided, double timeSinceLastFrame, int nbAdditionnalInfo ...)
+    {
+    }
+    Collider *getCollider();
+    void     setCollider(Collider *collider);
 
+    WorldElement *getParent();
+    void         setParent(WorldElement *parent, int layer = 0);
 
-    WorldElement * getParent();
-    void setParent(WorldElement * parent, int layer = 0);
+    bool         isVisible();
+    virtual void setVisible(bool visible = true);
 
 protected:
     virtual int update(double seconds);
@@ -107,9 +111,9 @@ protected:
 
     // Specifics Functions
 #ifdef IN_QT
-    void updateScene();
-    void setScene(QGraphicsScene * scene);
-    virtual void updateScene(QGraphicsScene * scene);
+    void         updateScene();
+    void         setScene(QGraphicsScene *scene);
+    virtual void updateScene(QGraphicsScene *scene);
 
 #else
 

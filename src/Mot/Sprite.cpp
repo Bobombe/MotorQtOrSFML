@@ -2,7 +2,6 @@
 #include "Sprite.h"
 #include "moteur2d.h"
 
-
 #ifdef IN_QT
 #include <QRect>
 #include <QPainter>
@@ -11,7 +10,6 @@
 #endif
 
 int Sprite::_s_layer(0);
-
 
 Sprite::Sprite()
 {
@@ -22,6 +20,7 @@ Sprite::Sprite()
     _intermediateTexture = 0;
 #endif
     _weName = "Sprite";
+    _visible = true;
 }
 Sprite::Sprite(std::string texturePath)
 {
@@ -32,6 +31,7 @@ Sprite::Sprite(std::string texturePath)
 #endif
     setSprite(texturePath, Vector2d(), Vector2d());
     _weName = "Sprite";
+    _visible = true;
 }
 Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize)
 {
@@ -42,6 +42,7 @@ Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSiz
 #endif
     setSprite(texturePath, subRectPos, subRectSize);
     _weName = "Sprite";
+    _visible = true;
 }
 Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize, Vector2d spriteSize)
 {
@@ -52,6 +53,7 @@ Sprite::Sprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSiz
 #endif
     setSprite(texturePath, subRectPos, subRectSize, spriteSize);
     _weName = "Sprite";
+    _visible = true;
 }
 
 Sprite::~Sprite()
@@ -70,7 +72,6 @@ Sprite::~Sprite()
 #endif
 }
 
-
 int Sprite::update(double seconds)
 {
     _s_layer = 0;
@@ -82,6 +83,7 @@ int Sprite::draw()
     _manipulationItem->setZValue(_s_layer);
     _manipulationItem->setPos(getAbsolutePosition().x, getAbsolutePosition().y);
     _manipulationItem->setScale(getAbsoluteScale());
+    _manipulationItem->setVisible(_visible);
 
 #else
 
@@ -99,13 +101,11 @@ CoreSprite Sprite::getCoreSprite()
     return _sprite;
 }
 
-
 // Getters and Setters
 
 void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize)
 {
-    if (_texturePath != texturePath)
-    {
+    if (_texturePath != texturePath) {
         Moteur2D::getInstance()->unloadTexture(_texturePath);
         _texturePath = texturePath;
         _texture = Moteur2D::getInstance()->getTexture(_texturePath);
@@ -114,8 +114,7 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
     _subRectPos = subRectPos;
     _subRectSize = subRectSize;
     // if null size, take the whole texture as sprite
-    if (_subRectSize.x == 0 && _subRectSize.y == 0)
-    {
+    if (_subRectSize.x == 0 && _subRectSize.y == 0) {
         _subRectSize = _texture->getSize();
         _subRectPos.x = _subRectPos.y = 0;
     }
@@ -123,8 +122,7 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
 
 #ifdef IN_QT
     _sprite = _texture->getTexture()->copy(_subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
-    if (_manipulationItem)
-    {
+    if (_manipulationItem) {
         _manipulationItem->setPixmap(_sprite);
     }
 
@@ -141,8 +139,7 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
     _subRectSize = subRectSize;
     setSize(spriteSize);
     // if null size, take the whole texture as sprite
-    if (_subRectSize.x == 0 && _subRectSize.y == 0)
-    {
+    if (_subRectSize.x == 0 && _subRectSize.y == 0) {
         _subRectSize = _texture->getSize();
         _subRectPos.x = _subRectPos.y = 0;
     }
@@ -150,29 +147,26 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
         setSprite(texturePath, _subRectPos, _subRectSize);
     } else {
 
-        if (_texturePath != texturePath)
-        {
+        if (_texturePath != texturePath) {
             Moteur2D::getInstance()->unloadTexture(_texturePath);
             _texturePath = texturePath;
             _texture = Moteur2D::getInstance()->getTexture(_texturePath);
         }
 
-
     #ifdef IN_QT
         _sprite = CoreSprite(getSize().x, getSize().y);
         _sprite.fill(Qt::transparent);
-        CoreSprite* texture = _texture->getTexture();
+        CoreSprite *texture = _texture->getTexture();
         QPainter painter(&_sprite);
-        for (double i = 0; i < getSize().x; i+=_subRectSize.x) {
-            for (double j = 0; j < getSize().y; j+=_subRectSize.y) {
+        for (double i = 0; i < getSize().x; i += _subRectSize.x) {
+            for (double j = 0; j < getSize().y; j += _subRectSize.y) {
                 painter.drawPixmap(i, j, _subRectSize.x, _subRectSize.y, *texture
-                        , _subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
+                                   , _subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
             }
 
         }
         painter.end();
-        if (_manipulationItem)
-        {
+        if (_manipulationItem) {
             _manipulationItem->setPixmap(_sprite);
         }
 
@@ -182,7 +176,7 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
         smallImg.create(_subRectSize.x, _subRectSize.y);
         imgFromTexture.loadFromFile(texturePath);
         for (int i = 0; i < _subRectSize.x; ++i) {
-            for (int j = 0; j<_subRectSize.y; ++j) {
+            for (int j = 0; j < _subRectSize.y; ++j) {
                 smallImg.setPixel(i, j, imgFromTexture.getPixel(_subRectPos.x + i, _subRectPos.y + j));
             }
         }
@@ -233,10 +227,9 @@ void Sprite::setSubRect(Vector2d subRectPos, Vector2d subRectSize)
     setSprite(_texturePath, subRectPos, subRectSize);
 }
 
-
 // Specifics Functions
 #ifdef IN_QT
-void Sprite::updateScene(QGraphicsScene * scene)
+void Sprite::updateScene(QGraphicsScene *scene)
 {
     if (_manipulationItem) {
         delete _manipulationItem;

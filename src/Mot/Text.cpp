@@ -6,15 +6,18 @@
 #else
 #endif
 
-Text::Text() : WorldElement()
+Text::Text():
+    WorldElement()
 {
     init("");
 }
-Text::Text(WorldElement * parent, int layer) : WorldElement(parent, layer)
+Text::Text(WorldElement *parent, int layer):
+    WorldElement(parent, layer)
 {
     init("");
 }
-Text::Text(std::string text, WorldElement * parent, int layer) : WorldElement(parent, layer)
+Text::Text(std::string text, WorldElement *parent, int layer):
+    WorldElement(parent, layer)
 {
     init(text);
 }
@@ -31,7 +34,6 @@ void Text::init(std::string text)
 
     int id = QFontDatabase::addApplicationFont("./motorResources/OpenSans-Regular.ttf");
     QString family = QFontDatabase::applicationFontFamilies(id).at(0);
-
 
     _coreText = new QGraphicsTextItem();
     _coreText->setDefaultTextColor(QColor::fromRgb(0, 0, 0));
@@ -104,71 +106,71 @@ void Text::setColor(Color color)
 {
 #ifdef IN_QT
     switch (color) {
-    case Black:
-        _coreText->setDefaultTextColor(QColor::fromRgb(0, 0, 0));
-        break;
-    case White:
-        _coreText->setDefaultTextColor(QColor::fromRgb(255, 255, 255));
-        break;
-    case Red:
-        _coreText->setDefaultTextColor(QColor::fromRgb(255, 0, 0));
-        break;
-    case Green:
-        _coreText->setDefaultTextColor(QColor::fromRgb(0, 255, 0));
-        break;
-    case Blue:
-        _coreText->setDefaultTextColor(QColor::fromRgb(0, 0, 255));
-        break;
-    case Yellow:
-        _coreText->setDefaultTextColor(QColor::fromRgb(255, 255, 0));
-        break;
-    case Magenta:
-        _coreText->setDefaultTextColor(QColor::fromRgb(255, 0, 255));
-        break;
-    case Cyan:
-        _coreText->setDefaultTextColor(QColor::fromRgb(0, 255, 255));
-        break;
+        case Black:
+            _coreText->setDefaultTextColor(QColor::fromRgb(0, 0, 0));
+            break;
+        case White:
+            _coreText->setDefaultTextColor(QColor::fromRgb(255, 255, 255));
+            break;
+        case Red:
+            _coreText->setDefaultTextColor(QColor::fromRgb(255, 0, 0));
+            break;
+        case Green:
+            _coreText->setDefaultTextColor(QColor::fromRgb(0, 255, 0));
+            break;
+        case Blue:
+            _coreText->setDefaultTextColor(QColor::fromRgb(0, 0, 255));
+            break;
+        case Yellow:
+            _coreText->setDefaultTextColor(QColor::fromRgb(255, 255, 0));
+            break;
+        case Magenta:
+            _coreText->setDefaultTextColor(QColor::fromRgb(255, 0, 255));
+            break;
+        case Cyan:
+            _coreText->setDefaultTextColor(QColor::fromRgb(0, 255, 255));
+            break;
     }
 
     setSize(Vector2d(_coreText->boundingRect().width(), _coreText->boundingRect().height()));
     _collider->initRectangular(0, 0, _coreText->boundingRect().width(), _coreText->boundingRect().height());
 #else
     switch (color) {
-    case Black:
-        _coreText.setColor(sf::Color::Black);
-        break;
-    case White:
-        _coreText.setColor(sf::Color::White);
-        break;
-    case Red:
-        _coreText.setColor(sf::Color::Red);
-        break;
-    case Green:
-        _coreText.setColor(sf::Color::Green);
-        break;
-    case Blue:
-        _coreText.setColor(sf::Color::Blue);
-        break;
-    case Yellow:
-        _coreText.setColor(sf::Color::Yellow);
-        break;
-    case Magenta:
-        _coreText.setColor(sf::Color::Magenta);
-        break;
-    case Cyan:
-        _coreText.setColor(sf::Color::Cyan);
-        break;
+        case Black:
+            _coreText.setColor(sf::Color::Black);
+            break;
+        case White:
+            _coreText.setColor(sf::Color::White);
+            break;
+        case Red:
+            _coreText.setColor(sf::Color::Red);
+            break;
+        case Green:
+            _coreText.setColor(sf::Color::Green);
+            break;
+        case Blue:
+            _coreText.setColor(sf::Color::Blue);
+            break;
+        case Yellow:
+            _coreText.setColor(sf::Color::Yellow);
+            break;
+        case Magenta:
+            _coreText.setColor(sf::Color::Magenta);
+            break;
+        case Cyan:
+            _coreText.setColor(sf::Color::Cyan);
+            break;
     }
     setSize(Vector2d(_coreText.getGlobalBounds().width, _coreText.getGlobalBounds().height));
     _collider->initRectangular(0, 0, _coreText.getGlobalBounds().width, _coreText.getGlobalBounds().height);
 #endif
 }
 
-
 int Text::draw()
 {
 #ifdef IN_QT
     _coreText->setPos(getAbsolutePosition().x, getAbsolutePosition().y);
+    _coreText->setVisible(_visible);
 #else
 
     _coreText.setPosition(getAbsolutePosition().x, getAbsolutePosition().y);
@@ -181,7 +183,7 @@ int Text::draw()
 
 // Specifics Functions
 #ifdef IN_QT
-void Text::updateScene(QGraphicsScene * scene)
+void Text::updateScene(QGraphicsScene *scene)
 {
     if (scene) {
         scene->addItem(_coreText);
