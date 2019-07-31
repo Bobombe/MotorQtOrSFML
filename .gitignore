@@ -14,4 +14,4 @@ Debug
 core*
 .qmake.stash
 .gitignore.swp
-build-MotorQtOrSFML*
+build-*
