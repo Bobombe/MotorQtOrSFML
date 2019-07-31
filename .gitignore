@@ -1,6 +1,6 @@
 *.[oa]
 Makefile
-MotorQtOrSFML.pro.user
+*.user
 moc*
 *~
 .cproject
