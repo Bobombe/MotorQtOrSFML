@@ -32,7 +32,6 @@ int TitleScreen::draw()
     }
     if (_bt.isActivated()) {
         retValue = 1;
-        std::cout << "Youpi : btbtbt" << " (" << __FILE__ << "::" << __LINE__ << ")" << std::endl;
     }
     Screen::draw();
     return retValue;
