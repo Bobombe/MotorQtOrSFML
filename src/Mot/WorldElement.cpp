@@ -1,8 +1,9 @@
 
 #include "WorldElement.h"
+#include "Collider.h"
 
 WorldElement::WorldElement():
-    _collider(0), _scale(1), _absoluteScale(1), _parent(0), _layer(0), _weName("WorldElement")
+    _scale(1), _absoluteScale(1),_collider(nullptr), _parent(nullptr), _layer(0), _weName("WorldElement")
 {
 #ifdef IN_QT
     _scene = 0;
@@ -11,7 +12,7 @@ WorldElement::WorldElement():
 }
 
 WorldElement::WorldElement(WorldElement *parent, int layer):
-    _collider(0), _scale(1), _absoluteScale(1), _parent(0)
+    _scale(1), _absoluteScale(1), _collider(nullptr), _parent(nullptr)
 {
 #ifdef IN_QT
     _scene = 0;
@@ -28,7 +29,7 @@ WorldElement::~WorldElement()
     if (_parent) {
 
         for (std::map< int, std::vector< WorldElement * > >::iterator it = _parent->_children.begin(); it != _parent->_children.end(); ++it) {
-            for (int i = 0; i < it->second.size(); i++) {
+            for (unsigned int i = 0; i < it->second.size(); i++) {
                 if (it->second[i] == this) {
                     it->second.erase(it->second.begin() + i);
                 }
@@ -36,7 +37,7 @@ WorldElement::~WorldElement()
         }
     }
     for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
-        for (int i = 0; i < it->second.size(); i++) {
+        for (unsigned int i = 0; i < it->second.size(); i++) {
             delete it->second[i];
         }
     }
@@ -110,7 +111,7 @@ void WorldElement::setPosition(Vector2d pos)
         _absolutePos = _pos;
     }
     for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
-        for (int i = 0; i < it->second.size(); i++) {
+        for (unsigned int i = 0; i < it->second.size(); i++) {
             it->second[i]->setPosition(it->second[i]->getPosition());
         }
     }
@@ -140,7 +141,7 @@ void WorldElement::setScale(double scale)
         _absoluteScale = _scale;
     }
     for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
-        for (int i = 0; i < it->second.size(); i++) {
+        for (unsigned int i = 0; i < it->second.size(); i++) {
             it->second[i]->updateCharacteristics();
         }
     }
@@ -158,7 +159,7 @@ void WorldElement::updateCharacteristics()
         _absolutePos = _pos;
     }
     for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
-        for (int i = 0; i < it->second.size(); i++) {
+        for (unsigned int i = 0; i < it->second.size(); i++) {
             it->second[i]->updateCharacteristics();
         }
     }
@@ -202,7 +203,7 @@ void WorldElement::setParent(WorldElement *parent, int layer)
     std::map< int, std::vector< WorldElement * > >::iterator it;
     if (_parent) {
         for (it = _parent->_children.begin(); it != _parent->_children.end(); ++it) {
-            for (int i = 0; i < it->second.size(); i++) {
+            for (unsigned int i = 0; i < it->second.size(); i++) {
                 if (it->second[i] == this) {
                     it->second.erase(it->second.begin() + i);
                 }
@@ -243,7 +244,7 @@ int WorldElement::update(double seconds)
     _speed += _accel * seconds;
     movePosition(_speed * seconds);
     for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
-        for (int i = 0; i < it->second.size(); i++) {
+        for (unsigned int i = 0; i < it->second.size(); i++) {
             it->second[i]->baseUpdate(seconds);
         }
     }
@@ -253,7 +254,7 @@ int WorldElement::draw()
 {
     int ret = 0;
     for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
-        for (int i = 0; i < it->second.size(); i++) {
+        for (unsigned int i = 0; i < it->second.size(); i++) {
             it->second[i]->baseDraw();
         }
     }

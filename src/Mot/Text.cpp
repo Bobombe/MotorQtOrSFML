@@ -43,7 +43,7 @@ void Text::init(std::string text)
 #else
     _coreText.setFont(Moteur2D::getInstance()->getFont());
     _coreText.setCharacterSize(30);
-    _coreText.setColor(sf::Color::White);
+    _coreText.setFillColor(sf::Color::White);
 #endif
     setText(text);
     setParent(_parent);
@@ -137,28 +137,28 @@ void Text::setColor(Color color)
 #else
     switch (color) {
         case Black:
-            _coreText.setColor(sf::Color::Black);
+            _coreText.setFillColor(sf::Color::Black);
             break;
         case White:
-            _coreText.setColor(sf::Color::White);
+            _coreText.setFillColor(sf::Color::White);
             break;
         case Red:
-            _coreText.setColor(sf::Color::Red);
+            _coreText.setFillColor(sf::Color::Red);
             break;
         case Green:
-            _coreText.setColor(sf::Color::Green);
+            _coreText.setFillColor(sf::Color::Green);
             break;
         case Blue:
-            _coreText.setColor(sf::Color::Blue);
+            _coreText.setFillColor(sf::Color::Blue);
             break;
         case Yellow:
-            _coreText.setColor(sf::Color::Yellow);
+            _coreText.setFillColor(sf::Color::Yellow);
             break;
         case Magenta:
-            _coreText.setColor(sf::Color::Magenta);
+            _coreText.setFillColor(sf::Color::Magenta);
             break;
         case Cyan:
-            _coreText.setColor(sf::Color::Cyan);
+            _coreText.setFillColor(sf::Color::Cyan);
             break;
     }
     setSize(Vector2d(_coreText.getGlobalBounds().width, _coreText.getGlobalBounds().height));

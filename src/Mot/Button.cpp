@@ -57,7 +57,7 @@ Button::~Button()
 {
 }
 
-void Button::buttonPressed(MouseButton::MouseButton button, Vector2d pos)
+void Button::buttonPressed(MouseButton::MouseButton, Vector2d pos)
 {
     if (posOverButton(pos)) {
         if (_buttonState == BS_HOVER) {
@@ -66,7 +66,7 @@ void Button::buttonPressed(MouseButton::MouseButton button, Vector2d pos)
         }
     }
 }
-void Button::buttonReleased(MouseButton::MouseButton button, Vector2d pos)
+void Button::buttonReleased(MouseButton::MouseButton, Vector2d pos)
 {
     if (posOverButton(pos) && _buttonState == BS_SELECTED) {
         _activated = 1;    // Activate button during 2 frames

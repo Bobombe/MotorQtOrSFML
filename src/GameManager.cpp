@@ -18,7 +18,7 @@ GameManager::~GameManager()
 
 
 
-void GameManager::update(double seconds, int updateReturn, int drawReturn)
+void GameManager::update(double, int updateReturn, int drawReturn)
 {
     if (drawReturn == 1 && getCurrentScreenId() == 0) {
         // delete getCurrentScreen();

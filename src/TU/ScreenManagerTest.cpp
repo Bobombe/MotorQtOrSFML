@@ -13,6 +13,6 @@ ScreenManagerTest::~ScreenManagerTest()
 {
 }
 
-void ScreenManagerTest::update(double seconds, int updateReturn, int drawReturn)
+void ScreenManagerTest::update(double, int, int)
 {
 }

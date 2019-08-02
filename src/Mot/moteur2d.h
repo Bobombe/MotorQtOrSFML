@@ -57,6 +57,14 @@ protected:
 
     EventsManager * _eventsManager;
 
+    // Managing Textures
+    std::map<std::string, Texture*> _textures;
+
+    // First called by eventmanager
+    std::map <int, KeyboardListener*> _keyboardListeners;
+    int _keyboardListenersId;
+    std::map <int, MouseListener*> _mouseListeners;
+    int _mouseListenersId;
 
 #ifdef IN_QT
     QApplication * _app;
@@ -68,16 +76,6 @@ protected:
     sf::Font _font;
 #endif
 
-    // Managing Textures
-    std::map<std::string, Texture*> _textures;
-
-    // First called by eventmanager
-    std::map <int, KeyboardListener*> _keyboardListeners;
-    int _keyboardListenersId;
-    std::map <int, MouseListener*> _mouseListeners;
-    int _mouseListenersId;
-//
-//
 public:
     static Moteur2D* getInstance();
 

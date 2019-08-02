@@ -37,7 +37,7 @@ int Dephazor::update(double seconds)
     return 0;
 }
 
-void Dephazor::handleCollisionWith(WorldElement * weColided, double secsSinceLastFrame, int nbAdditionnalInfo...)
+void Dephazor::handleCollisionWith(WorldElement * weColided, double, int...)
 {
     Opponent * opp = dynamic_cast<Opponent*>(weColided);
     if (opp) {

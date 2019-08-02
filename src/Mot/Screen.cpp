@@ -3,7 +3,7 @@
 #include "moteur2d.h"
 #include "Camera.h"
 
-Screen::Screen() : WorldElement(), _screenInitialized(false), _camera(0)//, _weName("Screen")
+Screen::Screen() : WorldElement(), _camera(nullptr), _screenInitialized(false)//, _weName("Screen")
 {
 #ifdef IN_QT
     QWidget * widget = Moteur2D::getInstance()->getView();
@@ -80,7 +80,7 @@ void Screen::addForce(Force * f)
 
 void Screen::deleteForce(Force * f)
 {
-    for (int i = 0; i<_forces.size(); i++)
+    for (unsigned int i = 0; i<_forces.size(); i++)
     {
         if (f==_forces[i])
         {
@@ -102,7 +102,7 @@ void Screen::deleteCollider(int layer, Collider* c)
 {
     if (_collisionLayers.find(layer)!=_collisionLayers.end()) {
         std::vector<Collider*>* colliders = _collisionLayers[layer];
-        for (int i = 0; i<colliders->size(); i++)
+        for (unsigned int i = 0; i<colliders->size(); i++)
         {
             if (c==colliders->at(i))
             {

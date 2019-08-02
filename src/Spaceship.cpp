@@ -10,7 +10,7 @@
 
 Spaceship::Spaceship() : Sprite("./resLD40/spaceship.png"),
                         _movingLeft(false), _movingRight(false), _movingUp(false), _movingDown(false), _firing(false), _fireCoolDown(0),
-                        _invincible(0), _usingEnergy(3), _maxAccel(4000), _maxSpeed(600), _maxPosX(ScreenLevel1::SIZEX-70), _minPosX(10),
+                        _invincible(0), _usingEnergy(3), _maxAccel(4000), _maxSpeed(600), _minPosX(10), _maxPosX(ScreenLevel1::SIZEX-70),
                         _minPosY(10), _maxPosY(ScreenLevel1::SIZEY-90), _nbPodDocked(0), _credits(100), _power(100)
 {
     _weName = "Spaceship";
@@ -34,7 +34,7 @@ Spaceship::Spaceship() : Sprite("./resLD40/spaceship.png"),
     _dockPositions.push_back(Vector2d(96, 35));
     _dockPositions.push_back(Vector2d(20, 66));
     for (unsigned int i = 0; i < _dockPositions.size(); i++) {
-        _docks.push_back(0);
+        _docks.push_back(nullptr);
     }
 }
 
@@ -152,7 +152,7 @@ int Spaceship::draw()
     return 0;
 }
 
-void Spaceship::mouseMoved(Vector2d pos)
+void Spaceship::mouseMoved(Vector2d)
 {
 }
 
@@ -185,7 +185,7 @@ void Spaceship::keyReleased(Key::Key key)
 	}
 }
 
-void Spaceship::handleCollisionWith(WorldElement * weColided, double secsSinceLastFrame, int nbAdditionnalInfo...)
+void Spaceship::handleCollisionWith(WorldElement * weColided, double, int ...)
 {
     Dephazor * dephazor = dynamic_cast<Dephazor*>(weColided);
     Opponent * opponent = dynamic_cast<Opponent*>(weColided);
@@ -211,18 +211,18 @@ void Spaceship::handleCollisionWith(WorldElement * weColided, double secsSinceLa
             int lastDocked = 0;
             for (int i = _docks.size()-1; i >= 0 && i > lastDocked - 4; i--) {
                 if (_docks[i]) {
-                    if (i>7 || i==7 && !_docks[11]
-                            || i==6 && !_docks[10]
-                            || i==5 && !_docks[9]
-                            || i==4 && !_docks[8] && !_docks[12]
-                            || i==3 && !_docks[7] && !_docks[11]
-                            || i==2 && !_docks[6] && !_docks[10]
-                            || i==1 && !_docks[5] && !_docks[9]
-                            || i==0 && !_docks[4] && !_docks[8])
+                    if (i>7 || (i==7 && !_docks[11])
+                            || (i==6 && !_docks[10])
+                            || (i==5 && !_docks[9])
+                            || (i==4 && !_docks[8] && !_docks[12])
+                            || (i==3 && !_docks[7] && !_docks[11])
+                            || (i==2 && !_docks[6] && !_docks[10])
+                            || (i==1 && !_docks[5] && !_docks[9])
+                            || (i==0 && !_docks[4] && !_docks[8]))
                     {
                         int reward = _docks[i]->undock(planet);
                         if (reward>=0) {
-                            _docks[i] = 0;
+                            _docks[i] = nullptr;
                             _nbPodDocked--;
                             _credits+=reward;
                             updateMovements();
@@ -277,16 +277,16 @@ void Spaceship::updateMovements()
     } else {
         _maxPosX = ScreenLevel1::SIZEX - 70;
     }
-
+/*
     double emptySpeed = 800;
     double fullSpeed = 150;
     double emptyAccel = 5000;
-    double fullAccel = 200;
+    double fullAccel = 200;*/
     _maxSpeed = 2.8*(_nbPodDocked-15)*(_nbPodDocked-15)+190;//emptySpeed - _nbPodDocked*(emptySpeed-fullSpeed)/13.;
     _maxAccel = 21.7*(_nbPodDocked-15)*(_nbPodDocked-15)+115;//emptyAccel - _nbPodDocked*(emptyAccel-fullAccel)/13.;
 }
 
-void Spaceship::getStats(int& credits, int& power, std::vector<PassengerStats>& passengersHappiness)
+void Spaceship::getStats(int& credits, int& power, std::vector<PassengerStats>&)
 {
     credits = _credits;
     power = _power;

@@ -125,9 +125,8 @@ void Pod::acceptCall()
 }
 
 
-void Pod::handleCollisionWith(WorldElement * weColided, double secsSinceLastFrame, int nbAdditionnalInfo...)
+void Pod::handleCollisionWith(WorldElement * weColided, double, int...)
 {
-    Opponent * opponent = dynamic_cast<Opponent*>(weColided);
     Spaceship * ship = dynamic_cast<Spaceship*>(weColided);
     if (ship) {
         acceptCall();

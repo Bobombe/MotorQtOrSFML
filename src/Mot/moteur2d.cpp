@@ -10,11 +10,11 @@
 #include <QTimer>
 #endif
 
-Moteur2D * Moteur2D::_instance = 0;
+Moteur2D * Moteur2D::_instance = nullptr;
 
 Moteur2D * Moteur2D::getInstance()
 {
-    if (_instance == 0)
+    if (_instance == nullptr)
     {
 
         _instance = new Moteur2D();
@@ -22,9 +22,9 @@ Moteur2D * Moteur2D::getInstance()
     return _instance;
 }
 
-Moteur2D::Moteur2D() : _lastTime(0), _screenManager(0), _keyboardListenersId(0), _mouseListenersId(0)
+Moteur2D::Moteur2D() : _lastTime(0), _screenManager(nullptr), _keyboardListenersId(0), _mouseListenersId(0)
 #ifndef IN_QT
-        , _window(0)
+        , _window(nullptr)
 #else
         , _app(0), _eventsManager(0)
 #endif
@@ -60,7 +60,7 @@ Moteur2D::~Moteur2D()
  ///////////          METHODES             ///////////
 /////////////////////////////////////////////////////
 
-void Moteur2D::init(int width, int height, std::string windowName, int argc, char **argv)
+void Moteur2D::init(int width, int height, std::string windowName, int, char **)
 {
 #ifdef IN_QT
     _app = new QApplication(argc, argv);
@@ -145,7 +145,7 @@ void Moteur2D::update()
 {
     double curTime = getMsSinceLaunch();
     double elapsedTime = double(curTime - _lastTime) / 1000.;
-    double frameRate = 1000. / double(curTime - _lastTime);
+    // double frameRate = 1000. / double(curTime - _lastTime);
     if (elapsedTime > 1./15.) {
         elapsedTime = 1./15.;
     }

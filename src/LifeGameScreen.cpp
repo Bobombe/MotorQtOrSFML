@@ -14,11 +14,11 @@
         ( std::ostringstream() << std::dec << x ) ).str()
 
 std::map<int, std::map<int, Cell*> > LifeGameScreen::_cellGrid;
-WorldElement * LifeGameScreen::_rootForCells(0);
+WorldElement * LifeGameScreen::_rootForCells(nullptr);
 
 int LifeGameScreen::_nbCells(0);
 
-Cell::Cell(int column, int line) : sprite(0), ul(0), u(0), ur(0), l(0), r(0), dl(0), d(0), dr(0), column(column), line(line),
+Cell::Cell(int column, int line) : sprite(nullptr), ul(nullptr), u(nullptr), ur(nullptr), l(nullptr), r(nullptr), dl(nullptr), d(nullptr), dr(nullptr), column(column), line(line),
         alive1(false), alive2(false), stepsStayingStill(0)
 {
         sprite = new Sprite("./Ressources/deadCell.png");
@@ -152,28 +152,28 @@ void Cell::safeDelete()
     if (count==0) {
         // Retrieve all neighbor
         if (ul) {
-            ul->dr = 0;
+            ul->dr = nullptr;
         }
         if (u) {
-            u->d = 0;
+            u->d = nullptr;
         }
         if (ur) {
-            ur->dl = 0;
+            ur->dl = nullptr;
         }
         if (l) {
-            l->r = 0;
+            l->r = nullptr;
         }
         if (r) {
-            r->l = 0;
+            r->l = nullptr;
         }
         if (dl) {
-            dl->ur = 0;
+            dl->ur = nullptr;
         }
         if (d) {
-            d->u = 0;
+            d->u = nullptr;
         }
         if (dr) {
-            dr->ul = 0;
+            dr->ul = nullptr;
         }
         std::map<int, std::map<int, Cell*> >::iterator itC = LifeGameScreen::_cellGrid.find(column);
         if (itC != LifeGameScreen::_cellGrid.end()) {
@@ -294,7 +294,7 @@ Cell * LifeGameScreen::switchCell(int column, int line)
 }
 Cell * LifeGameScreen::cellAt(int column, int line)
 {
-    Cell * ret = 0;
+    Cell * ret = nullptr;
     std::map<int, std::map<int, Cell*> >::iterator itC = _cellGrid.find(column);
     if (itC != _cellGrid.end()) {
         std::map<int, Cell*> cellLine = _cellGrid[column];
@@ -328,7 +328,7 @@ int LifeGameScreen::update(double seconds)
 
     if (_play) {
         _step = false;
-        double trueGps = ((double)(_gpsCible))/seconds;
+        double trueGps = _gpsCible/seconds;
         for (int i = 0; i < _gpsCible; i++) {
             std::vector<Cell*> cellToDelete;
             _state++; if (_state>1) _state = 0;
@@ -340,7 +340,7 @@ int LifeGameScreen::update(double seconds)
                     }
                 }
             }
-            for (int j = 0; j < cellToDelete.size(); j++) {
+            for (unsigned int j = 0; j < cellToDelete.size(); j++) {
                 cellToDelete[j]->safeDelete();
             }
             //_cellGrid = _cellGrid2;
@@ -361,7 +361,7 @@ int LifeGameScreen::update(double seconds)
                 }
             }
         }
-        for (int j = 0; j < cellToDelete.size(); j++) {
+        for (unsigned int j = 0; j < cellToDelete.size(); j++) {
             cellToDelete[j]->safeDelete();
         }
         _nbGenerations ++;
@@ -494,7 +494,7 @@ void LifeGameScreen::keyReleased(Key::Key key)
         _rootForCells->setPosition(Vector2d(Moteur2D::getInstance()->getScreenSize().x/2, Moteur2D::getInstance()->getScreenSize().y/2));
     }
 }
-void LifeGameScreen::buttonPressed(MouseButton::MouseButton button, Vector2d pos)
+void LifeGameScreen::buttonPressed(MouseButton::MouseButton, Vector2d pos)
 {
     pos = (pos - _rootForCells->getPosition())/_rootForCells->getScale();
     double column = pos.x/_cellSize.x;

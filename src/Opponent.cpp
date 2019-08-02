@@ -204,7 +204,7 @@ int Opponent::update(double seconds)
 }
 
 
-void Opponent::handleCollisionWith(WorldElement * weColided, double secsSinceLastFrame, int nbAdditionnalInfo...)
+void Opponent::handleCollisionWith(WorldElement * weColided, double, int...)
 {
     Dephazor * dephazor = dynamic_cast<Dephazor*>(weColided);
     Spaceship * ship = dynamic_cast<Spaceship*>(weColided);

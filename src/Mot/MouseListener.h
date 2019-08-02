@@ -24,10 +24,10 @@ public:
 	MouseListener();
 	virtual ~MouseListener();
 
-    virtual void buttonPressed(MouseButton::MouseButton button, Vector2d pos){};
-    virtual void buttonReleased(MouseButton::MouseButton button, Vector2d pos){};
-    virtual void mouseMoved(Vector2d pos){};
-    virtual void mouseWheelMoved(float wheelMoveInDegree){};
+    virtual void buttonPressed(MouseButton::MouseButton, Vector2d){}
+    virtual void buttonReleased(MouseButton::MouseButton, Vector2d){}
+    virtual void mouseMoved(Vector2d){}
+    virtual void mouseWheelMoved(float){}
 
     int getScreenIdMouse();
     void setScreenIdMouse(int screenId);

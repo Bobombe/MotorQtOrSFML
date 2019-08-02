@@ -41,6 +41,8 @@ void Collider::detectCollisionWith(Collider * collider, double seconds)
                 case COLLIDER_CIRCULAR:
                     detectRectOnCirc(this, collider, seconds);
                     break;
+                default:
+                    break;
             }
             break;
         case COLLIDER_CIRCULAR:
@@ -51,7 +53,11 @@ void Collider::detectCollisionWith(Collider * collider, double seconds)
                 case COLLIDER_CIRCULAR:
                     detectCircOnCirc(this, collider, seconds);
                     break;
+                default:
+                    break;
             }
+            break;
+        default:
             break;
     }
 }
@@ -76,11 +82,11 @@ void Collider::detectRectOnRect (Collider * collider1, Collider * collider2, dou
         collider2->_we->handleCollisionWith(collider1->_we, seconds, 0);
     }
 }
-void Collider::detectRectOnCirc (Collider * colliderRect, Collider * colliderCirc, double seconds)
+void Collider::detectRectOnCirc (Collider *, Collider *, double)
 {
 
 }
-void Collider::detectCircOnCirc (Collider * collider1, Collider * collider2, double seconds)
+void Collider::detectCircOnCirc (Collider *, Collider *, double)
 {
 
 }

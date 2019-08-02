@@ -93,7 +93,7 @@ public:
     /////////////////////////////////////////////////
     // HANDLE COLLIDER
     /////////////////////////////////////////////////
-    virtual void handleCollisionWith(WorldElement *weColided, double timeSinceLastFrame, int nbAdditionnalInfo ...)
+    virtual void handleCollisionWith(WorldElement *, double, int ...)
     {
     }
     Collider *getCollider();

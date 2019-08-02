@@ -251,7 +251,7 @@ void PersoTest::keyReleased(Key::Key key)
 	}
 }
 
-void PersoTest::handleCollisionWith(WorldElement * weColided, double secsSinceLastFrame, int nbAdditionnalInfo...)
+void PersoTest::handleCollisionWith(WorldElement * weColided, double secsSinceLastFrame, int ...)
 {
     Vector2d oldPos = getPosition() - (getSpeed()*secsSinceLastFrame);
     Vector2d oldPosColided = weColided->getPosition()- (weColided->getSpeed()*secsSinceLastFrame);

@@ -122,8 +122,8 @@ public:
     KeyboardListener();
     virtual ~KeyboardListener();
 
-    virtual void keyPressed(Key::Key key){}
-    virtual void keyReleased(Key::Key key){}
+    virtual void keyPressed(Key::Key){}
+    virtual void keyReleased(Key::Key){}
 
     int getScreenIdKeyboard();
     void setScreenIdKeyboard(int screenId);
