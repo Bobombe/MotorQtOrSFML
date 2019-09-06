@@ -3,8 +3,9 @@
 
 TitleScreen::TitleScreen():
     Screen(),
-    _bt(/*"./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),
-           "./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120),*/"GO!")
+    _bt("./Ressources/Perso.PNG", Vector2d(0, 0), Vector2d(400, 120),
+        "./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),
+        "./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120),"GO!")
 {
     Sprite *s = new Sprite("./Ressources/Fond3.png");
     s->setParent(this);

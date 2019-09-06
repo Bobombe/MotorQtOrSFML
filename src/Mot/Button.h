@@ -18,8 +18,8 @@ protected:
     enum ButtonState
     {
         BS_UP,
-        BS_HOVER,
-        BS_SELECTED,
+        BS_OVER,
+        BS_DOWN,
         BS_PENDING
     };
 
@@ -31,14 +31,25 @@ protected:
     std::string _texturePathStateDown;
     Vector2d    _subRectPosStateDown;
     Vector2d    _subRectSizeStateDown;
+    std::string _texturePathStateOver;
+    Vector2d    _subRectPosStateOver;
+    Vector2d    _subRectSizeStateOver;
 
     Text *_textOnButton;
 
 public:
+    // Constructor for text only, no image used for the button
     Button(std::string textOnButton = std::string(""));
+    // Constructor with only one texture = no animation on button. Text optionnal
     Button(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize, std::string textOnButton = std::string(""));
+    // Constructor with two textures = the second texture is apply when button is "Down". Text optionnal
     Button(std::string texturePathStateUp, Vector2d subRectPosStateUp, Vector2d subRectSizeStateUp,
            std::string texturePathStateDown, Vector2d subRectPosStateDown, Vector2d subRectSizeStateDown,
+           std::string textOnButton = std::string(""));
+    // Constructor with two textures = the third texture is apply when the button is selected or the mouse is over the button. Text optionnal
+    Button(std::string texturePathStateUp, Vector2d subRectPosStateUp, Vector2d subRectSizeStateUp,
+           std::string texturePathStateDown, Vector2d subRectPosStateDown, Vector2d subRectSizeStateDown,
+           std::string texturePathStateOver, Vector2d subRectPosStateOver, Vector2d subRectSizeStateOver,
            std::string textOnButton = std::string(""));
 
     virtual ~Button();

@@ -34,15 +34,15 @@ void ScreenManager::addScreen(int k,Screen*s)
 
 Screen* ScreenManager::screenAt(int indexOfScreen)
 {
-    Screen * scr = 0;
+    Screen * scr = nullptr;
     try
     {
         scr = _screens.at(indexOfScreen);
     }
-    catch (const std::out_of_range& oor)
+    catch (const std::out_of_range&)
     {
         std::cout << "ERROR : no Screen at index " << indexOfScreen << std::endl;
-        scr = 0;
+        scr = nullptr;
     }
     return scr;
 }
@@ -77,3 +77,11 @@ void ScreenManager::setCurrentScreenId(int screenId)
 #endif
     _currentScreen = screenId;
 }
+
+
+
+
+
+
+
+

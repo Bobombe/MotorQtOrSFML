@@ -60,7 +60,7 @@ Moteur2D::~Moteur2D()
  ///////////          METHODES             ///////////
 /////////////////////////////////////////////////////
 
-void Moteur2D::init(int width, int height, std::string windowName, int, char **)
+void Moteur2D::init(int unsigned width, int unsigned height, std::string windowName, int, char **)
 {
 #ifdef IN_QT
     _app = new QApplication(argc, argv);
@@ -115,12 +115,22 @@ void Moteur2D::run(ScreenManager* screenManager)
     while(_window->isOpen())
     {
         // TO DO : Relacher le proc
-        // Attente active
-        while (s<1/60.)
+        /*/ Attente active
+        while (s < 1./60)
         {
             t2 = _clock.getElapsedTime();
             s = (t2-t1).asSeconds() ;
+        }//Fin attente active*/
+
+        // Attente passive
+        t2 = _clock.getElapsedTime();
+        s = (t2-t1).asSeconds() ;
+        if (s < 1./60) {
+            sf::sleep((t2-t1));
         }
+        t2 = _clock.getElapsedTime();
+        // Fin Attente passive*/
+
         s=0;
 
         update();
@@ -220,7 +230,7 @@ void Moteur2D::unloadTexture(const std::string& imagePath)
                 delete texture;
             }
         }
-        catch (const std::out_of_range& oor)
+        catch (const std::out_of_range&)
         {
             std::cout << "ERROR : Moteur2D::unloadTexture : texture " << imagePath << " not stored." << std::endl;
         }
@@ -235,14 +245,14 @@ void Moteur2D::unloadTexture(const std::string& imagePath)
 
 Texture * Moteur2D::getTexture(const std::string& imagePath)
 {
-    Texture* texture = 0;
-    CoreTexture * coreTexture = 0;
+    Texture* texture = nullptr;
+    CoreTexture * coreTexture = nullptr;
     try
     {
         texture = _textures.at(imagePath);
         coreTexture = texture->getTexture();
     }
-    catch (const std::out_of_range& oor)
+    catch (const std::out_of_range&)
     {
         std::cout << "Moteur2D::getTexture : creating new texture from " << imagePath << "." << std::endl;
         texture = new Texture(imagePath);

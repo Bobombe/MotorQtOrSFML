@@ -9,7 +9,6 @@
 
 int main(int argc, char **argv)
 {
-    std::cout << "Youpi : " << std::endl;
     srand (static_cast<unsigned int>(time(nullptr)));
 
     Moteur2D *moteur = Moteur2D::getInstance();

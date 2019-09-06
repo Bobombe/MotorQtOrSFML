@@ -82,7 +82,7 @@ public:
 /////////////////////////////////////////////////////
 ///////////          METHODES             ///////////
 /////////////////////////////////////////////////////
-    void init(int width, int height, std::string windowName, int argc, char **argv);
+    void init(unsigned int width, unsigned int height, std::string windowName, int argc, char **argv);
     void run(ScreenManager* screenManager);
 
     double getMsSinceLaunch();
