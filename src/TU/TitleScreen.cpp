@@ -1,5 +1,6 @@
 #include "TitleScreen.h"
 #include "../Mot/moteur2d.h"
+#include "../Mot/Sound.h"
 
 TitleScreen::TitleScreen():
     Screen(),
@@ -9,6 +10,10 @@ TitleScreen::TitleScreen():
 {
     Sprite *s = new Sprite("./Ressources/Fond3.png");
     s->setParent(this);
+
+    Sound *sound = new Sound("./Ressources/Footsteps_on_Cement.wav");
+    sound->setParent(s);
+    sound->play();
 
     _bt.setPosition(Vector2d(Moteur2D::getInstance()->getScreenSize().x / 2 - 200, Moteur2D::getInstance()->getScreenSize().y / 2 - 60));
     _bt.setScreenId(0);

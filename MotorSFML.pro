@@ -38,7 +38,8 @@ SOURCES += \
     src/Mot/Text.cpp \
     src/Mot/Texture.cpp \
     src/Mot/Vector2d.cpp \
-    src/Mot/WorldElement.cpp
+    src/Mot/WorldElement.cpp \
+    src/Mot/Sound.cpp
 
 HEADERS += \
     src/Dephazor.h \
@@ -74,7 +75,8 @@ HEADERS += \
     src/Mot/Text.h \
     src/Mot/Texture.h \
     src/Mot/Vector2d.h \
-    src/Mot/WorldElement.h
+    src/Mot/WorldElement.h \
+    src/Mot/Sound.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-graphics
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-graphics-d
@@ -88,6 +90,10 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-window-d
 else:unix: LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-window
 
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-audio
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-audio-d
+else:unix: LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-audio
+
 INCLUDEPATH += $$PWD/../SFML-2.5.1/include
 DEPENDPATH += $$PWD/../SFML-2.5.1/include
 
@@ -96,8 +102,8 @@ win32:CONFIG(release, debug|release): dlls_to_move.path = $$OUT_PWD/release
 else:win32:CONFIG(debug, debug|release): dlls_to_move.path = $$OUT_PWD/debug
 else:unix: dlls_to_move.path = $$OUT_PWD/release
 
-win32:CONFIG(release, debug|release): dlls_to_move.files += ../SFML-2.5.1/bin/sfml-graphics-2.dll ../SFML-2.5.1/bin/sfml-system-2.dll ../SFML-2.5.1/bin/sfml-window-2.dll
-else:win32:CONFIG(debug, debug|release): dlls_to_move.files += ../SFML-2.5.1/bin/sfml-graphics-d-2.dll ../SFML-2.5.1/bin/sfml-system-d-2.dll ../SFML-2.5.1/bin/sfml-window-d-2.dll
-else:unix: dlls_to_move.files += ../SFML-2.5.1/bin/sfml-graphics-2.dll ../SFML-2.5.1/bin/sfml-system-2.dll ../SFML-2.5.1/bin/sfml-window-2.dll
+win32:CONFIG(release, debug|release): dlls_to_move.files += ../SFML-2.5.1/bin/sfml-graphics-2.dll ../SFML-2.5.1/bin/sfml-system-2.dll ../SFML-2.5.1/bin/sfml-window-2.dll ../SFML-2.5.1/bin/sfml-audio-2.dll
+else:win32:CONFIG(debug, debug|release): dlls_to_move.files += ../SFML-2.5.1/bin/sfml-graphics-d-2.dll ../SFML-2.5.1/bin/sfml-system-d-2.dll ../SFML-2.5.1/bin/sfml-window-d-2.dll ../SFML-2.5.1/bin/sfml-audio-d-2.dll
+else:unix: dlls_to_move.files += ../SFML-2.5.1/bin/sfml-graphics-2.dll ../SFML-2.5.1/bin/sfml-system-2.dll ../SFML-2.5.1/bin/sfml-window-2.dll ../SFML-2.5.1/bin/sfml-audio-2.dll
 
 INSTALLS += dlls_to_move
