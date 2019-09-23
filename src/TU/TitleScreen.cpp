@@ -6,14 +6,14 @@ TitleScreen::TitleScreen():
     Screen(),
     _bt("./Ressources/Perso.PNG", Vector2d(0, 0), Vector2d(400, 120),
         "./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),
-        "./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120),"GO!")
+        "./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120),"GO!"),
+    _sound("./Ressources/Footsteps_on_Cement.wav")
 {
     Sprite *s = new Sprite("./Ressources/Fond3.png");
     s->setParent(this);
 
-    Sound *sound = new Sound("./Ressources/Footsteps_on_Cement.wav");
-    sound->setParent(s);
-    sound->play();
+    _sound.setParent(s);
+    _sound.play();
 
     _bt.setPosition(Vector2d(Moteur2D::getInstance()->getScreenSize().x / 2 - 200, Moteur2D::getInstance()->getScreenSize().y / 2 - 60));
     _bt.setScreenId(0);
@@ -38,6 +38,7 @@ int TitleScreen::draw()
     }
     if (_bt.isActivated()) {
         retValue = 1;
+        _sound.stop();
     }
     Screen::draw();
     return retValue;

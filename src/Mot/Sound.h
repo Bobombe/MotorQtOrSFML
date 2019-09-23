@@ -25,7 +25,7 @@ public:
 protected:
     bool _looping;
     std::string _soundPath;
-    double _soundFileSize;
+    bool _smallSound;
 
     // Handling spatialised sounds
     bool _spatialised;
