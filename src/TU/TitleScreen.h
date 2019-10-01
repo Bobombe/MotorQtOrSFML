@@ -3,11 +3,13 @@
 
 #include "../Mot/Button.h"
 #include "../Mot/Screen.h"
+#include "../Mot/Sound.h"
 
 class TitleScreen: public Screen
 {
 protected:
     Button _bt;
+    Sound _sound;
 
 public:
     TitleScreen();
