@@ -1,9 +1,8 @@
 
 #include <iostream>
 
-#include "Mot/moteur2d.h"
-#include "GameManager.h"
-#include "TU/ScreenManagerTest.h"
+#include "moteur2d.h"
+#include "ScreenManagerTest.h"
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 

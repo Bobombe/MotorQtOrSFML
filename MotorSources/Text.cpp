@@ -32,7 +32,7 @@ void Text::init(std::string text)
     _collider = new Collider(this);
 #ifdef IN_QT
 
-    int id = QFontDatabase::addApplicationFont("./motorResources/OpenSans-Regular.ttf");
+    int id = QFontDatabase::addApplicationFont("./MotorResources/OpenSans-Regular.ttf");
     QString family = QFontDatabase::applicationFontFamilies(id).at(0);
 
     _coreText = new QGraphicsTextItem();

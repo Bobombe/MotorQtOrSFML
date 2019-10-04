@@ -1,6 +1,6 @@
 #include "TitleScreen.h"
-#include "../Mot/moteur2d.h"
-#include "../Mot/Sound.h"
+#include "moteur2d.h"
+#include "Sound.h"
 
 TitleScreen::TitleScreen():
     Screen(),

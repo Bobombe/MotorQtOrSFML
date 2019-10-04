@@ -1,9 +1,9 @@
 #ifndef TITLESCREEN_H
 #define TITLESCREEN_H
 
-#include "../Mot/Button.h"
-#include "../Mot/Screen.h"
-#include "../Mot/Sound.h"
+#include "Button.h"
+#include "Screen.h"
+#include "Sound.h"
 
 class TitleScreen: public Screen
 {

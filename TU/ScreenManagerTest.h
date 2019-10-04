@@ -2,7 +2,7 @@
 #ifndef SRC_SCREENMANAGERTEST_H_
 #define SRC_SCREENMANAGERTEST_H_
 
-#include "../Mot/ScreenManager.h"
+#include "ScreenManager.h"
 
 class ScreenManagerTest : public ScreenManager
 {
