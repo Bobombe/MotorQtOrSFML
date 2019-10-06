@@ -27,7 +27,8 @@ public:
      */
     virtual void update(double seconds, int updateReturn, int drawReturn)=0;
 
-    void addScreen(int,Screen*);
+    void addScreen(int screenId, Screen* s);
+    void deleteScreen(int screenId);
 
     Screen* screenAt(int indexOfScreen);
     Screen* getCurrentScreen();

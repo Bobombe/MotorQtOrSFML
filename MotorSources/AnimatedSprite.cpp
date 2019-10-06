@@ -53,6 +53,10 @@ void AnimatedSprite::setAnimation(int animationId)
 		_tempo = (1./_framePerSecs[_actualSubRect.x]) +1;
 	}
 }
+int AnimatedSprite::getAnimationId()
+{
+    return _actualSubRect.x;
+}
 
 
 int AnimatedSprite::update(double seconds)

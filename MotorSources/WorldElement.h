@@ -105,6 +105,9 @@ public:
     bool         isVisible();
     virtual void setVisible(bool visible = true);
 
+    const std::string &getWeName() const{return _weName;}
+    void setWeName(const std::string &name) {_weName = name;}
+
 protected:
     virtual int update(double seconds);
     virtual int draw();

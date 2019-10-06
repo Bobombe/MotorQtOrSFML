@@ -19,7 +19,7 @@ public:
     double getNorm();
     double getAngleInDegree();
 
-    void normalize();
+    Vector2d &normalize();
     void rotateInDegree(double angleInDegree);
 
     void toNull();

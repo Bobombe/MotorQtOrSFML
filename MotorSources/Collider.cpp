@@ -4,13 +4,11 @@
 
 Collider::Collider(WorldElement *we) : _colliderType(NONE), _we (we), _deltaX(0), _deltaY(0), _compo1(0), _compo2(0), _compo3(0)
 {
-    // TODO Auto-generated constructor stub
 
 }
 
 Collider::~Collider()
 {
-    // TODO Auto-generated destructor stub
 }
 
 
@@ -32,33 +30,35 @@ void Collider::initCircular(double deltaX, double deltaY, double radius)
 
 void Collider::detectCollisionWith(Collider * collider, double seconds)
 {
-    switch (_colliderType) {
-        case COLLIDER_RECTANGULAR:
-            switch (collider->_colliderType) {
-                case COLLIDER_RECTANGULAR:
-                    detectRectOnRect(this, collider, seconds);
-                    break;
-                case COLLIDER_CIRCULAR:
-                    detectRectOnCirc(this, collider, seconds);
-                    break;
-                default:
-                    break;
-            }
-            break;
-        case COLLIDER_CIRCULAR:
-            switch (collider->_colliderType) {
-                case COLLIDER_RECTANGULAR:
-                    detectRectOnCirc(collider, this, seconds);
-                    break;
-                case COLLIDER_CIRCULAR:
-                    detectCircOnCirc(this, collider, seconds);
-                    break;
-                default:
-                    break;
-            }
-            break;
-        default:
-            break;
+    if (_collisionEnabled && collider->_collisionEnabled) {
+        switch (_colliderType) {
+            case COLLIDER_RECTANGULAR:
+                switch (collider->_colliderType) {
+                    case COLLIDER_RECTANGULAR:
+                        detectRectOnRect(this, collider, seconds);
+                        break;
+                    case COLLIDER_CIRCULAR:
+                        detectRectOnCirc(this, collider, seconds);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case COLLIDER_CIRCULAR:
+                switch (collider->_colliderType) {
+                    case COLLIDER_RECTANGULAR:
+                        detectRectOnCirc(collider, this, seconds);
+                        break;
+                    case COLLIDER_CIRCULAR:
+                        detectCircOnCirc(this, collider, seconds);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -92,5 +92,32 @@ void Collider::detectCircOnCirc (Collider *, Collider *, double)
 }
 
 
+Vector2d Collider::getPos()
+{
+    Vector2d res;
+    switch (_colliderType) {
+        case COLLIDER_RECTANGULAR:
+            res = _we->getAbsolutePosition();
+            res.x+=_deltaX;
+            res.y+=_deltaY;
+        break;
+        default:
+        break;
+    }
+    return res;
+}
+Vector2d Collider::getSize()
+{
+    Vector2d res;
+    switch (_colliderType) {
+        case COLLIDER_RECTANGULAR:
+            res.x = _compo1*_we->getAbsoluteScale();
+            res.y = _compo2*_we->getAbsoluteScale();
+        break;
+        default:
+        break;
+    }
+    return res;
+}
 
 

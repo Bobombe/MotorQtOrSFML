@@ -14,7 +14,7 @@ class AnimatedSprite : public Sprite
 
 protected:
 	std::map<int, std::vector<Rectangle> > _subRectangles;
-	Vector2d _actualSubRect;
+    Vector2d _actualSubRect; // x = animationId, y = Frame Number
 	std::map<int, int >  _framePerSecs;
 	double _tempo;
 
@@ -31,6 +31,7 @@ public:
 	void setFramePerSecs(int animationId, int framePerSecs);
 
 	void setAnimation(int animationId);
+    int getAnimationId();
 
 protected:
     virtual int update(double seconds);

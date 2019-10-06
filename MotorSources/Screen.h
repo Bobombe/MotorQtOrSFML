@@ -48,6 +48,9 @@ public:
     void addCollider(int layer, Collider* c);
     void deleteCollider(int layer, Collider* c);
 
+    void setScreenId(int screenId){_screenId = screenId;}
+    int getScreenId(){return _screenId;}
+
 #ifdef IN_QT
     void hide();
     void show();
@@ -58,6 +61,9 @@ public:
 
 protected:
     virtual int update(double seconds);
+
+private:
+    int _screenId{-1};
 
 };
 

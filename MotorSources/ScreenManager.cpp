@@ -26,11 +26,19 @@ void ScreenManager::baseUpdate(double seconds)
 }
 
 
-void ScreenManager::addScreen(int k,Screen*s)
+void ScreenManager::addScreen(int screenId,Screen*s)
 {
-    _screens[k] = s;
+    _screens[screenId] = s;
+    s->setScreenId(screenId);
 }
 
+void ScreenManager::deleteScreen(int screenId)
+{
+    if (_screens[screenId]) {
+        delete _screens[screenId];
+        _screens[screenId] = nullptr;
+    }
+}
 
 Screen* ScreenManager::screenAt(int indexOfScreen)
 {

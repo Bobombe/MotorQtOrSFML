@@ -3,7 +3,7 @@
 #include "Collider.h"
 
 WorldElement::WorldElement():
-    _scale(1), _absoluteScale(1),_collider(nullptr), _parent(nullptr), _layer(0), _weName("WorldElement")
+    _scale(1), _absoluteScale(1),_collider(nullptr), _parent(nullptr), _layer(0), _weName("WorldElement"), _visible(true)
 {
 #ifdef IN_QT
     _scene = 0;
@@ -12,7 +12,7 @@ WorldElement::WorldElement():
 }
 
 WorldElement::WorldElement(WorldElement *parent, int layer):
-    _scale(1), _absoluteScale(1), _collider(nullptr), _parent(nullptr)
+    _scale(1), _absoluteScale(1), _collider(nullptr), _parent(nullptr), _visible(true)
 {
 #ifdef IN_QT
     _scene = 0;
@@ -50,7 +50,10 @@ int WorldElement::baseUpdate(double seconds)
 }
 int WorldElement::baseDraw()
 {
-    int retVal = draw();
+    int retVal = 0;
+    if (_visible) {
+        retVal = draw();
+    }
     _accel.toNull();
     return retVal;
 }
@@ -190,6 +193,9 @@ Collider *WorldElement::getCollider()
 }
 void WorldElement::setCollider(Collider *collider)
 {
+    if (_collider) {
+        delete _collider;
+    }
     _collider = collider;
 }
 

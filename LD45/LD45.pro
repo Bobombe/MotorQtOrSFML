@@ -1,11 +1,17 @@
 TEMPLATE = app
-win32:CONFIG(debug, debug|release): CONFIG += console c++11
+#win32:CONFIG(debug, debug|release):
+CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-    Test.cpp \
-    ScreenManagerTest.cpp \
+    BaseAnimatedSprite.cpp \
+    BaseCharacter.cpp \
+    Equipment.cpp \
+    Level.cpp \
+    Main.cpp \
+    Player.cpp \
+    ScreenManagerLD45.cpp \
     TitleScreen.cpp \
     ../MotorSources/AnimatedSprite.cpp \
     ../MotorSources/Button.cpp \
@@ -29,7 +35,12 @@ SOURCES += \
     ../MotorSources/Sound.cpp
 
 HEADERS += \
-    ScreenManagerTest.h \
+    BaseAnimatedSprite.h \
+    BaseCharacter.h \
+    Equipment.h \
+    Level.h \
+    Player.h \
+    ScreenManagerLD45.h \
     TitleScreen.h \
     ../MotorSources/AnimatedSprite.h \
     ../MotorSources/Button.h \
@@ -78,7 +89,7 @@ else:win32:CONFIG(debug, debug|release): dlls_to_move.path = $$OUT_PWD/debug
 else:unix: dlls_to_move.path = $$OUT_PWD/release
 
 win32:CONFIG(release, debug|release): ressources.path = $$OUT_PWD/release
-else:win32:CONFIG(debug, debug|release): ressources.path = $$OUT_PWD/debug
+else:win32:CONFIG(debug, debug|release): ressources.path = $$OUT_PWD $$OUT_PWD/debug
 else:unix: ressources.path = $$OUT_PWD/release
 
 win32:CONFIG(release, debug|release): stdDllToMove.path = $$OUT_PWD/release

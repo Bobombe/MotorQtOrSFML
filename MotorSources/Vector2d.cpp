@@ -32,7 +32,7 @@ double Vector2d::getAngleInDegree()
     return atan2(y, x)*180/PI;
 }
 
-void Vector2d::normalize()
+Vector2d& Vector2d::normalize()
 {
 	double norm = getNorm();
 	if (norm !=0) {
