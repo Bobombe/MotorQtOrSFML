@@ -1,10 +1,11 @@
-#ifndef TITLESCREEN_H
-#define TITLESCREEN_H
+#ifndef LD45_TITLESCREEN_H
+#define LD45_TITLESCREEN_H
 
 #include "Button.h"
 #include "Screen.h"
 #include "Sound.h"
 
+namespace ld45 {
 class TitleScreen: public Screen
 {
 protected:
@@ -17,5 +18,5 @@ public:
 protected:
     virtual int draw();
 };
-
-#endif // TITLESCREEN_H
+}
+#endif // LD45_TITLESCREEN_H

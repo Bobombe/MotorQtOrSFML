@@ -2,11 +2,11 @@
 #ifndef SRC_LifeGameScreen_H_
 #define SRC_LifeGameScreen_H_
 
-#include "Mot/Screen.h"
-#include "Mot/Sprite.h"
-#include "Mot/WorldElement.h"
-#include "Mot/Text.h"
-#include "Mot/MouseAndKeyListener.h"
+#include "Screen.h"
+#include "Sprite.h"
+#include "WorldElement.h"
+#include "Text.h"
+#include "MouseAndKeyListener.h"
 #include <map>
 
 class Cell

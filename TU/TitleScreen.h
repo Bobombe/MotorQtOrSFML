@@ -1,10 +1,10 @@
-#ifndef TITLESCREEN_H
-#define TITLESCREEN_H
+#ifndef TU_TITLESCREEN_H
+#define TU_TITLESCREEN_H
 
 #include "Button.h"
 #include "Screen.h"
 #include "Sound.h"
-
+namespace tu {
 class TitleScreen: public Screen
 {
 protected:
@@ -18,5 +18,5 @@ public:
 protected:
     virtual int draw();
 };
-
-#endif // TITLESCREEN_H
+}
+#endif // TU_TITLESCREEN_H

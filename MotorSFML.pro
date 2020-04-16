@@ -2,8 +2,17 @@ TEMPLATE = app
 win32:CONFIG(debug, debug|release): CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
+CONFIG += object_parallel_to_source
 
 SOURCES += \
+    LD45/BaseAnimatedSprite.cpp \
+    LD45/BaseCharacter.cpp \
+    LD45/Equipment.cpp \
+    LD45/Level.cpp \
+    LD45/Player.cpp \
+    LD45/ScreenManagerLD45.cpp \
+    LD45/TitleScreen.cpp \
+    TU/Main.cpp \
     src/Dephazor.cpp \
     src/GameManager.cpp \
     src/GameOverButton.cpp \
@@ -16,32 +25,38 @@ SOURCES += \
     src/Spaceship.cpp \
     src/StartScreen.cpp \
     src/StartScreenLD40.cpp \
-    src/Test.cpp \
     src/TestGravity.cpp \
-    src/TU/ScreenManagerTest.cpp \
-    src/TU/TitleScreen.cpp \
-    src/Mot/AnimatedSprite.cpp \
-    src/Mot/Button.cpp \
-    src/Mot/Camera.cpp \
-    src/Mot/Collider.cpp \
-    src/Mot/EventsManager.cpp \
-    src/Mot/Force.cpp \
-    src/Mot/KeyboardListener.cpp \
-    src/Mot/moteur2d.cpp \
-    src/Mot/MouseAndKeyListener.cpp \
-    src/Mot/MouseListener.cpp \
-    src/Mot/Obstacle.cpp \
-    src/Mot/Rectangle.cpp \
-    src/Mot/Screen.cpp \
-    src/Mot/ScreenManager.cpp \
-    src/Mot/Sprite.cpp \
-    src/Mot/Text.cpp \
-    src/Mot/Texture.cpp \
-    src/Mot/Vector2d.cpp \
-    src/Mot/WorldElement.cpp \
-    src/Mot/Sound.cpp
+    TU/ScreenManagerTest.cpp \
+    TU/TitleScreen.cpp \
+    MotorSources/AnimatedSprite.cpp \
+    MotorSources/Button.cpp \
+    MotorSources/Camera.cpp \
+    MotorSources/Collider.cpp \
+    MotorSources/EventsManager.cpp \
+    MotorSources/Force.cpp \
+    MotorSources/KeyboardListener.cpp \
+    MotorSources/moteur2d.cpp \
+    MotorSources/MouseAndKeyListener.cpp \
+    MotorSources/MouseListener.cpp \
+    MotorSources/Obstacle.cpp \
+    MotorSources/Rectangle.cpp \
+    MotorSources/Screen.cpp \
+    MotorSources/ScreenManager.cpp \
+    MotorSources/Sprite.cpp \
+    MotorSources/Text.cpp \
+    MotorSources/Texture.cpp \
+    MotorSources/Vector2d.cpp \
+    MotorSources/WorldElement.cpp \
+    MotorSources/Sound.cpp
 
 HEADERS += \
+    LD45/BaseAnimatedSprite.h \
+    LD45/BaseCharacter.h \
+    LD45/Equipment.h \
+    LD45/Level.h \
+    LD45/Player.h \
+    LD45/ScreenManagerLD45.h \
+    LD45/TitleScreen.h \
     src/Dephazor.h \
     src/GameManager.h \
     src/GameOverButton.h \
@@ -55,28 +70,28 @@ HEADERS += \
     src/StartScreen.h \
     src/StartScreenLD40.h \
     src/TestGravity.h \
-    src/TU/ScreenManagerTest.h \
-    src/TU/TitleScreen.h \
-    src/Mot/AnimatedSprite.h \
-    src/Mot/Button.h \
-    src/Mot/Camera.h \
-    src/Mot/Collider.h \
-    src/Mot/EventsManager.h \
-    src/Mot/Force.h \
-    src/Mot/KeyboardListener.h \
-    src/Mot/moteur2d.h \
-    src/Mot/MouseAndKeyListener.h \
-    src/Mot/MouseListener.h \
-    src/Mot/Obstacle.h \
-    src/Mot/Rectangle.h \
-    src/Mot/Screen.h \
-    src/Mot/ScreenManager.h \
-    src/Mot/Sprite.h \
-    src/Mot/Text.h \
-    src/Mot/Texture.h \
-    src/Mot/Vector2d.h \
-    src/Mot/WorldElement.h \
-    src/Mot/Sound.h
+    TU/ScreenManagerTest.h \
+    TU/TitleScreen.h \
+    MotorSources/AnimatedSprite.h \
+    MotorSources/Button.h \
+    MotorSources/Camera.h \
+    MotorSources/Collider.h \
+    MotorSources/EventsManager.h \
+    MotorSources/Force.h \
+    MotorSources/KeyboardListener.h \
+    MotorSources/moteur2d.h \
+    MotorSources/MouseAndKeyListener.h \
+    MotorSources/MouseListener.h \
+    MotorSources/Obstacle.h \
+    MotorSources/Rectangle.h \
+    MotorSources/Screen.h \
+    MotorSources/ScreenManager.h \
+    MotorSources/Sprite.h \
+    MotorSources/Text.h \
+    MotorSources/Texture.h \
+    MotorSources/Vector2d.h \
+    MotorSources/WorldElement.h \
+    MotorSources/Sound.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-graphics
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-graphics-d
@@ -95,17 +110,25 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsf
 else:unix: LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-audio
 
 INCLUDEPATH += $$PWD/../SFML-2.5.1/include
+INCLUDEPATH += MotorSources
 DEPENDPATH += $$PWD/../SFML-2.5.1/include
 
-
+# Copy dlls
 win32:CONFIG(release, debug|release): dlls_to_move.path = $$OUT_PWD/release
 else:win32:CONFIG(debug, debug|release): dlls_to_move.path = $$OUT_PWD/debug
 else:unix: dlls_to_move.path = $$OUT_PWD/release
-
-# QMAKE_LFLAGS += -static -static-libgcc -static-libstdc++
 
 win32:CONFIG(release, debug|release): dlls_to_move.files += ../SFML-2.5.1/bin/sfml-graphics-2.dll ../SFML-2.5.1/bin/sfml-system-2.dll ../SFML-2.5.1/bin/sfml-window-2.dll ../SFML-2.5.1/bin/sfml-audio-2.dll ../SFML-2.5.1/bin/openal32.dll
 else:win32:CONFIG(debug, debug|release): dlls_to_move.files += ../SFML-2.5.1/bin/sfml-graphics-d-2.dll ../SFML-2.5.1/bin/sfml-system-d-2.dll ../SFML-2.5.1/bin/sfml-window-d-2.dll ../SFML-2.5.1/bin/sfml-audio-d-2.dll ../SFML-2.5.1/bin/openal32.dll
 else:unix: dlls_to_move.files += ../SFML-2.5.1/bin/sfml-graphics-2.dll ../SFML-2.5.1/bin/sfml-system-2.dll ../SFML-2.5.1/bin/sfml-window-2.dll ../SFML-2.5.1/bin/sfml-audio-2.dll ../SFML-2.5.1/bin/openal32.dll
 
 INSTALLS += dlls_to_move
+
+# Copy ressources
+win32:CONFIG(release, debug|release): ressources.path = $$OUT_PWD/release
+else:win32:CONFIG(debug, debug|release): ressources.path = $$OUT_PWD/debug
+else:unix: ressources.path = $$OUT_PWD/release
+
+ressources.files += TU/Ressources MotorSources/MotorResources LD45/Ressources
+
+INSTALLS += dlls_to_move ressources

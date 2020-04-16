@@ -2,6 +2,7 @@
 #include "moteur2d.h"
 #include "Sound.h"
 
+namespace tu {
 TitleScreen::TitleScreen():
     Screen(),
     _bt("./Ressources/Perso.PNG", Vector2d(0, 0), Vector2d(400, 120),
@@ -42,4 +43,5 @@ int TitleScreen::draw()
     }
     Screen::draw();
     return retValue;
+}
 }

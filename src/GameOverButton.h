@@ -1,8 +1,8 @@
 #ifndef GAMEOVERBUTTON_H
 #define GAMEOVERBUTTON_H
 
-#include "Mot/Button.h"
-#include "Mot/Text.h"
+#include "Button.h"
+#include "Text.h"
 
 class GameOverButton : public Button
 {

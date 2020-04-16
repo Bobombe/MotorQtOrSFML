@@ -2,7 +2,7 @@
 #ifndef SRC_GAMEMANAGER_H_
 #define SRC_GAMEMANAGER_H_
 
-#include "Mot/ScreenManager.h"
+#include "ScreenManager.h"
 
 class GameManager : public ScreenManager
 {

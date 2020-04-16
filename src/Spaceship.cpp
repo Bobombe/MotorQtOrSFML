@@ -4,9 +4,9 @@
 #include "Opponent.h"
 #include "Pod.h"
 #include "ScreenLevel1.h"
-#include "Mot/Vector2d.h"
-#include "Mot/Rectangle.h"
-#include "Mot/moteur2d.h"
+#include "Vector2d.h"
+#include "Rectangle.h"
+#include "moteur2d.h"
 
 Spaceship::Spaceship() : Sprite("./resLD40/spaceship.png"),
                         _movingLeft(false), _movingRight(false), _movingUp(false), _movingDown(false), _firing(false), _fireCoolDown(0),

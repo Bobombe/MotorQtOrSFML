@@ -1,6 +1,6 @@
 
-#include "Mot/Sprite.h"
-#include "Mot/MouseAndKeyListener.h"
+#include "Sprite.h"
+#include "MouseAndKeyListener.h"
 #include "Planet.h"
 
 

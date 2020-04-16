@@ -1,7 +1,7 @@
 
-#include "Mot/AnimatedSprite.h"
-#include "Mot/MouseAndKeyListener.h"
-#include "Mot/Camera.h"
+#include "AnimatedSprite.h"
+#include "MouseAndKeyListener.h"
+#include "Camera.h"
 
 #ifndef SRC_PERSOTEST_H_
 #define SRC_PERSOTEST_H_

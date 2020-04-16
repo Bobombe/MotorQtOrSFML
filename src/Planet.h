@@ -1,7 +1,7 @@
 #ifndef PLANET_H
 #define PLANET_H
 
-#include "Mot/Obstacle.h"
+#include "Obstacle.h"
 
 class Planet : public Sprite
 {

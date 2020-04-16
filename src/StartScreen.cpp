@@ -6,11 +6,11 @@
  */
 
 #include "StartScreen.h"
-#include "Mot/moteur2d.h"
+#include "moteur2d.h"
 #include "PersoTest.h"
 #include "TestGravity.h"
-#include "Mot/Collider.h"
-#include "Mot/Text.h"
+#include "Collider.h"
+#include "Text.h"
 
 StartScreen::StartScreen() : Screen(), _bt("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),
                                             "./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120))

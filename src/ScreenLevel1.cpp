@@ -1,11 +1,11 @@
 
 #include "ScreenLevel1.h"
-#include "Mot/moteur2d.h"
+#include "moteur2d.h"
 #include "Spaceship.h"
 #include "Opponent.h"
 #include "Pod.h"
 #include "Planet.h"
-#include "Mot/Collider.h"
+#include "Collider.h"
 #include <string>
 #include <stdlib.h>     /* srand, rand */
 

@@ -1,7 +1,7 @@
 #ifndef DEPHAZOR_H
 #define DEPHAZOR_H
 
-#include "Mot/Sprite.h"
+#include "Sprite.h"
 
 class Dephazor : public Sprite
 {

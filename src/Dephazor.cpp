@@ -1,6 +1,6 @@
 #include "Dephazor.h"
 #include "Opponent.h"
-#include "Mot/Collider.h"
+#include "Collider.h"
 #include "ScreenLevel1.h"
 
 Dephazor::Dephazor(WorldElement * parent) : Sprite("./resLD40/dephazor.png"), _dead(false)

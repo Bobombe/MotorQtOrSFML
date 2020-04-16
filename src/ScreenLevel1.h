@@ -2,10 +2,10 @@
 #ifndef SRC_SCREENLEVEL1_H_
 #define SRC_SCREENLEVEL1_H_
 
-#include "Mot/Screen.h"
-#include "Mot/Text.h"
+#include "Screen.h"
+#include "Text.h"
 #include "Spaceship.h"
-#include "Mot/Button.h"
+#include "Button.h"
 
 class ScreenLevel1 : public Screen
 {

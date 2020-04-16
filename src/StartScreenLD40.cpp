@@ -6,11 +6,11 @@
  */
 
 #include "StartScreenLD40.h"
-#include "Mot/moteur2d.h"
+#include "moteur2d.h"
 #include "PersoTest.h"
 #include "TestGravity.h"
-#include "Mot/Collider.h"
-#include "Mot/Text.h"
+#include "Collider.h"
+#include "Text.h"
 
 StartScreenLD40::StartScreenLD40() : Screen(), _btStart("./resLD40/spaceship.png", Vector2d(0, 0), Vector2d(60, 80),
                                             "./resLD40/spaceship.png", Vector2d(0, 0), Vector2d(60, 80))

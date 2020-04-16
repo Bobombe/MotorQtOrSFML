@@ -2,8 +2,8 @@
 #ifndef SRC_STARTSCREEN_H_
 #define SRC_STARTSCREEN_H_
 
-#include "Mot/Screen.h"
-#include "Mot/Button.h"
+#include "Screen.h"
+#include "Button.h"
 
 class StartScreen : public Screen
 {

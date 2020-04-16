@@ -1,7 +1,7 @@
 #ifndef SRC_POD_H
 #define SRC_POD_H
 
-#include "Mot/Obstacle.h"
+#include "Obstacle.h"
 #include "Spaceship.h"
 #include "Planet.h"
 

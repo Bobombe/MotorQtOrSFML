@@ -2,7 +2,7 @@
 #ifndef SRC_TESTGRAVITY_H_
 #define SRC_TESTGRAVITY_H_
 
-#include "Mot/Force.h"
+#include "Force.h"
 
 class TestGravity : public Force
 {

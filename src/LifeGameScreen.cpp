@@ -6,8 +6,8 @@
  */
 
 #include "LifeGameScreen.h"
-#include "Mot/moteur2d.h"
-#include "Mot/Sprite.h"
+#include "moteur2d.h"
+#include "Sprite.h"
 #include <iostream>
 #include <sstream>
 #define SSTR( x ) static_cast< std::ostringstream & >( \
@@ -273,7 +273,7 @@ LifeGameScreen::LifeGameScreen() : Screen(), _timeSinceLastGeneration(0), _steps
     //*/
 
     //_cellGrid = _cellGrid2;
-    setScreenId(2);
+    Screen::setScreenId(2);
 }
 
 LifeGameScreen::~LifeGameScreen()

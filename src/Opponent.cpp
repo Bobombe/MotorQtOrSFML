@@ -1,9 +1,9 @@
 #include "Opponent.h"
 #include "Dephazor.h"
 #include "Spaceship.h"
-#include "Mot/Collider.h"
+#include "Collider.h"
 #include "ScreenLevel1.h"
-#include "Mot/moteur2d.h"
+#include "moteur2d.h"
 #include <stdlib.h>     /* srand, rand */
 
     const int Opponent::BASESPEED(100);

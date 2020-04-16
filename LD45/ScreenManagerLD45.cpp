@@ -1,12 +1,12 @@
 
 #include "ScreenManagerLD45.h"
-#include "TitleScreen.h"
+#include "LD45/TitleScreen.h"
 #include "Level.h"
 
 ScreenManagerLD45::ScreenManagerLD45():
     _stateMachine(0)
 {
-    addScreen(0, new TitleScreen());
+    addScreen(0, new ld45::TitleScreen());
     setCurrentScreenId(0);
 }
 

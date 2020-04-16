@@ -1,11 +1,11 @@
 
 #include "ScreenManagerTest.h"
-#include "TitleScreen.h"
+#include "TU/TitleScreen.h"
 
 ScreenManagerTest::ScreenManagerTest():
     _stateMachine(0)
 {
-    addScreen(0, new TitleScreen());
+    addScreen(0, new tu::TitleScreen());
     setCurrentScreenId(0);
 }
 

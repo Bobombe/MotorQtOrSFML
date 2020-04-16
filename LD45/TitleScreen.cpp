@@ -2,6 +2,7 @@
 #include "moteur2d.h"
 #include "Sound.h"
 
+namespace ld45 {
 TitleScreen::TitleScreen():
     Screen(),
     _bt("./Ressources/LD45Button.PNG", Vector2d(0, 240), Vector2d(305, 120),
@@ -39,4 +40,5 @@ int TitleScreen::draw()
     }
     Screen::draw();
     return retValue;
+}
 }

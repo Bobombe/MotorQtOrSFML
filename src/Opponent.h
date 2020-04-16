@@ -1,7 +1,7 @@
 #ifndef OPPONENT_H
 #define OPPONENT_H
 
-#include "Mot/Sprite.h"
+#include "Sprite.h"
 #include "Spaceship.h"
 
 

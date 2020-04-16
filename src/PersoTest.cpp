@@ -1,8 +1,8 @@
 
 #include "PersoTest.h"
-#include "Mot/Vector2d.h"
-#include "Mot/Rectangle.h"
-#include "Mot/moteur2d.h"
+#include "Vector2d.h"
+#include "Rectangle.h"
+#include "moteur2d.h"
 
 PersoTest::PersoTest() : AnimatedSprite("./Ressources/Perso.PNG"), _state(STANDING_RIGHT), _movingLeft(false), _movingRight(false),
                         _jump(false), _onGround(-1), _camera(0)
