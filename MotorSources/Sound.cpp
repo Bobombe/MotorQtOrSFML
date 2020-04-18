@@ -8,7 +8,7 @@ Sound::Sound() : WorldElement (), _looping(false), _soundPath(""), _smallSound(f
 
 }
 
-Sound::Sound(const std::string &soundPath) : WorldElement (), _looping(false), _spatialised(false), _maximaleDistance(0), _fullVolumeDistance(0)
+Sound::Sound(const std::string &soundPath) : WorldElement (), _looping(true), _spatialised(false), _maximaleDistance(0), _fullVolumeDistance(0)
 {
     setSoundFile(soundPath);
 }
@@ -27,6 +27,7 @@ void Sound::setSoundFile(const std::string &soundPath)
         _sound.setBuffer(_buffer);
     } else {
         _music.openFromFile(_soundPath);
+        _music.setLoop(_looping);
     }
 
 #endif
@@ -34,7 +35,7 @@ void Sound::setSoundFile(const std::string &soundPath)
 
 void Sound::play()
 {
-
+    _isPlaying = true;
 #ifdef IN_QT
 
 #else
@@ -49,6 +50,7 @@ void Sound::play()
 
 void Sound::pause()
 {
+    _isPlaying = false;
 #ifdef IN_QT
 
 #else
@@ -64,6 +66,7 @@ void Sound::pause()
 
 void Sound::stop()
 {
+    _isPlaying = false;
 #ifdef IN_QT
 
 #else

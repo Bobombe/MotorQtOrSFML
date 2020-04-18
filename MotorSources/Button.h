@@ -13,8 +13,25 @@
 
 class Button: public Sprite, public MouseAndKeyListener
 {
+public:
+    struct StateConfiguration {
+        StateConfiguration(std::string texturePath="", Vector2d subRectPos=Vector2d(0, 0), Vector2d subRectSize=Vector2d(0, 0),
+                           std::string textOnButton="", Text::Color color=Text::Color::Black):
+            _texturePath(texturePath),
+            _subRectPos(subRectPos),
+            _subRectSize(subRectSize),
+            text(textOnButton),
+            textColor(color){}
+
+        std::string _texturePath{""};
+        Vector2d    _subRectPos{0,0};
+        Vector2d    _subRectSize{0,0};
+        std::string text{""};
+        Text::Color textColor{Text::Color::Black};
+    };
 
 protected:
+    static const int MAX_SIZE = 9999999;
     enum ButtonState
     {
         BS_UP,
@@ -25,17 +42,13 @@ protected:
 
     ButtonState _buttonState;
     int         _activated;
-    std::string _texturePathStateUp;
-    Vector2d    _subRectPosStateUp;
-    Vector2d    _subRectSizeStateUp;
-    std::string _texturePathStateDown;
-    Vector2d    _subRectPosStateDown;
-    Vector2d    _subRectSizeStateDown;
-    std::string _texturePathStateOver;
-    Vector2d    _subRectPosStateOver;
-    Vector2d    _subRectSizeStateOver;
+    StateConfiguration _upConfig;
+    StateConfiguration _downConfig;
+    StateConfiguration _overConfig;
 
-    Text *_textOnButton;
+    Rectangle _boundingRectangle={MAX_SIZE, MAX_SIZE, 0, 0};
+
+    Text _textOnButton;
 
 public:
     // Constructor for text only, no image used for the button
@@ -51,6 +64,7 @@ public:
            std::string texturePathStateDown, Vector2d subRectPosStateDown, Vector2d subRectSizeStateDown,
            std::string texturePathStateOver, Vector2d subRectPosStateOver, Vector2d subRectSizeStateOver,
            std::string textOnButton = std::string(""));
+    Button(StateConfiguration upConfig, StateConfiguration downConfig, StateConfiguration overConfig);
 
     virtual ~Button();
 
@@ -66,7 +80,9 @@ public:
     virtual void setVisible(bool visible = true);
 
 protected:
-    void        swichTexture();
+    void swichTexture();
+    void setText(std::string text);
+    void setTextColor(Text::Color c);
     virtual int draw();
 
 };

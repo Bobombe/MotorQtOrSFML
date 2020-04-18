@@ -65,6 +65,11 @@ Vector2d WorldElement::getPosition()
 {
     return _pos;
 }
+
+double WorldElement::getRotaion()
+{
+    return _rotation;
+}
 Vector2d WorldElement::getSpeed()
 {
     return _speed;
@@ -89,6 +94,11 @@ Vector2d WorldElement::getAbsolutePosition()
 {
     return _absolutePos;
 }
+
+double WorldElement::getAbsoluteRotaion()
+{
+    return _absoluteRotation;
+}
 Vector2d WorldElement::getRelativeSize()
 {
     return _relativeSize;
@@ -108,16 +118,13 @@ double WorldElement::getAbsoluteScale()
 void WorldElement::setPosition(Vector2d pos)
 {
     _pos = pos;
-    if (_parent) {
-        _absolutePos = _pos * _parent->_absoluteScale + _parent->_absolutePos;
-    } else {
-        _absolutePos = _pos;
-    }
-    for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
-        for (unsigned int i = 0; i < it->second.size(); i++) {
-            it->second[i]->setPosition(it->second[i]->getPosition());
-        }
-    }
+    updateCharacteristics();
+}
+
+void WorldElement::setRotation(double rotation)
+{
+    _rotation = rotation;
+    updateCharacteristics();
 }
 void WorldElement::setSpeed(Vector2d speed)
 {
@@ -130,37 +137,33 @@ void WorldElement::setAcceleration(Vector2d accel)
 void WorldElement::setSize(Vector2d size)
 {
     _size = size;
+    // The size doesn't impact children, no use to call updateCharacteristics().
     _relativeSize = _size * _scale;
     _absoluteSize = _size * _absoluteScale;
 }
 void WorldElement::setScale(double scale)
 {
     _scale = scale;
-    _relativeSize = _size * _scale;
-    _absoluteSize = _size * _absoluteScale;
-    if (_parent) {
-        _absoluteScale = _scale * _parent->_absoluteScale;
-    } else {
-        _absoluteScale = _scale;
-    }
-    for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
-        for (unsigned int i = 0; i < it->second.size(); i++) {
-            it->second[i]->updateCharacteristics();
-        }
-    }
+    updateCharacteristics();
 }
 void WorldElement::updateCharacteristics()
 {
     _relativeSize = _size * _scale;
-    _absoluteSize = _size * _absoluteScale;
-
     if (_parent) {
         _absoluteScale = _scale * _parent->_absoluteScale;
-        _absolutePos = _pos * _parent->_absoluteScale + _parent->_absolutePos;
+        _absoluteRotation = _rotation + _parent->_absoluteRotation;
+        // Todo pos, use parent rotation
+        Vector2d ratatedPos = _pos;
+        ratatedPos.rotateInDegree(_parent->_absoluteRotation);
+        _absolutePos = ratatedPos * _parent->_absoluteScale + _parent->_absolutePos;
     } else {
         _absoluteScale = _scale;
+        _absoluteRotation = _rotation;
         _absolutePos = _pos;
     }
+    _absoluteSize = _size * _absoluteScale;
+
+    // Update children
     for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
         for (unsigned int i = 0; i < it->second.size(); i++) {
             it->second[i]->updateCharacteristics();

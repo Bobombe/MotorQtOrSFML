@@ -21,11 +21,13 @@ public:
     void play();
     void pause();
     void stop();
+    bool isPlaying(){return _isPlaying;}
 
 protected:
     bool _looping;
     std::string _soundPath;
     bool _smallSound;
+    bool _isPlaying{false};
 
     // Handling spatialised sounds
     bool _spatialised;

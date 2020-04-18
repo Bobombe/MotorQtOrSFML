@@ -19,8 +19,8 @@ int main(int argc, char **argv)
     moteur->init(1024, 768, "LD45", argc, argv);
 
     std::cout << "Youpi : " << std::endl;
-    //moteur->run(new ScreenManagerTest());
-    moteur->run(new ScreenManagerLD45());
+    moteur->run(new ScreenManagerTest());
+    //moteur->run(new ScreenManagerLD45());
     std::cout << "Youpi : " << std::endl;
     return 0;
 

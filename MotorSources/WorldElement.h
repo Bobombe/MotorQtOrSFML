@@ -20,6 +20,7 @@ class WorldElement
 
 private:
     Vector2d _pos;                  //// Position relative to parent WorldElement
+    double _rotation{0};
     Vector2d _speed;
     Vector2d _accel;
     Vector2d _size;                 //// Original size (without scaling)
@@ -27,6 +28,7 @@ private:
     double _scale;                  //// Original scale of this WE (without parent scale
 
     Vector2d _absolutePos;          //// Absolute position top left app corner being ref.
+    double   _absoluteRotation{0};
     Vector2d _relativeSize;         //// Size relative to parent (= _size*_scale)
     Vector2d _absoluteSize;         //// Real size after scaling from parent scale and this object scale)
     double   _absoluteScale;        //// = _scale*_parent->_absoluteScale
@@ -60,6 +62,7 @@ public:
     // GETTER OF BASED CHARACTERISTIQUES
     /////////////////////////////////////////////////
     Vector2d       getPosition();
+    double         getRotaion();
     Vector2d       getSpeed();
     Vector2d       getAcceleration();
     Vector2d       getSize();
@@ -69,6 +72,7 @@ public:
     // GETTER OF DERIVATIVE FROM CHARACTERISTIQUES
     /////////////////////////////////////////////////
     Vector2d       getAbsolutePosition();
+    double         getAbsoluteRotaion();
     Vector2d       getRelativeSize();
     Vector2d       getAbsoluteSize();
     virtual double getAbsoluteScale();
@@ -77,6 +81,7 @@ public:
     // SETTER OF BASED CHARACTERISTICS
     /////////////////////////////////////////////////
     virtual void setPosition(Vector2d pos);
+    virtual void setRotation(double rotation);
     void         setSpeed(Vector2d speed);
     void         setAcceleration(Vector2d accel);
     void         setSize(Vector2d size);

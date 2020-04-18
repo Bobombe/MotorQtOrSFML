@@ -57,6 +57,7 @@ public:
 protected:
 
     virtual int draw();
+    void updateSize();
 
     // Specifics Functions
     #ifdef IN_QT

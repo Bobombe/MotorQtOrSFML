@@ -2,33 +2,24 @@
 #include "Button.h"
 
 Button::Button(std::string textOnButton):
-    _buttonState(BS_UP), _activated(0), _textOnButton(nullptr)
+    _buttonState(BS_UP), _activated(0), _textOnButton(Text(textOnButton, this))
 {
     _weName = "Button";
-    if (!textOnButton.empty()) {
-        _textOnButton = new Text(textOnButton, this);
-        Vector2d buttonSize = getSize();
-        Vector2d textSize = _textOnButton->getSize();
-        _textOnButton->setPosition((buttonSize - textSize) / 2);
-    }
+    _upConfig.text = textOnButton;
+    _downConfig.text = textOnButton;
+    _overConfig.text = textOnButton;
+    setText(textOnButton);
 }
 
 Button::Button(std::string texturePath, Vector2d subRectPos, Vector2d subRectSize, std::string textOnButton):
     Sprite(texturePath, subRectPos, subRectSize),
     _buttonState(BS_UP),
     _activated(0),
-    _texturePathStateUp(texturePath),
-    _subRectPosStateUp(subRectPos),
-    _subRectSizeStateUp(subRectSize),
-    _textOnButton(nullptr)
+    _upConfig(texturePath, subRectPos, subRectSize, textOnButton),
+    _textOnButton(Text(textOnButton, this))
 {
     _weName = "Button";
-    if (!textOnButton.empty()) {
-        _textOnButton = new Text(textOnButton, this);
-        Vector2d buttonSize = getSize();
-        Vector2d textSize = _textOnButton->getSize();
-        _textOnButton->setPosition((buttonSize - textSize) / 2);
-    }
+    setText(textOnButton);
 
 }
 
@@ -37,22 +28,13 @@ Button::Button(std::string texturePathStateUp, Vector2d subRectPosStateUp, Vecto
     Sprite(texturePathStateUp, subRectPosStateUp, subRectSizeStateUp),
     _buttonState(BS_UP),
     _activated(0),
-    _texturePathStateUp(texturePathStateUp),
-    _subRectPosStateUp(subRectPosStateUp),
-    _subRectSizeStateUp(subRectSizeStateUp),
-    _texturePathStateDown(texturePathStateDown),
-    _subRectPosStateDown(subRectPosStateDown),
-    _subRectSizeStateDown(subRectSizeStateDown),
-    _textOnButton(nullptr)
+    _upConfig{texturePathStateUp, subRectPosStateUp, subRectSizeStateUp, textOnButton},
+    _downConfig{texturePathStateDown, subRectPosStateDown, subRectSizeStateDown, textOnButton},
+    _textOnButton(Text(textOnButton, this))
 {
 
     _weName = "Button";
-    if (!textOnButton.empty()) {
-        _textOnButton = new Text(textOnButton, this);
-        Vector2d buttonSize = getSize();
-        Vector2d textSize = _textOnButton->getSize();
-        _textOnButton->setPosition((buttonSize - textSize) / 2);
-    }
+    setText(textOnButton);
 }
 
 Button::Button(std::string texturePathStateUp, Vector2d subRectPosStateUp, Vector2d subRectSizeStateUp,
@@ -61,30 +43,32 @@ Button::Button(std::string texturePathStateUp, Vector2d subRectPosStateUp, Vecto
     Sprite(texturePathStateUp, subRectPosStateUp, subRectSizeStateUp),
     _buttonState(BS_UP),
     _activated(0),
-    _texturePathStateUp(texturePathStateUp),
-    _subRectPosStateUp(subRectPosStateUp),
-    _subRectSizeStateUp(subRectSizeStateUp),
-    _texturePathStateDown(texturePathStateDown),
-    _subRectPosStateDown(subRectPosStateDown),
-    _subRectSizeStateDown(subRectSizeStateDown),
-    _texturePathStateOver(texturePathStateOver),
-    _subRectPosStateOver(subRectPosStateOver),
-    _subRectSizeStateOver(subRectSizeStateOver),
-    _textOnButton(nullptr)
+    _upConfig{texturePathStateUp, subRectPosStateUp, subRectSizeStateUp, textOnButton},
+    _downConfig{texturePathStateDown, subRectPosStateDown, subRectSizeStateDown, textOnButton},
+    _overConfig{texturePathStateOver, subRectPosStateOver, subRectSizeStateOver, textOnButton},
+    _textOnButton(Text(textOnButton, this))
 {
 
     _weName = "Button";
-    if (!textOnButton.empty()) {
-        _textOnButton = new Text(textOnButton, this);
-        Vector2d buttonSize = getSize();
-        Vector2d textSize = _textOnButton->getSize();
-        _textOnButton->setPosition((buttonSize - textSize) / 2);
-    }
+    setText(textOnButton);
+}
+
+Button::Button(Button::StateConfiguration upConfig, Button::StateConfiguration downConfig, Button::StateConfiguration overConfig):
+    Sprite(upConfig._texturePath, upConfig._subRectPos, upConfig._subRectSize),
+    _buttonState(BS_UP),
+    _activated(0),
+    _upConfig(upConfig),
+    _downConfig(downConfig),
+    _overConfig(overConfig),
+    _textOnButton(Text(upConfig.text, this))
+{
+    _weName = "Button";
+    setText(upConfig.text);
+    setTextColor(upConfig.textColor);
 }
 
 Button::~Button()
 {
-    if (_textOnButton) delete _textOnButton;
 }
 
 void Button::buttonPressed(MouseButton::MouseButton, Vector2d pos)
@@ -129,10 +113,39 @@ void Button::mouseMoved(Vector2d pos)
 bool Button::posOverButton(Vector2d pos)
 {
     bool retValue = false;
+    static const double epsilon{0.001};
+    // We get most top-left position between Sprite and text objects.
+    Vector2d buttonPos = getAbsolutePosition(); // get sprite pos
+    Vector2d buttonSize = getAbsoluteSize(); // get sprite pos
+    if (buttonSize.x < epsilon || buttonSize.y < epsilon) { // if sprite size null, we take text boundaries
+        buttonPos = _textOnButton.getAbsolutePosition();
+        buttonSize = _textOnButton.getAbsoluteSize();
+    }
 
-    if (pos.x >= getAbsolutePosition().x && pos.y >= getAbsolutePosition().y &&
-        pos.x <= (getAbsolutePosition().x + getAbsoluteSize().x) && pos.y <= (getAbsolutePosition().y + getAbsoluteSize().y)) {
+    // We compare to last bounding rectangle _boundingRectangle
+    if (_boundingRectangle._pos.x>buttonPos.x) {
+        _boundingRectangle._pos.x=buttonPos.x;
+    }
+    if (_boundingRectangle._pos.y>buttonPos.y) {
+        _boundingRectangle._pos.y=buttonPos.y;
+    }
+    if (_boundingRectangle._size.x<buttonSize.x) {
+        _boundingRectangle._size.x=buttonSize.x;
+    }
+    if (_boundingRectangle._size.y<buttonSize.y) {
+        _boundingRectangle._size.y=buttonSize.y;
+    }
+
+    Vector2d posPrim(getAbsolutePosition());
+    Vector2d relPos = pos-posPrim;
+    relPos.rotateInDegree(-getRotaion());
+    posPrim=posPrim+relPos;
+    // Now we check if position is in the the previousli created rectangle
+    if (posPrim.x >= _boundingRectangle._pos.x && posPrim.y >= _boundingRectangle._pos.y &&
+        posPrim.x <= (_boundingRectangle._pos.x + _boundingRectangle._size.x) && posPrim.y <= (_boundingRectangle._pos.y + _boundingRectangle._size.y)) {
         retValue = true;
+    } else {
+        _boundingRectangle={MAX_SIZE, MAX_SIZE, 0, 0}; // resume last bounding when leaving button.
     }
 
     return retValue;
@@ -151,28 +164,48 @@ bool Button::isActivated()
 void Button::setVisible(bool visible)
 {
     _visible = visible;
-    if (_textOnButton) {
-        _textOnButton->setVisible(visible);
+    _textOnButton.setVisible(visible);
+}
+
+void Button::setText(std::string text)
+{
+    _textOnButton.setText(text);
+    if (!text.empty()) {
+        Vector2d buttonSize = getSize();
+        Vector2d textSize = _textOnButton.getSize();
+        _textOnButton.setPosition((buttonSize - textSize) / 2);
     }
+}
+
+void Button::setTextColor(Text::Color c)
+{
+    _textOnButton.setColor(c);
 }
 
 void Button::swichTexture()
 {
     switch (_buttonState) {
     case BS_DOWN:
-        if (!_texturePathStateDown.empty()) {
-            setSprite(_texturePathStateDown, _subRectPosStateDown, _subRectSizeStateDown);
+        if (!_downConfig._texturePath.empty()) {
+            setSprite(_downConfig._texturePath, _downConfig._subRectPos, _downConfig._subRectSize);
         }
+        setText(_downConfig.text);
+        setTextColor(_downConfig.textColor);
         break;
     case BS_OVER:
-        if (!_texturePathStateOver.empty()) {
-            setSprite(_texturePathStateOver, _subRectPosStateOver, _subRectSizeStateOver);
+        if (!_overConfig._texturePath.empty()) {
+            setSprite(_overConfig._texturePath, _overConfig._subRectPos, _overConfig._subRectSize);
         }
+        setText(_overConfig.text);
+        setTextColor(_overConfig.textColor);
         break;
     default:
-        if (!_texturePathStateUp.empty()) {
-            setSprite(_texturePathStateUp, _subRectPosStateUp, _subRectSizeStateUp);
+        if (!_upConfig._texturePath.empty()) {
+            setSprite(_upConfig._texturePath, _upConfig._subRectPos, _upConfig._subRectSize);
         }
+        setText(_upConfig.text);
+        setTextColor(_upConfig.textColor);
+        _boundingRectangle={MAX_SIZE, MAX_SIZE, 0, 0}; // resume last bounding when leaving button.
         break;
     }
 }

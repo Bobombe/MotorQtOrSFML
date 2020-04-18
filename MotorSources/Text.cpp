@@ -59,7 +59,7 @@ void Text::setText(std::string text)
     _collider->initRectangular(0, 0, _coreText->boundingRect().width(), _coreText->boundingRect().height());
 #else
     _coreText.setString(text);
-    setSize(Vector2d(_coreText.getGlobalBounds().width, _coreText.getGlobalBounds().height));
+    updateSize();
     _collider->initRectangular(0, 0, _coreText.getGlobalBounds().width, _coreText.getGlobalBounds().height);
 #endif
 }
@@ -79,7 +79,7 @@ void Text::setCharacterSize(unsigned int size)
     _collider->initRectangular(0, 0, _coreText->boundingRect().width(), _coreText->boundingRect().height());
 #else
     _coreText.setCharacterSize(size);
-    setSize(Vector2d(_coreText.getGlobalBounds().width, _coreText.getGlobalBounds().height));
+    updateSize();
     _collider->initRectangular(0, 0, _coreText.getGlobalBounds().width, _coreText.getGlobalBounds().height);
 #endif
 }
@@ -97,7 +97,7 @@ void Text::setStyle(unsigned int style)
     _collider->initRectangular(0, 0, _coreText->boundingRect().width(), _coreText->boundingRect().height());
 #else
     _coreText.setStyle(style);
-    setSize(Vector2d(_coreText.getGlobalBounds().width, _coreText.getGlobalBounds().height));
+    updateSize();
     _collider->initRectangular(0, 0, _coreText.getGlobalBounds().width, _coreText.getGlobalBounds().height);
 #endif
 }
@@ -161,7 +161,7 @@ void Text::setColor(Color color)
             _coreText.setFillColor(sf::Color::Cyan);
             break;
     }
-    setSize(Vector2d(_coreText.getGlobalBounds().width, _coreText.getGlobalBounds().height));
+    updateSize();
     _collider->initRectangular(0, 0, _coreText.getGlobalBounds().width, _coreText.getGlobalBounds().height);
 #endif
 }
@@ -174,11 +174,19 @@ int Text::draw()
 #else
 
     _coreText.setPosition(getAbsolutePosition().x, getAbsolutePosition().y);
+    _coreText.setRotation(getAbsoluteRotaion());
     _coreText.setScale(getAbsoluteScale(), getAbsoluteScale());
     Moteur2D::getInstance()->getWindow()->draw(_coreText);
 #endif
     int ret = WorldElement::draw();
     return ret;
+}
+
+void Text::updateSize()
+{
+    _coreText.setRotation(0);
+    setSize(Vector2d(_coreText.getGlobalBounds().width, _coreText.getGlobalBounds().height));
+    _coreText.setRotation(getAbsoluteRotaion());
 }
 
 // Specifics Functions

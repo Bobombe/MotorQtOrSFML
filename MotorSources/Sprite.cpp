@@ -89,6 +89,7 @@ int Sprite::draw()
 
     _sprite.setPosition(getAbsolutePosition().x, getAbsolutePosition().y);
     _sprite.setScale(getAbsoluteScale(), getAbsoluteScale());
+    _sprite.setRotation(getAbsoluteRotaion());
     Moteur2D::getInstance()->getWindow()->draw(_sprite);
 #endif
     _s_layer++;
@@ -114,7 +115,7 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
     _subRectPos = subRectPos;
     _subRectSize = subRectSize;
     // if null size, take the whole texture as sprite
-    if (_subRectSize.x == 0 && _subRectSize.y == 0) {
+    if (_subRectSize.x == 0 && _subRectSize.y == 0 && _texture) {
         _subRectSize = _texture->getSize();
         _subRectPos.x = _subRectPos.y = 0;
     }
@@ -127,9 +128,11 @@ void Sprite::setSprite(std::string texturePath, Vector2d subRectPos, Vector2d su
     }
 
 #else
-    _sprite.setTexture(*(_texture->getTexture()));
-    sf::IntRect subTextureRect(_subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
-    _sprite.setTextureRect(subTextureRect);
+    if (_texture) {
+        _sprite.setTexture(*(_texture->getTexture()));
+        sf::IntRect subTextureRect(_subRectPos.x, _subRectPos.y, _subRectSize.x, _subRectSize.y);
+        _sprite.setTextureRect(subTextureRect);
+    }
 
 #endif
 }

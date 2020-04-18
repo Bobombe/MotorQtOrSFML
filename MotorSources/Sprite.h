@@ -24,7 +24,7 @@ private:
 protected:
     CoreSprite  _sprite;
     std::string _texturePath;
-    Texture     *_texture;
+    Texture     *_texture{nullptr};
 
     Vector2d _subRectPos;
     Vector2d _subRectSize;
