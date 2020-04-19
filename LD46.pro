@@ -27,7 +27,13 @@ SOURCES += \
     MotorSources/Texture.cpp \
     MotorSources/Vector2d.cpp \
     MotorSources/WorldElement.cpp \
-    MotorSources/Sound.cpp
+    MotorSources/Sound.cpp \
+    LD46/Level1.cpp \
+    LD46/WallSprites.cpp \
+    LD46/MetalBackSprite.cpp \
+    LD46/Platform.cpp \
+    LD46/SadRobot.cpp \
+    LD46/CompanioBall.cpp
 
 HEADERS += \
     LD46/ScreenManagerTest.h \
@@ -51,7 +57,13 @@ HEADERS += \
     MotorSources/Texture.h \
     MotorSources/Vector2d.h \
     MotorSources/WorldElement.h \
-    MotorSources/Sound.h
+    MotorSources/Sound.h \
+    LD46/Level1.h \
+    LD46/WallSprites.h \
+    LD46/MetalBackSprite.h \
+    LD46/Platform.h \
+    LD46/SadRobot.h \
+    LD46/CompanioBall.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-graphics
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../SFML-2.5.1/lib/ -lsfml-graphics-d
@@ -82,6 +94,10 @@ win32:CONFIG(release, debug|release): dlls_to_move.files += ../SFML-2.5.1/bin/sf
 else:win32:CONFIG(debug, debug|release): dlls_to_move.files += ../SFML-2.5.1/bin/sfml-graphics-d-2.dll ../SFML-2.5.1/bin/sfml-system-d-2.dll ../SFML-2.5.1/bin/sfml-window-d-2.dll ../SFML-2.5.1/bin/sfml-audio-d-2.dll ../SFML-2.5.1/bin/openal32.dll
 else:unix: dlls_to_move.files += ../SFML-2.5.1/bin/sfml-graphics-2.dll ../SFML-2.5.1/bin/sfml-system-2.dll ../SFML-2.5.1/bin/sfml-window-2.dll ../SFML-2.5.1/bin/sfml-audio-2.dll ../SFML-2.5.1/bin/openal32.dll
 
+# Add std libs
+MINGWBIN = $$(QTDIR)/bin
+dlls_to_move.files += ../SFML-2.5.1/license.md $$MINGWBIN/libgcc_s_dw2-1.dll $$MINGWBIN/libstdc++-6.dll $$MINGWBIN/libwinpthread-1.dll
+
 INSTALLS += dlls_to_move
 
 # Copy ressources
@@ -92,3 +108,7 @@ else:unix: ressources.path = $$OUT_PWD/release
 ressources.files += MotorSources/MotorResources LD46/Ressources
 
 INSTALLS += dlls_to_move ressources
+
+#win32:CONFIG(release, debug|release): QMAKE_CLEAN += $$OUT_PWD/release/LD46 $$OUT_PWD/release/MotorSources
+#else:win32:CONFIG(debug, debug|release): QMAKE_CLEAN += $$OUT_PWD/debug/LD46 $$OUT_PWD/debug/MotorSources
+#else:unix: QMAKE_CLEAN += "$$OUT_PWD/release/LD46 /Q" "$$OUT_PWD/release/MotorSources /Q"

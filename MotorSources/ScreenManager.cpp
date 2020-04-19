@@ -28,6 +28,12 @@ void ScreenManager::baseUpdate(double seconds)
 
 void ScreenManager::addScreen(int screenId,Screen*s)
 {
+    if (_screens.find(screenId) != _screens.end()) {
+        std::cerr << "Trying to add a screen at the id("<< screenId <<") already taken" << std::endl;
+        if (_screens[screenId]) {
+            delete _screens[screenId];
+        }
+    }
     _screens[screenId] = s;
     s->setScreenId(screenId);
 }

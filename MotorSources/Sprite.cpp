@@ -87,7 +87,7 @@ int Sprite::draw()
 
 #else
 
-    _sprite.setPosition(getAbsolutePosition().x, getAbsolutePosition().y);
+    _sprite.setPosition(_topLeftAbsolutePos.x, _topLeftAbsolutePos.y);
     _sprite.setScale(getAbsoluteScale(), getAbsoluteScale());
     _sprite.setRotation(getAbsoluteRotaion());
     Moteur2D::getInstance()->getWindow()->draw(_sprite);

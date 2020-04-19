@@ -38,7 +38,7 @@ protected:
 
 
 public:
-    Screen();
+    Screen(Camera * camera = nullptr);
     virtual ~Screen();
 
     // Fonctions d'ajout/delete
@@ -50,6 +50,11 @@ public:
 
     void setScreenId(int screenId){_screenId = screenId;}
     int getScreenId(){return _screenId;}
+
+    void setCamera(Camera * cam);
+    Camera* getCamera();
+
+    virtual void initScreen(){}
 
 #ifdef IN_QT
     void hide();

@@ -66,10 +66,21 @@ Vector2d WorldElement::getPosition()
     return _pos;
 }
 
-double WorldElement::getRotaion()
+Vector2d WorldElement::getRefPoint()
+{
+    return _refPoint;
+}
+
+double WorldElement::getRotation()
 {
     return _rotation;
 }
+
+double WorldElement::getRotationSpeed()
+{
+    return _rotationSpeed;
+}
+
 Vector2d WorldElement::getSpeed()
 {
     return _speed;
@@ -112,6 +123,16 @@ double WorldElement::getAbsoluteScale()
     return _absoluteScale;
 }
 
+Rectangle WorldElement::getBoundingBox()
+{
+    return Rectangle(_topLeftAbsolutePos, _absoluteSize);
+}
+
+Rectangle WorldElement::getRealBoundingBox()
+{
+    return Rectangle(_topLeftAbsolutePos, _absoluteSize);
+}
+
 /////////////////////////////////////////////////
 // SETTER OF BASED CHARACTERISTIQUES
 /////////////////////////////////////////////////
@@ -121,14 +142,56 @@ void WorldElement::setPosition(Vector2d pos)
     updateCharacteristics();
 }
 
+void WorldElement::setPosition(double posx, double posy)
+{
+    _pos.x = posx;
+    _pos.y = posy;
+    updateCharacteristics();
+}
+
+void WorldElement::setRefPoint(Vector2d point)
+{
+    Vector2d refDiff = point-_refPoint;
+    // Update children pos
+    for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
+        for (unsigned int i = 0; i < it->second.size(); i++) {
+            it->second[i]->parentRefPointChanged(refDiff);
+        }
+    }
+
+    // Calculate new position
+    refDiff.rotateInDegree(_rotation);
+    _pos = _pos+refDiff;
+    _refPoint = point;
+
+    // Updating absolute values
+    updateCharacteristics();
+}
+
+void WorldElement::setRefPointCentered()
+{
+    setRefPoint(_size/2);
+}
+
 void WorldElement::setRotation(double rotation)
 {
     _rotation = rotation;
     updateCharacteristics();
 }
+
+void WorldElement::setRotationSpeed(double rotationSpeed)
+{
+    _rotationSpeed = rotationSpeed;
+}
 void WorldElement::setSpeed(Vector2d speed)
 {
     _speed = speed;
+}
+
+void WorldElement::setSpeed(double sx, double sy)
+{
+    _speed.x = sx;
+    _speed.y = sy;
 }
 void WorldElement::setAcceleration(Vector2d accel)
 {
@@ -163,12 +226,21 @@ void WorldElement::updateCharacteristics()
     }
     _absoluteSize = _size * _absoluteScale;
 
+    Vector2d transformedRefPoint(_refPoint*_absoluteScale);
+    transformedRefPoint.rotateInDegree(_absoluteRotation);
+    _topLeftAbsolutePos = _absolutePos - transformedRefPoint;
+
     // Update children
     for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
         for (unsigned int i = 0; i < it->second.size(); i++) {
             it->second[i]->updateCharacteristics();
         }
     }
+}
+
+void WorldElement::parentRefPointChanged(const Vector2d &refDiff)
+{
+    _pos = _pos-refDiff;
 }
 
 /////////////////////////////////////////////////
@@ -234,7 +306,11 @@ void WorldElement::setParent(WorldElement *parent, int layer)
     updateScene();
 #else
 #endif
-    _pos = (_absolutePos - _parent->getAbsolutePosition()) / _parent->getAbsoluteScale();
+    if (_parent) {
+        _pos = (_absolutePos - _parent->getAbsolutePosition()) / _parent->getAbsoluteScale();
+    } else {
+        _pos = _absolutePos;
+    }
     updateCharacteristics();
 }
 
@@ -251,6 +327,7 @@ int WorldElement::update(double seconds)
 {
     int ret = 0;
     _speed += _accel * seconds;
+    _rotation += _rotationSpeed * seconds;
     movePosition(_speed * seconds);
     for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
         for (unsigned int i = 0; i < it->second.size(); i++) {

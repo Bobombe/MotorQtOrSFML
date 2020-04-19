@@ -7,16 +7,14 @@ Rectangle::Rectangle()
 
 Rectangle::Rectangle(Vector2d pos, Vector2d size)
 {
-	_pos = pos;
-	_size = size;
+    setPos(pos);
+    setSize(size);
 }
 
 Rectangle::Rectangle(double x, double y, double width, double height)
 {
-	_pos.x = x;
-	_pos.y = y;
-	_size.x = width;
-	_size.y = height;
+    setPos(x, y);
+    setSize(width, height);
 }
 
 Rectangle::~Rectangle()
@@ -25,47 +23,41 @@ Rectangle::~Rectangle()
 
 Vector2d Rectangle::pos()
 {
-	return _pos;
-}
-double Rectangle::x()
-{
-	return _pos.x;
-}
-double Rectangle::y()
-{
-	return _pos.y;
+    return Vector2d(x, y);
 }
 
 Vector2d Rectangle::size()
 {
-	return _size;
+    return Vector2d(w, h);
 }
-double Rectangle::width()
+double& Rectangle::width()
 {
-	return _size.x;
+    return w;
 }
-double Rectangle::height()
+double& Rectangle::height()
 {
-	return _size.y;
+    return h;
 }
 
 void Rectangle::setPos(Vector2d pos)
 {
-	_pos = pos;
+    x = pos.x;
+    y = pos.y;
 }
-void Rectangle::setPos(double x, double y)
+void Rectangle::setPos(double posx, double posy)
 {
-	_pos.x = x;
-	_pos.y = y;
+    x = posx;
+    y = posy;
 }
 
 void Rectangle::setSize(Vector2d size)
 {
-	_size = size;
+    w = size.x;
+    h = size.y;
 }
 void Rectangle::setSize(double width, double height)
 {
-	_size.x = width;
-	_size.y = height;
+    w = width;
+    h = height;
 }
 

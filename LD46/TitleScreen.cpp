@@ -6,7 +6,7 @@ namespace tu {
 TitleScreen::TitleScreen():
     Screen(),
     _bt(Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 0), Vector2d(400, 120),"LD 46", Text::Color::Black),
-        Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120),"Keep It Alive!", Text::Color::Green),
+        Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120),"! START !", Text::Color::Green),
         Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),"Keep It Alive!", Text::Color::Red)),
     _sound("./Ressources/FirstTryAtCoolSong.ogg")
 {
@@ -25,7 +25,7 @@ TitleScreen::TitleScreen():
     _bt.setVisible(false);
 
     setPosition(Vector2d(0, -Moteur2D::getInstance()->getScreenSize().y));
-    setSpeed(Vector2d(0, 300));
+    setSpeed(Vector2d(0, 300*2));
 }
 
 TitleScreen::~TitleScreen()
@@ -34,8 +34,6 @@ TitleScreen::~TitleScreen()
 
 int TitleScreen::draw()
 {
-    //_sound.getParent()->setRotation(_sound.getParent()->getRotaion()+0.1);
-    _bt.setRotation(_bt.getRotaion()+0.1);
     int retValue = 0;
     if (getPosition().y >= 0) {
         setSpeed(Vector2d(0, 0));

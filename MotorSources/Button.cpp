@@ -115,34 +115,32 @@ bool Button::posOverButton(Vector2d pos)
     bool retValue = false;
     static const double epsilon{0.001};
     // We get most top-left position between Sprite and text objects.
-    Vector2d buttonPos = getAbsolutePosition(); // get sprite pos
-    Vector2d buttonSize = getAbsoluteSize(); // get sprite pos
-    if (buttonSize.x < epsilon || buttonSize.y < epsilon) { // if sprite size null, we take text boundaries
-        buttonPos = _textOnButton.getAbsolutePosition();
-        buttonSize = _textOnButton.getAbsoluteSize();
+    Rectangle buttonBBox(getBoundingBox());
+    if (buttonBBox.x < epsilon || buttonBBox.y < epsilon) { // if sprite size null, we take text boundaries
+        buttonBBox = _textOnButton.getBoundingBox();
     }
 
     // We compare to last bounding rectangle _boundingRectangle
-    if (_boundingRectangle._pos.x>buttonPos.x) {
-        _boundingRectangle._pos.x=buttonPos.x;
+    if (_boundingRectangle.x>buttonBBox.x) {
+        _boundingRectangle.x=buttonBBox.x;
     }
-    if (_boundingRectangle._pos.y>buttonPos.y) {
-        _boundingRectangle._pos.y=buttonPos.y;
+    if (_boundingRectangle.y>buttonBBox.y) {
+        _boundingRectangle.y=buttonBBox.y;
     }
-    if (_boundingRectangle._size.x<buttonSize.x) {
-        _boundingRectangle._size.x=buttonSize.x;
+    if (_boundingRectangle.w<buttonBBox.width()) {
+        _boundingRectangle.w=buttonBBox.width();
     }
-    if (_boundingRectangle._size.y<buttonSize.y) {
-        _boundingRectangle._size.y=buttonSize.y;
+    if (_boundingRectangle.h<buttonBBox.height()) {
+        _boundingRectangle.h=buttonBBox.height();
     }
 
-    Vector2d posPrim(getAbsolutePosition());
+    Vector2d posPrim(_boundingRectangle.pos());
     Vector2d relPos = pos-posPrim;
-    relPos.rotateInDegree(-getRotaion());
+    relPos.rotateInDegree(-getRotation());
     posPrim=posPrim+relPos;
     // Now we check if position is in the the previousli created rectangle
-    if (posPrim.x >= _boundingRectangle._pos.x && posPrim.y >= _boundingRectangle._pos.y &&
-        posPrim.x <= (_boundingRectangle._pos.x + _boundingRectangle._size.x) && posPrim.y <= (_boundingRectangle._pos.y + _boundingRectangle._size.y)) {
+    if (posPrim.x >= _boundingRectangle.x && posPrim.y >= _boundingRectangle.y &&
+        posPrim.x <= (_boundingRectangle.x + _boundingRectangle.w) && posPrim.y <= (_boundingRectangle.y + _boundingRectangle.h)) {
         retValue = true;
     } else {
         _boundingRectangle={MAX_SIZE, MAX_SIZE, 0, 0}; // resume last bounding when leaving button.
@@ -173,7 +171,7 @@ void Button::setText(std::string text)
     if (!text.empty()) {
         Vector2d buttonSize = getSize();
         Vector2d textSize = _textOnButton.getSize();
-        _textOnButton.setPosition((buttonSize - textSize) / 2);
+        _textOnButton.setPosition(((buttonSize - textSize) / 2) - getRefPoint());
     }
 }
 

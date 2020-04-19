@@ -173,7 +173,7 @@ int Text::draw()
     _coreText->setVisible(_visible);
 #else
 
-    _coreText.setPosition(getAbsolutePosition().x, getAbsolutePosition().y);
+    _coreText.setPosition(getBoundingBox().x, getBoundingBox().y);
     _coreText.setRotation(getAbsoluteRotaion());
     _coreText.setScale(getAbsoluteScale(), getAbsoluteScale());
     Moteur2D::getInstance()->getWindow()->draw(_coreText);

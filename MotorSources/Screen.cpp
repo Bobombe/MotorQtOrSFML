@@ -3,7 +3,7 @@
 #include "moteur2d.h"
 #include "Camera.h"
 
-Screen::Screen() : WorldElement(), _camera(nullptr), _screenInitialized(false)//, _weName("Screen")
+Screen::Screen(Camera *camera) : WorldElement(), _camera(camera), _screenInitialized(false)//, _weName("Screen")
 {
 #ifdef IN_QT
     QWidget * widget = Moteur2D::getInstance()->getView();
@@ -20,6 +20,9 @@ Screen::Screen() : WorldElement(), _camera(nullptr), _screenInitialized(false)//
 #endif
     //ctor
     _weName = "Screen";
+    if (_camera && !_camera->getParent()) {
+        _camera->setParent(this);
+    }
 }
 
 Screen::~Screen()
@@ -67,8 +70,12 @@ int Screen::update(double seconds)
         }
     }
     if (_camera) {
-        setPosition(-_camera->getCameraPosition());
-        setScale(_camera->getCameraScale());
+        if (_camera->getAbsolutePosition().getNorm() > 0) {
+            movePosition(-_camera->getAbsolutePosition());
+        }
+        if (_camera->getCameraScale() != getScale()) {
+            setScale(_camera->getCameraScale());
+        }
     }
     return 0;
 }
@@ -111,6 +118,16 @@ void Screen::deleteCollider(int layer, Collider* c)
             }
         }
     }
+}
+
+void Screen::setCamera(Camera *cam)
+{
+    _camera = cam;
+}
+
+Camera *Screen::getCamera()
+{
+    return _camera;
 }
 
 #ifdef IN_QT

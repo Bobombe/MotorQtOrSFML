@@ -108,7 +108,7 @@ Vector2d Vector2d::operator-(const double & number)
     ret += -number;
     return ret;
 }
-Vector2d Vector2d::operator-(const Vector2d & vec)
+Vector2d Vector2d::operator-(const Vector2d & vec) const
 {
     Vector2d ret(*this);
     ret -= vec;
@@ -128,7 +128,7 @@ Vector2d &Vector2d::operator*=(const double & number)
     y*=number;
     return *this;
 }
-Vector2d Vector2d::operator*(const double & number)
+Vector2d Vector2d::operator*(const double & number) const
 {
     Vector2d ret(*this);
     ret *= number;

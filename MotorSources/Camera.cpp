@@ -1,5 +1,20 @@
 
 #include "Camera.h"
+
+Camera::Camera()
+{
+    _weName = "Camera";
+}
+
+double Camera::getCameraScale()
+{
+    return _cameraScale;
+}
+void Camera::setCameraScale(double cameraScale)
+{
+    _cameraScale = cameraScale;
+}
+/*
 #include "moteur2d.h"
 
 Camera::Camera() : _cameraSize(Moteur2D::getInstance()->getScreenSize()), _cameraScale(1)
@@ -47,4 +62,4 @@ void Camera::moveCameraScale(double deltaCameraScale)
 {
     _cameraScale += deltaCameraScale;
 }
-
+//*/

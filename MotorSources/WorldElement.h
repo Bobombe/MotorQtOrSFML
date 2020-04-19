@@ -3,6 +3,7 @@
 #define SRC_MOT_WORLDELEMENTS_H_
 
 #include "Vector2d.h"
+#include "Rectangle.h"
 
 #ifdef IN_QT
 #include <QGraphicsScene>
@@ -20,20 +21,25 @@ class WorldElement
 
 private:
     Vector2d _pos;                  //// Position relative to parent WorldElement
+    Vector2d _refPoint{0, 0};       //// Reference point. This point will always be placed at the absolute position. Meaning, it is also the center position for the rotation
     double _rotation{0};
     Vector2d _speed;
+    double _rotationSpeed{0};
     Vector2d _accel;
     Vector2d _size;                 //// Original size (without scaling)
 
     double _scale;                  //// Original scale of this WE (without parent scale
 
-    Vector2d _absolutePos;          //// Absolute position top left app corner being ref.
+    Vector2d _absolutePos;          //// Absolute position, top left app corner being ref.
     double   _absoluteRotation{0};
     Vector2d _relativeSize;         //// Size relative to parent (= _size*_scale)
     Vector2d _absoluteSize;         //// Real size after scaling from parent scale and this object scale)
     double   _absoluteScale;        //// = _scale*_parent->_absoluteScale
 
+
 protected:
+    Vector2d _topLeftAbsolutePos;   //// Absolute position of top left corner.
+
     Collider *_collider;
 
     WorldElement                                   *_parent;
@@ -62,7 +68,9 @@ public:
     // GETTER OF BASED CHARACTERISTIQUES
     /////////////////////////////////////////////////
     Vector2d       getPosition();
-    double         getRotaion();
+    Vector2d       getRefPoint();
+    double         getRotation();
+    double         getRotationSpeed();
     Vector2d       getSpeed();
     Vector2d       getAcceleration();
     Vector2d       getSize();
@@ -77,16 +85,29 @@ public:
     Vector2d       getAbsoluteSize();
     virtual double getAbsoluteScale();
 
+    ///* return a Rectangle with the _topLeftAbsolutePos and the _absoluteSize. Rotation isn't taken in account.
+    Rectangle getBoundingBox();
+    ///* return the smallest Rectanglecontaining the whole WE. Rotation IS taken in account. TODO : Implement it
+    Rectangle getRealBoundingBox();
+
     /////////////////////////////////////////////////
     // SETTER OF BASED CHARACTERISTICS
     /////////////////////////////////////////////////
-    virtual void setPosition(Vector2d pos);
-    virtual void setRotation(double rotation);
-    void         setSpeed(Vector2d speed);
-    void         setAcceleration(Vector2d accel);
-    void         setSize(Vector2d size);
-    virtual void setScale(double scale);
-    void         updateCharacteristics();
+    void setPosition(Vector2d pos);
+    void setPosition(double posx, double posy);
+    void setRefPoint(Vector2d point);
+    void setRefPointCentered();
+    void setRotation(double rotation);
+    ///* rotationSpeed is in degree per seconds
+    void setRotationSpeed(double rotationSpeed);
+    void setSpeed(Vector2d speed);
+    void setSpeed(double sx, double sy);
+    void setAcceleration(Vector2d accel);
+    void setSize(Vector2d size);
+    void setScale(double scale);
+
+    void updateCharacteristics();
+    void parentRefPointChanged(const Vector2d& refDiff);
 
     /////////////////////////////////////////////////
     // MOVER OF BASED CHARACTERISTIQUES

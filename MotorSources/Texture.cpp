@@ -38,6 +38,7 @@ Texture::Texture(std::string pathToTexture) : _useNumber(0), _texturePath(pathTo
         _size.x = _texture->getSize().x;
         _size.y = _texture->getSize().y;
     }
+    _texture->setSmooth(true);
 #endif
 }
 

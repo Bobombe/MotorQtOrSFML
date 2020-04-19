@@ -3,9 +3,19 @@
 #define SRC_MOT_CAMERA_H_
 
 #include "Vector2d.h"
+#include "WorldElement.h"
 
-class Camera
+class Camera : public WorldElement
 {
+protected:
+    double _cameraScale{1};
+
+public:
+    Camera();
+
+    double getCameraScale();
+    void setCameraScale(double cameraScale);
+    /*
 protected:
     Vector2d _cameraPosition;
     Vector2d _cameraSize;
@@ -25,7 +35,7 @@ public:
     void setCameraScale(double cameraScale);
 
     void moveCameraPosition(Vector2d deltaCameraPosition);
-    void moveCameraScale(double deltaCameraScale);
+    void moveCameraScale(double deltaCameraScale);//*/
 };
 
 #endif
