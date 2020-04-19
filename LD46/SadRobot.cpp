@@ -1,4 +1,5 @@
 #include "SadRobot.h"
+#include "CompanioBall.h"
 
 const std::string SadRobot::SPRITE1_PATH = "Ressources/sprite1.png";
 
@@ -11,7 +12,8 @@ SadRobot::SadRobot() :
     _eye(SPRITE1_PATH, Vector2d(543, 411), _eyeSize),
     _leftHat(SPRITE1_PATH, Vector2d(495, 360), _leftHatSize),
     _rightHat(SPRITE1_PATH, Vector2d(520, 360), _rightHatSize),
-    _graber(SPRITE1_PATH, Vector2d(600, 240), _graberSize)
+    _graber(SPRITE1_PATH, Vector2d(600, 240), _graberSize),
+    _text()
 {
 
     _leftLeg.setParent(this);_leftLeg.setPosition(_leftLegStartPos);
@@ -31,20 +33,43 @@ SadRobot::SadRobot() :
     _text.setParent(&_textBackground);
     _text.setCharacterSize(16);
     _text.setColor(Text::Black);
-    setText("Hello...");
+    setText("Friend?");
 
 }
 
 void SadRobot::setText(std::string text)
 {
     _text.setText(text);
-    _text.setRefPointCentered();
-    _text.setPosition(0, -3);
+    _text.setPosition(-_text.getSize().x/2, -10);
+}
+
+void SadRobot::setCompanionBall(CompanioBall *companioBall)
+{
+    _companioBall = companioBall;
 }
 
 void SadRobot::mouseMoved(Vector2d pos)
 {
     _mousePos = pos;
+}
+
+void SadRobot::buttonReleased(MouseButton::MouseButton mouseButton, Vector2d pos)
+{
+    if (_lastOrder != ORDER_GRAB) {
+        if (mouseButton == MouseButton::left) {
+            if (_lastOrder == ORDER_COME) {
+                stopBall();
+            } else {
+                comeBall();
+            }
+        } else if (mouseButton == MouseButton::right) {
+            if (_lastOrder == ORDER_GO) {
+                stopBall();
+            } else {
+                goBall();
+            }
+        }
+    }
 }
 
 void SadRobot::keyPressed(Key::Key key)
@@ -406,7 +431,10 @@ void SadRobot::animateSeating(bool seating)
             if (leftHatPos.x < _leftHatStartPos.x) { // check on one size, but moove both.
                 _leftHat.setSpeed(-leftHatMove);
                 _rightHat.setSpeed(-rightHatMove);
-                _graber.setVisible(false);
+
+                if (_lastOrder == ORDER_GRAB) {
+                    stopGrab();
+                }
             } else if (leftHatPos.x > _leftHatStartPos.x) {
                 _leftHat.setPosition(_leftHatStartPos);
                 _rightHat.setPosition(_rightHatStartPos);
@@ -422,9 +450,88 @@ void SadRobot::animateSeating(bool seating)
                 _rightHat.setPosition(rightOpenHatPos);
                 _leftHat.setSpeed(0, 0);
                 _rightHat.setSpeed(0, 0);
-                _graber.setVisible(true);
+                grab();
             }
         }
 
     }
+}
+
+void SadRobot::stopBall()
+{
+    _lastOrder = ORDER_STOP;
+    bool far = true;
+    int farDef=250;
+    if (_companioBall) {
+        _companioBall->stop();
+        if ((_companioBall->getAbsolutePosition() - getAbsolutePosition()).getNorm() < farDef) {
+            far = false;
+        }
+        if (far) {
+            setText("STOP !");
+        } else {
+            setText("Stop.");
+        }
+    } else {
+        setText("No one.");
+    }
+}
+
+void SadRobot::comeBall()
+{
+    _lastOrder = ORDER_COME;
+    bool far = true;
+    int farDef=250;
+    if (_companioBall) {
+        _companioBall->come();
+        if ((_companioBall->getAbsolutePosition() - getAbsolutePosition()).getNorm() < farDef) {
+            far = false;
+        }
+        if (far) {
+            setText("COME !");
+        } else {
+            setText("Come.");
+        }
+    } else {
+        setText("...");
+    }
+}
+
+void SadRobot::goBall()
+{
+    _lastOrder = ORDER_GO;
+    bool far = true;
+    int farDef=250;
+    if (_companioBall) {
+        _companioBall->go();
+        if ((_companioBall->getAbsolutePosition() - getAbsolutePosition()).getNorm() < farDef) {
+            far = false;
+        }
+        if (far) {
+            setText("GO !");
+        } else {
+            setText("Go...");
+        }
+    } else {
+        setText("......");
+    }
+}
+
+void SadRobot::grab()
+{
+    _lastOrder = ORDER_GRAB;
+    _graber.setVisible(true);
+    setText("Bzztzzt");
+    if (_companioBall) {
+        _companioBall->grab();
+    }
+}
+
+void SadRobot::stopGrab()
+{
+    _lastOrder = ORDER_NONE;
+    _graber.setVisible(false);
+    setText("-_-'");
+    _companioBall->stop();
+
 }

@@ -5,6 +5,8 @@
 #include "AnimatedSprite.h"
 #include "Text.h"
 
+class CompanioBall;
+
 class SadRobot : public WorldElement, public MouseAndKeyListener
 {
 protected:
@@ -20,6 +22,14 @@ protected:
         SEATING,
         SEATED,
         JETING
+    };
+
+    enum ORDERS {
+        ORDER_NONE,
+        ORDER_STOP,
+        ORDER_GO,
+        ORDER_COME,
+        ORDER_GRAB
     };
 
     // Size of parts
@@ -72,24 +82,40 @@ protected:
     int _deltaLandingZone{12};
     int _deltaLegHight{10};
 
+    // Order
+    ORDERS _lastOrder{ORDER_NONE};
 
     // Powers
     bool _grabBallActivated{true};
 
+    CompanioBall* _companioBall{nullptr};
+
 public:
     SadRobot();
+
     void setText(std::string text);
+    void setCompanionBall(CompanioBall *companioBall);
+    Vector2d getBodyAbsolutePosition() {return _body.getAbsolutePosition();}
 
 
     void mouseMoved(Vector2d pos) override;
+    void buttonReleased(MouseButton::MouseButton mouseButton, Vector2d pos) override;
     void keyPressed(Key::Key key) override;
     void keyReleased(Key::Key key) override;
 
+
+    // Orders
+    void stopBall();
+    void comeBall();
+    void goBall();
+    void grab();
+    void stopGrab();
 
 protected:
     int update(double seconds) override;
     //int draw() override;
 
+    // annimations
     void animateMoovingLeft();
     void animateMoovingRight();
     void animateStopMooving();

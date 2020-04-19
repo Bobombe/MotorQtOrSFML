@@ -38,6 +38,9 @@ Level1::Level1():
     _companioBall.setParent(this);
     _companioBall.setPosition(600, 500);
 
+    _sadRobot.setCompanionBall(&_companioBall);
+    _companioBall.setSadRobot(&_sadRobot);
+
     //_camera->setSpeed(Vector2d(10, 0));
 
 }
@@ -49,6 +52,7 @@ Level1::~Level1()
 void Level1::initScreen()
 {
     _sadRobot.setScreenId(getScreenId());
+    _companioBall.setScreenId(getScreenId());
 }
 
 int Level1::draw()
