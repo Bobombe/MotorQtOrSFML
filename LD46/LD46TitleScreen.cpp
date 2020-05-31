@@ -1,13 +1,12 @@
-#include "TitleScreen.h"
+#include "LD46TitleScreen.h"
 #include "moteur2d.h"
 #include "Sound.h"
 
-namespace tu {
-TitleScreen::TitleScreen():
+LD46TitleScreen::LD46TitleScreen():
     Screen(),
-    _bt(Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 0), Vector2d(400, 120),"LD 46", Text::Color::Black),
-        Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120),"! START !", Text::Color::Green),
-        Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),"Keep It Alive!", Text::Color::Red)),
+    _bt(Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 0), Vector2d(400, 120),"LD 46", Color::Black),
+        Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120),"! START !", Color::Green),
+        Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),"Keep It Alive!", Color::Red)),
     _sound("./Ressources/FirstTryAtCoolSong.ogg")
 {
     Sprite *s = new Sprite("./Ressources/Fond3.png");
@@ -28,11 +27,11 @@ TitleScreen::TitleScreen():
     setSpeed(Vector2d(0, 300*2));
 }
 
-TitleScreen::~TitleScreen()
+LD46TitleScreen::~LD46TitleScreen()
 {
 }
 
-int TitleScreen::draw()
+int LD46TitleScreen::draw()
 {
     int retValue = 0;
     if (getPosition().y >= 0) {
@@ -51,5 +50,4 @@ int TitleScreen::draw()
     }
     Screen::draw();
     return retValue;
-}
 }

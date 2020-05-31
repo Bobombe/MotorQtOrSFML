@@ -106,28 +106,28 @@ void Text::setColor(Color color)
 {
 #ifdef IN_QT
     switch (color) {
-        case Black:
+        case Color::Black:
             _coreText->setDefaultTextColor(QColor::fromRgb(0, 0, 0));
             break;
-        case White:
+        case Color::White:
             _coreText->setDefaultTextColor(QColor::fromRgb(255, 255, 255));
             break;
-        case Red:
+        case Color::Red:
             _coreText->setDefaultTextColor(QColor::fromRgb(255, 0, 0));
             break;
-        case Green:
+        case Color::Green:
             _coreText->setDefaultTextColor(QColor::fromRgb(0, 255, 0));
             break;
-        case Blue:
+        case Color::Blue:
             _coreText->setDefaultTextColor(QColor::fromRgb(0, 0, 255));
             break;
-        case Yellow:
+        case Color::Yellow:
             _coreText->setDefaultTextColor(QColor::fromRgb(255, 255, 0));
             break;
-        case Magenta:
+        case Color::Magenta:
             _coreText->setDefaultTextColor(QColor::fromRgb(255, 0, 255));
             break;
-        case Cyan:
+        case Color::Cyan:
             _coreText->setDefaultTextColor(QColor::fromRgb(0, 255, 255));
             break;
     }
@@ -136,28 +136,28 @@ void Text::setColor(Color color)
     _collider->initRectangular(0, 0, _coreText->boundingRect().width(), _coreText->boundingRect().height());
 #else
     switch (color) {
-        case Black:
+        case Color::Black:
             _coreText.setFillColor(sf::Color::Black);
             break;
-        case White:
+        case Color::White:
             _coreText.setFillColor(sf::Color::White);
             break;
-        case Red:
+        case Color::Red:
             _coreText.setFillColor(sf::Color::Red);
             break;
-        case Green:
+        case Color::Green:
             _coreText.setFillColor(sf::Color::Green);
             break;
-        case Blue:
+        case Color::Blue:
             _coreText.setFillColor(sf::Color::Blue);
             break;
-        case Yellow:
+        case Color::Yellow:
             _coreText.setFillColor(sf::Color::Yellow);
             break;
-        case Magenta:
+        case Color::Magenta:
             _coreText.setFillColor(sf::Color::Magenta);
             break;
-        case Cyan:
+        case Color::Cyan:
             _coreText.setFillColor(sf::Color::Cyan);
             break;
     }

@@ -32,7 +32,7 @@ SadRobot::SadRobot() :
     _textBackground.setPosition(_textBackgroundStartPos);
     _text.setParent(&_textBackground);
     _text.setCharacterSize(16);
-    _text.setColor(Text::Black);
+    _text.setColor(Color::Black);
     setText("Friend?");
 
 }
@@ -53,7 +53,7 @@ void SadRobot::mouseMoved(Vector2d pos)
     _mousePos = pos;
 }
 
-void SadRobot::buttonReleased(MouseButton::MouseButton mouseButton, Vector2d pos)
+void SadRobot::buttonReleased(MouseButton::MouseButton mouseButton, Vector2d)
 {
     if (_lastOrder != ORDER_GRAB) {
         if (mouseButton == MouseButton::left) {

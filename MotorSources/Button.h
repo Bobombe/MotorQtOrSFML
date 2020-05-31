@@ -16,7 +16,7 @@ class Button: public Sprite, public MouseAndKeyListener
 public:
     struct StateConfiguration {
         StateConfiguration(std::string texturePath="", Vector2d subRectPos=Vector2d(0, 0), Vector2d subRectSize=Vector2d(0, 0),
-                           std::string textOnButton="", Text::Color color=Text::Color::Black):
+                           std::string textOnButton="", Color color=Color::Black):
             _texturePath(texturePath),
             _subRectPos(subRectPos),
             _subRectSize(subRectSize),
@@ -27,7 +27,7 @@ public:
         Vector2d    _subRectPos{0,0};
         Vector2d    _subRectSize{0,0};
         std::string text{""};
-        Text::Color textColor{Text::Color::Black};
+        Color textColor{Color::Black};
     };
 
 protected:
@@ -82,7 +82,7 @@ public:
 protected:
     void swichTexture();
     void setText(std::string text);
-    void setTextColor(Text::Color c);
+    void setTextColor(Color c);
     virtual int draw();
 
 };

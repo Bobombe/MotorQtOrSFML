@@ -5,9 +5,9 @@
 namespace tu {
 TitleScreen::TitleScreen():
     Screen(),
-    _bt(Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 0), Vector2d(400, 120),"Ready?", Text::Color::Black),
-        Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120),"START!", Text::Color::Red),
-        Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),"SET...", Text::Color::Green)),
+    _bt(Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 0), Vector2d(400, 120),"Ready?", Color::Black),
+        Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(400, 120),"START!", Color::Red),
+        Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(400, 120),"SET...", Color::Green)),
     _sound("./Ressources/FirstTryAtCoolSong.ogg")
 {
     Sprite *s = new Sprite("./Ressources/Fond3.png");
@@ -17,9 +17,9 @@ TitleScreen::TitleScreen():
     sgn->setPosition(Vector2d(s->getSize().x-sgn->getSize().x-10, s->getSize().y-sgn->getSize().y));
 
 std::cout << "Youpi b" << std::endl;
-    Button *b = new Button(Button::StateConfiguration("", Vector2d(0, 0), Vector2d(0, 0),"Ready?", Text::Color::Black),
-             Button::StateConfiguration("", Vector2d(0, 0), Vector2d(0, 0),"START!", Text::Color::Red),
-             Button::StateConfiguration("", Vector2d(0, 0), Vector2d(0, 0),"SET...", Text::Color::Green));
+    Button *b = new Button(Button::StateConfiguration("", Vector2d(0, 0), Vector2d(0, 0),"Ready?", Color::Black),
+             Button::StateConfiguration("", Vector2d(0, 0), Vector2d(0, 0),"START!", Color::Red),
+             Button::StateConfiguration("", Vector2d(0, 0), Vector2d(0, 0),"SET...", Color::Green));
     b->setParent(s);
     b->setPosition(Vector2d(100, 10));
     b->setScreenId(0);

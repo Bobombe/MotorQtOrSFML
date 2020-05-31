@@ -8,7 +8,14 @@ ScreenManager::ScreenManager() : _currentScreen(-1)
 
 }
 
-ScreenManager::~ScreenManager() {
+ScreenManager::~ScreenManager()
+{
+    std::cout << "Youpi : del ScreenManager" << std::endl;
+    for (auto screen : _screens) {
+        if (screen.second) {
+            delete screen.second;
+        }
+    }
 }
 
 void ScreenManager::baseUpdate(double seconds)
@@ -36,6 +43,16 @@ void ScreenManager::addScreen(int screenId,Screen*s)
     }
     _screens[screenId] = s;
     s->setScreenId(screenId);
+}
+
+Screen *ScreenManager::removeScreen(int screenId)
+{
+    Screen * retScreen{nullptr};
+    if (_screens[screenId]) {
+        retScreen = _screens[screenId];
+        _screens[screenId] = nullptr;
+    }
+    return retScreen;
 }
 
 void ScreenManager::deleteScreen(int screenId)

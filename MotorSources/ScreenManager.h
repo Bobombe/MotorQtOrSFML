@@ -27,7 +27,9 @@ public:
      */
     virtual void update(double seconds, int updateReturn, int drawReturn)=0;
 
+    // Added screens are deleted when ScreenManager is deleted
     void addScreen(int screenId, Screen* s);
+    Screen* removeScreen(int screenId);
     void deleteScreen(int screenId);
 
     Screen* screenAt(int indexOfScreen);

@@ -53,7 +53,9 @@ protected:
     Vector2d _screenSize;
     double _lastTime;
 
-    ScreenManager* _screenManager;
+    ScreenManager* _screenManager{nullptr};
+    ScreenManager* _nextScreenManager{nullptr};
+    bool _changeScreenManager{false};
 
     EventsManager * _eventsManager;
 
@@ -84,6 +86,8 @@ public:
 /////////////////////////////////////////////////////
     void init(unsigned int width, unsigned int height, std::string windowName, int argc, char **argv);
     void run(ScreenManager* screenManager);
+
+    void changeScreenManager(ScreenManager* screenManager);
 
     double getMsSinceLaunch();
 

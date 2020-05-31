@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "moteur2d.h"
-#include "ScreenManagerTest.h"
+#include "LD46ScreenManager.h"
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 

@@ -133,11 +133,27 @@ void Moteur2D::run(ScreenManager* screenManager)
 
         s=0;
 
+        if (_changeScreenManager) {
+            _changeScreenManager = false;
+            if (_nextScreenManager) {
+                if (_screenManager) {
+                    delete _screenManager;
+                }
+                _screenManager = _nextScreenManager;
+                _nextScreenManager = nullptr;
+            }
+        }
         update();
 
         t1 = t2;
     }
 #endif
+}
+
+void Moteur2D::changeScreenManager(ScreenManager *screenManager)
+{
+    _changeScreenManager = true;
+    _nextScreenManager = screenManager;
 }
 
 double Moteur2D::getMsSinceLaunch()

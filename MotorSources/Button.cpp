@@ -175,7 +175,7 @@ void Button::setText(std::string text)
     }
 }
 
-void Button::setTextColor(Text::Color c)
+void Button::setTextColor(Color c)
 {
     _textOnButton.setColor(c);
 }

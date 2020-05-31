@@ -189,9 +189,9 @@ int PersoTest::update(double seconds)
     setSpeed(newSpeed);
 	AnimatedSprite::update(seconds);
     if (_camera) {
-        Vector2d camPos = _camera->getCameraPosition();
+        Vector2d camPos = _camera->getAbsolutePosition();// Todo : verify if ok : getCameraPosition();
         //camPos.x += seconds*50;
-        Vector2d camSize = _camera->getCameraSize();
+        Vector2d camSize = _camera->getAbsoluteSize();// Todo : verify if ok : getCameraSize();
         if ( getAbsolutePosition().x < camSize.x/10.) {
             camPos.x += getAbsolutePosition().x - camSize.x/10.;
         } else if ( getAbsolutePosition().x + getAbsoluteSize().x > camSize.x*9./10.) {
@@ -202,7 +202,7 @@ int PersoTest::update(double seconds)
         } else if ( getAbsolutePosition().y + getAbsoluteSize().y > camSize.y*9./10.) {
             camPos.y += getAbsolutePosition().y + getAbsoluteSize().y - camSize.y*9./10.;
         }
-        _camera->setCameraPosition(camPos);
+        _camera->setPosition(camPos);// Todo : verify if ok
     }
     return 0;
 }

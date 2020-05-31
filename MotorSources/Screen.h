@@ -36,6 +36,8 @@ protected:
 
     bool _screenInitialized;
 
+private:
+    int _screenId{-1};
 
 public:
     Screen(Camera * camera = nullptr);
@@ -67,8 +69,6 @@ public:
 protected:
     virtual int update(double seconds);
 
-private:
-    int _screenId{-1};
 
 };
 

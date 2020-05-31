@@ -92,7 +92,7 @@ int CompanioBall::update(double seconds)
         }
     }
     animateEye(_mousePosition);
-    WorldElement::update(seconds);
+    return WorldElement::update(seconds);
 }
 
 void CompanioBall::animateEye(const Vector2d &target)

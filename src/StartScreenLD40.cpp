@@ -28,7 +28,7 @@ StartScreenLD40::StartScreenLD40() : Screen(), _btStart("./resLD40/spaceship.png
     Text * text = new Text("           Space Cab\n     Not finish at all :/\nClick on the car to begin", this);
     text->setPosition(Vector2d(150, 100));
     text->setCharacterSize(80);
-    text->setColor(Text::Green);
+    text->setColor(Color::Green);
     text->setStyle(Text::Bold | Text::Italic);
     setPosition(Vector2d(0, -1000));
     setSpeed(Vector2d(0, 300));

@@ -2,6 +2,7 @@
 #define TEXT_H
 
 #include "WorldElement.h"
+#include "Color.h"
 
 #ifdef IN_QT
 #include <QGraphicsTextItem>
@@ -29,16 +30,6 @@ public:
         Italic = 1 << 1,
         Underlined = 1 << 2,
         StrikeThrough = 1 << 3
-    };
-    enum Color {
-        Black,
-        White,
-        Red,
-        Green,
-        Blue,
-        Yellow,
-        Magenta,
-        Cyan
     };
 
     Text();

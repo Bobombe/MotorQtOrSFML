@@ -12,6 +12,17 @@ SOURCES += \
     LD45/Player.cpp \
     LD45/ScreenManagerLD45.cpp \
     LD45/TitleScreen.cpp \
+    LD46/CompanioBall.cpp \
+    LD46/LD46ScreenManager.cpp \
+    LD46/LD46TitleScreen.cpp \
+    LD46/Level1.cpp \
+    LD46/MetalBackSprite.cpp \
+    LD46/Platform.cpp \
+    LD46/SadRobot.cpp \
+    LD46/WallSprites.cpp \
+    Launcher/LauncherScreen.cpp \
+    Launcher/LauncherScreenManager.cpp \
+    Launcher/Main.cpp \
     TU/Main.cpp \
     src/Dephazor.cpp \
     src/GameManager.cpp \
@@ -57,6 +68,17 @@ HEADERS += \
     LD45/Player.h \
     LD45/ScreenManagerLD45.h \
     LD45/TitleScreen.h \
+    LD46/CompanioBall.h \
+    LD46/LD46ScreenManager.h \
+    LD46/LD46TitleScreen.h \
+    LD46/Level1.h \
+    LD46/MetalBackSprite.h \
+    LD46/Platform.h \
+    LD46/SadRobot.h \
+    LD46/WallSprites.h \
+    Launcher/LauncherScreen.h \
+    Launcher/LauncherScreenManager.h \
+    MotorSources/Color.h \
     src/Dephazor.h \
     src/GameManager.h \
     src/GameOverButton.h \
@@ -129,6 +151,6 @@ win32:CONFIG(release, debug|release): ressources.path = $$OUT_PWD/release
 else:win32:CONFIG(debug, debug|release): ressources.path = $$OUT_PWD/debug
 else:unix: ressources.path = $$OUT_PWD/release
 
-ressources.files += TU/Ressources MotorSources/MotorResources LD45/Ressources
+ressources.files += TU/Ressources MotorSources/MotorResources LD45/Ressources LD46/Ressources Launcher/Ressources
 
 INSTALLS += dlls_to_move ressources

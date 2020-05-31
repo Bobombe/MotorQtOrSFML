@@ -1,19 +1,19 @@
 
-#include "ScreenManagerTest.h"
+#include "LD46ScreenManager.h"
 
-ScreenManagerTest::ScreenManagerTest():
+LD46ScreenManager::LD46ScreenManager():
     _stateMachine(0)
 {
-    _titleScreen = new tu::TitleScreen();
+    _titleScreen = new LD46TitleScreen();
     addScreen(0, _titleScreen);
     setCurrentScreenId(0);
 }
 
-ScreenManagerTest::~ScreenManagerTest()
+LD46ScreenManager::~LD46ScreenManager()
 {
 }
 
-void ScreenManagerTest::update(double, int, int drawReturn)
+void LD46ScreenManager::update(double, int, int drawReturn)
 {
     if (drawReturn && _stateMachine==0) {
         _stateMachine = 1;
@@ -22,7 +22,7 @@ void ScreenManagerTest::update(double, int, int drawReturn)
     }
 }
 
-void ScreenManagerTest::startScreen(int screenId, Screen *screen)
+void LD46ScreenManager::startScreen(int screenId, Screen *screen)
 {
     addScreen(screenId, screen);
     setCurrentScreenId(screenId);
