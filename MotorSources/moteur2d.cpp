@@ -16,7 +16,6 @@ Moteur2D * Moteur2D::getInstance()
 {
     if (_instance == nullptr)
     {
-
         _instance = new Moteur2D();
     }
     return _instance;
@@ -154,6 +153,21 @@ void Moteur2D::changeScreenManager(ScreenManager *screenManager)
 {
     _changeScreenManager = true;
     _nextScreenManager = screenManager;
+}
+
+void Moteur2D::changeResolution(unsigned int width, unsigned int height, std::string windowName)
+{
+#ifdef IN_QT
+#else
+    /*sf::Vector2u size(width, height);
+    _window->setSize(size);
+    _window->setTitle(windowName);*/
+
+    _window->close();
+    _window->create(sf::VideoMode(width, height), windowName, sf::Style::Close, _window->getSettings());
+#endif
+    _screenSize.x = width;
+    _screenSize.y = height;
 }
 
 double Moteur2D::getMsSinceLaunch()

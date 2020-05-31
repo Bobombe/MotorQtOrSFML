@@ -7,6 +7,7 @@
 class LauncherScreen: public Screen
 {
 protected:
+    Button _btLD40;
     Button _btLD45;
     Button _btLD46;
     Button _btTU;

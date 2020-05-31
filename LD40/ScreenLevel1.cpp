@@ -18,32 +18,32 @@ ScreenLevel1::ScreenLevel1() : _opponentCoolDown(1), _state(5), _gameOver(false)
 
     // Décord gauche
     Sprite * deco = 0;
-//    deco = new Sprite("./resLD40/palette.png", Vector2d(30, 40), Vector2d(10, 10), Vector2d(SIZEX, SIZEY));
+//    deco = new Sprite("./Ressources/palette.png", Vector2d(30, 40), Vector2d(10, 10), Vector2d(SIZEX, SIZEY));
 //    deco->setPosition(Vector2d(0,0));
 //    deco->setParent(this);
 
-    deco = new Sprite("./resLD40/palette.png", Vector2d(30, 30), Vector2d(10, 10), Vector2d(SIZEX, 5));
+    deco = new Sprite("./Ressources/palette.png", Vector2d(30, 30), Vector2d(10, 10), Vector2d(SIZEX, 5));
     deco->setPosition(Vector2d(0, 0));
     deco->setParent(this);
     Collider *colBord =  new Collider(deco);
     colBord->initRectangular(0, 0, deco->getSize().x, deco->getSize().y);
     addCollider(0, colBord);
 
-    deco = new Sprite("./resLD40/palette.png", Vector2d(30, 30), Vector2d(10, 10), Vector2d(SIZEX, 5));
+    deco = new Sprite("./Ressources/palette.png", Vector2d(30, 30), Vector2d(10, 10), Vector2d(SIZEX, 5));
     deco->setPosition(Vector2d(0, SIZEY-5));
     deco->setParent(this);
     colBord =  new Collider(deco);
     colBord->initRectangular(0, 0, deco->getSize().x, deco->getSize().y);
     addCollider(0, colBord);
 
-    deco = new Sprite("./resLD40/palette.png", Vector2d(30, 30), Vector2d(10, 10), Vector2d(5, SIZEY));
+    deco = new Sprite("./Ressources/palette.png", Vector2d(30, 30), Vector2d(10, 10), Vector2d(5, SIZEY));
     deco->setPosition(Vector2d(0, 0));
     deco->setParent(this);
     colBord =  new Collider(deco);
     colBord->initRectangular(0, 0, deco->getSize().x, deco->getSize().y);
     addCollider(0, colBord);
 
-    deco = new Sprite("./resLD40/palette.png", Vector2d(30, 30), Vector2d(10, 10), Vector2d(5, SIZEY));
+    deco = new Sprite("./Ressources/palette.png", Vector2d(30, 30), Vector2d(10, 10), Vector2d(5, SIZEY));
     deco->setPosition(Vector2d(SIZEX-5, 0));
     deco->setParent(this);
     colBord =  new Collider(deco);
@@ -51,19 +51,19 @@ ScreenLevel1::ScreenLevel1() : _opponentCoolDown(1), _state(5), _gameOver(false)
     addCollider(0, colBord);
 
     // D�cord Droite
-    deco = new Sprite("./resLD40/palette.png", Vector2d(20, 40), Vector2d(10, 10), Vector2d(1200-SIZEX, SIZEY));
+    deco = new Sprite("./Ressources/palette.png", Vector2d(20, 40), Vector2d(10, 10), Vector2d(1200-SIZEX, SIZEY));
     deco->setPosition(Vector2d(SIZEX,0));
     deco->setParent(this, 42);
-    deco = new Sprite("./resLD40/palette.png", Vector2d(20, 20), Vector2d(10, 10), Vector2d(1200-SIZEX, 5));
+    deco = new Sprite("./Ressources/palette.png", Vector2d(20, 20), Vector2d(10, 10), Vector2d(1200-SIZEX, 5));
     deco->setPosition(Vector2d(SIZEX, 0));
     deco->setParent(this, 42);
-    deco = new Sprite("./resLD40/palette.png", Vector2d(20, 20), Vector2d(10, 10), Vector2d(1200-SIZEX, 5));
+    deco = new Sprite("./Ressources/palette.png", Vector2d(20, 20), Vector2d(10, 10), Vector2d(1200-SIZEX, 5));
     deco->setPosition(Vector2d(SIZEX, SIZEY-5));
     deco->setParent(this, 42);
-    deco = new Sprite("./resLD40/palette.png", Vector2d(20, 20), Vector2d(10, 10), Vector2d(5, SIZEY));
+    deco = new Sprite("./Ressources/palette.png", Vector2d(20, 20), Vector2d(10, 10), Vector2d(5, SIZEY));
     deco->setPosition(Vector2d(SIZEX, 0));
     deco->setParent(this, 42);
-    deco = new Sprite("./resLD40/palette.png", Vector2d(20, 20), Vector2d(10, 10), Vector2d(5, SIZEY));
+    deco = new Sprite("./Ressources/palette.png", Vector2d(20, 20), Vector2d(10, 10), Vector2d(5, SIZEY));
     deco->setPosition(Vector2d(1195, 0));
     deco->setParent(this, 42);
 
@@ -160,7 +160,7 @@ int ScreenLevel1::update(double seconds)
         if (!_gameOver) {
             //ret = 42;
             _gameOver = true;
-            _goButton = new Button("./resLD40/buttonGameOver.png", Vector2d(0, 0), Vector2d(200,100), "         Game Over\nClick here to play again");
+            _goButton = new Button("./Ressources/buttonGameOver.png", Vector2d(0, 0), Vector2d(200,100), "         Game Over\nClick here to play again");
             _goButton->setParent(this);
             _goButton->setScreenId(1);
             _goButton->setPosition(Vector2d(300, 400));

@@ -7,16 +7,14 @@
 
 #include "StartScreenLD40.h"
 #include "moteur2d.h"
-#include "PersoTest.h"
-#include "TestGravity.h"
 #include "Collider.h"
 #include "Text.h"
 
-StartScreenLD40::StartScreenLD40() : Screen(), _btStart("./resLD40/spaceship.png", Vector2d(0, 0), Vector2d(60, 80),
-                                            "./resLD40/spaceship.png", Vector2d(0, 0), Vector2d(60, 80))
+StartScreenLD40::StartScreenLD40() : Screen(), _btStart("./Ressources/spaceship.png", Vector2d(0, 0), Vector2d(60, 80),
+                                            "./Ressources/spaceship.png", Vector2d(0, 0), Vector2d(60, 80))
 {
     _weName = "StartScreenLD40";
-    Sprite *s = new Sprite("./resLD40/FondStartScreenLD40.png");
+    Sprite *s = new Sprite("./Ressources/FondStartScreenLD40.png");
     s->setParent(this);
     s->setScale(1.3);
     s->setPosition(Vector2d(-66, 0));

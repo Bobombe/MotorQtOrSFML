@@ -16,34 +16,34 @@ Pod::Pod(Spaceship * player, Planet::PlanetType podType, bool left, WorldElement
     double baseSpeed = 100;
     switch (_podType) {
     case Planet::PLANET_PURPLE:
-        setSprite("./resLD40/cars.png", Vector2d(0, 100), Vector2d(20, 30));
+        setSprite("./Ressources/cars.png", Vector2d(0, 100), Vector2d(20, 30));
         setSpeed(Vector2d(0, baseSpeed));
-        _cabCaller = new Obstacle("./resLD40/palette.png", Vector2d(0, 0), Vector2d(10, 10), Vector2d(200, 10), this);
+        _cabCaller = new Obstacle("./Ressources/palette.png", Vector2d(0, 0), Vector2d(10, 10), Vector2d(200, 10), this);
         break;
     case Planet::PLANET_ORANGE:
-        setSprite("./resLD40/cars.png", Vector2d(20, 100), Vector2d(20, 30));
+        setSprite("./Ressources/cars.png", Vector2d(20, 100), Vector2d(20, 30));
         setSpeed(Vector2d(0, baseSpeed));
-        _cabCaller = new Obstacle("./resLD40/palette.png", Vector2d(10, 0), Vector2d(10, 10), Vector2d(200, 10), this);
+        _cabCaller = new Obstacle("./Ressources/palette.png", Vector2d(10, 0), Vector2d(10, 10), Vector2d(200, 10), this);
         break;
     case Planet::PLANET_GREEN:
-        setSprite("./resLD40/cars.png", Vector2d(40, 100), Vector2d(20, 30));
+        setSprite("./Ressources/cars.png", Vector2d(40, 100), Vector2d(20, 30));
         setSpeed(Vector2d(0, baseSpeed));
-        _cabCaller = new Obstacle("./resLD40/palette.png", Vector2d(20, 0), Vector2d(10, 10), Vector2d(200, 10), this);
+        _cabCaller = new Obstacle("./Ressources/palette.png", Vector2d(20, 0), Vector2d(10, 10), Vector2d(200, 10), this);
         break;
     case Planet::PLANET_YELLOW:
-        setSprite("./resLD40/cars.png", Vector2d(60, 100), Vector2d(20, 30));
+        setSprite("./Ressources/cars.png", Vector2d(60, 100), Vector2d(20, 30));
         setSpeed(Vector2d(0, baseSpeed));
-        _cabCaller = new Obstacle("./resLD40/palette.png", Vector2d(30, 0), Vector2d(10, 10), Vector2d(200, 10), this);
+        _cabCaller = new Obstacle("./Ressources/palette.png", Vector2d(30, 0), Vector2d(10, 10), Vector2d(200, 10), this);
         break;
     case Planet::PLANET_WHITE:
-        setSprite("./resLD40/cars.png", Vector2d(80, 100), Vector2d(20, 30));
+        setSprite("./Ressources/cars.png", Vector2d(80, 100), Vector2d(20, 30));
         setSpeed(Vector2d(0, baseSpeed));
-        _cabCaller = new Obstacle("./resLD40/palette.png", Vector2d(0, 60), Vector2d(10, 10), Vector2d(200, 10), this);
+        _cabCaller = new Obstacle("./Ressources/palette.png", Vector2d(0, 60), Vector2d(10, 10), Vector2d(200, 10), this);
         break;
     case Planet::PLANET_BLACK:
-        setSprite("./resLD40/cars.png", Vector2d(100, 100), Vector2d(20, 30));
+        setSprite("./Ressources/cars.png", Vector2d(100, 100), Vector2d(20, 30));
         setSpeed(Vector2d(0, baseSpeed));
-        _cabCaller = new Obstacle("./resLD40/palette.png", Vector2d(20, 60), Vector2d(10, 10), Vector2d(200, 10), this);
+        _cabCaller = new Obstacle("./Ressources/palette.png", Vector2d(20, 60), Vector2d(10, 10), Vector2d(200, 10), this);
         break;
     }
 

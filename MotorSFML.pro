@@ -5,6 +5,15 @@ CONFIG -= qt
 CONFIG += object_parallel_to_source
 
 SOURCES += \
+    LD40/Dephazor.cpp \
+    LD40/GameManager.cpp \
+    LD40/GameOverButton.cpp \
+    LD40/Opponent.cpp \
+    LD40/Planet.cpp \
+    LD40/Pod.cpp \
+    LD40/ScreenLevel1.cpp \
+    LD40/Spaceship.cpp \
+    LD40/StartScreenLD40.cpp \
     LD45/BaseAnimatedSprite.cpp \
     LD45/BaseCharacter.cpp \
     LD45/Equipment.cpp \
@@ -24,19 +33,6 @@ SOURCES += \
     Launcher/LauncherScreenManager.cpp \
     Launcher/Main.cpp \
     TU/Main.cpp \
-    src/Dephazor.cpp \
-    src/GameManager.cpp \
-    src/GameOverButton.cpp \
-    src/LifeGameScreen.cpp \
-    src/Opponent.cpp \
-    src/PersoTest.cpp \
-    src/Planet.cpp \
-    src/Pod.cpp \
-    src/ScreenLevel1.cpp \
-    src/Spaceship.cpp \
-    src/StartScreen.cpp \
-    src/StartScreenLD40.cpp \
-    src/TestGravity.cpp \
     TU/ScreenManagerTest.cpp \
     TU/TitleScreen.cpp \
     MotorSources/AnimatedSprite.cpp \
@@ -61,6 +57,15 @@ SOURCES += \
     MotorSources/Sound.cpp
 
 HEADERS += \
+    LD40/Dephazor.h \
+    LD40/GameManager.h \
+    LD40/GameOverButton.h \
+    LD40/Opponent.h \
+    LD40/Planet.h \
+    LD40/Pod.h \
+    LD40/ScreenLevel1.h \
+    LD40/Spaceship.h \
+    LD40/StartScreenLD40.h \
     LD45/BaseAnimatedSprite.h \
     LD45/BaseCharacter.h \
     LD45/Equipment.h \
@@ -79,19 +84,6 @@ HEADERS += \
     Launcher/LauncherScreen.h \
     Launcher/LauncherScreenManager.h \
     MotorSources/Color.h \
-    src/Dephazor.h \
-    src/GameManager.h \
-    src/GameOverButton.h \
-    src/LifeGameScreen.h \
-    src/Opponent.h \
-    src/PersoTest.h \
-    src/Planet.h \
-    src/Pod.h \
-    src/ScreenLevel1.h \
-    src/Spaceship.h \
-    src/StartScreen.h \
-    src/StartScreenLD40.h \
-    src/TestGravity.h \
     TU/ScreenManagerTest.h \
     TU/TitleScreen.h \
     MotorSources/AnimatedSprite.h \
@@ -151,6 +143,6 @@ win32:CONFIG(release, debug|release): ressources.path = $$OUT_PWD/release
 else:win32:CONFIG(debug, debug|release): ressources.path = $$OUT_PWD/debug
 else:unix: ressources.path = $$OUT_PWD/release
 
-ressources.files += TU/Ressources MotorSources/MotorResources LD45/Ressources LD46/Ressources Launcher/Ressources
+ressources.files += TU/Ressources MotorSources/MotorResources LD40/Ressources LD45/Ressources LD46/Ressources Launcher/Ressources
 
 INSTALLS += dlls_to_move ressources

@@ -88,6 +88,7 @@ public:
     void run(ScreenManager* screenManager);
 
     void changeScreenManager(ScreenManager* screenManager);
+    void changeResolution(unsigned int width, unsigned int height, std::string windowName);
 
     double getMsSinceLaunch();
 

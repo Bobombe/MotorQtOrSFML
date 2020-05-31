@@ -17,28 +17,28 @@ Opponent::Opponent(Spaceship * player, OpponentType oppType, WorldElement * pare
     double baseSpeed = 100;
     switch (_oppType) {
     case OPP_PURPLE:
-        setSprite("./resLD40/cars.png", Vector2d(0, 0), Vector2d(40, 50));
+        setSprite("./Ressources/cars.png", Vector2d(0, 0), Vector2d(40, 50));
         setSpeed(Vector2d(0, baseSpeed));
         break;
     case OPP_ORANGE:
-        setSprite("./resLD40/cars.png", Vector2d(40, 0), Vector2d(40, 50));
+        setSprite("./Ressources/cars.png", Vector2d(40, 0), Vector2d(40, 50));
         setSpeed(Vector2d(0, baseSpeed*1.5));
         _movingLeft = true;
         break;
     case OPP_GREEN:
-        setSprite("./resLD40/cars.png", Vector2d(80, 0), Vector2d(40, 50));
+        setSprite("./Ressources/cars.png", Vector2d(80, 0), Vector2d(40, 50));
         setSpeed(Vector2d(0, baseSpeed*4));
         break;
     case OPP_YELLOW:
-        setSprite("./resLD40/cars.png", Vector2d(80, 50), Vector2d(40, 50));
+        setSprite("./Ressources/cars.png", Vector2d(80, 50), Vector2d(40, 50));
         setSpeed(Vector2d(0, baseSpeed*2));
         break;
     case OPP_WHITE:
-        setSprite("./resLD40/cars.png", Vector2d(0, 50), Vector2d(40, 50));
+        setSprite("./Ressources/cars.png", Vector2d(0, 50), Vector2d(40, 50));
         setSpeed(Vector2d(0, baseSpeed*5));
         break;
     case OPP_BLACK:
-        setSprite("./resLD40/cars.png", Vector2d(40, 50), Vector2d(40, 50));
+        setSprite("./Ressources/cars.png", Vector2d(40, 50), Vector2d(40, 50));
         setSpeed(Vector2d(0, baseSpeed*0.5));
         _movingRight = true;
         break;

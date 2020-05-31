@@ -3,7 +3,7 @@
 #include "Collider.h"
 #include "ScreenLevel1.h"
 
-Dephazor::Dephazor(WorldElement * parent) : Sprite("./resLD40/dephazor.png"), _dead(false)
+Dephazor::Dephazor(WorldElement * parent) : Sprite("./Ressources/dephazor.png"), _dead(false)
 {
     _weName = "Dephazor";
     _collider =  new Collider(this);

@@ -8,7 +8,7 @@
 #include "Rectangle.h"
 #include "moteur2d.h"
 
-Spaceship::Spaceship() : Sprite("./resLD40/spaceship.png"),
+Spaceship::Spaceship() : Sprite("./Ressources/spaceship.png"),
                         _movingLeft(false), _movingRight(false), _movingUp(false), _movingDown(false), _firing(false), _fireCoolDown(0),
                         _invincible(0), _usingEnergy(3), _maxAccel(4000), _maxSpeed(600), _minPosX(10), _maxPosX(ScreenLevel1::SIZEX-70),
                         _minPosY(10), _maxPosY(ScreenLevel1::SIZEY-90), _nbPodDocked(0), _credits(100), _power(100)
