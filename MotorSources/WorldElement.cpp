@@ -26,8 +26,8 @@ WorldElement::~WorldElement()
     if (_collider) {
         delete _collider;
     }
+    // Remove reference in the list of children of this WE parent.
     if (_parent) {
-
         for (std::map< int, std::vector< WorldElement * > >::iterator it = _parent->_children.begin(); it != _parent->_children.end(); ++it) {
             for (unsigned int i = 0; i < it->second.size(); i++) {
                 if (it->second[i] == this) {
@@ -36,6 +36,7 @@ WorldElement::~WorldElement()
             }
         }
     }
+    // Delete all children
     for (std::map< int, std::vector< WorldElement * > >::iterator it = _children.begin(); it != _children.end(); ++it) {
         for (unsigned int i = 0; i < it->second.size(); i++) {
             delete it->second[i];

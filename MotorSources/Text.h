@@ -34,7 +34,7 @@ public:
 
     Text();
     Text(WorldElement * parent, int layer = 0);
-    Text(std::string text, WorldElement * parent=0, int layer = 0);
+    Text(std::string text, WorldElement * parent=nullptr, int layer = 0);
     virtual ~Text();
     void init(std::string text);
 

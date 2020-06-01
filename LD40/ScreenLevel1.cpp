@@ -17,7 +17,7 @@ ScreenLevel1::ScreenLevel1() : _opponentCoolDown(1), _state(5), _gameOver(false)
     _weName = "ScreenLevel1";
 
     // Décord gauche
-    Sprite * deco = 0;
+    Sprite * deco = nullptr;
 //    deco = new Sprite("./Ressources/palette.png", Vector2d(30, 40), Vector2d(10, 10), Vector2d(SIZEX, SIZEY));
 //    deco->setPosition(Vector2d(0,0));
 //    deco->setParent(this);
@@ -50,7 +50,7 @@ ScreenLevel1::ScreenLevel1() : _opponentCoolDown(1), _state(5), _gameOver(false)
     colBord->initRectangular(0, 0, deco->getSize().x, deco->getSize().y);
     addCollider(0, colBord);
 
-    // D�cord Droite
+    // Décord Droite
     deco = new Sprite("./Ressources/palette.png", Vector2d(20, 40), Vector2d(10, 10), Vector2d(1200-SIZEX, SIZEY));
     deco->setPosition(Vector2d(SIZEX,0));
     deco->setParent(this, 42);

@@ -46,7 +46,7 @@ void Text::init(std::string text)
     _coreText.setFillColor(sf::Color::White);
 #endif
     setText(text);
-    setParent(_parent);
+    setParent(_parent, _layer);
     setPosition(Vector2d(0, 0));
 }
 

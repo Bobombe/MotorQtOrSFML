@@ -24,7 +24,8 @@ void GameManager::update(double, int updateReturn, int drawReturn)
     }
     if (updateReturn == 42 && getCurrentScreenId() == 1) {
         setCurrentScreenId(0);
-        delete screenAt(1);
+        auto s = removeScreen(1);
+        if (s) delete s;
         this->addScreen(1, new ScreenLevel1());
     }
 }
