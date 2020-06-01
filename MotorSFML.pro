@@ -5,6 +5,10 @@ CONFIG -= qt
 CONFIG += object_parallel_to_source
 
 SOURCES += \
+    GenericPlatformer/GPCharacter.cpp \
+    GenericPlatformer/GPGravity.cpp \
+    GenericPlatformer/GPScreen.cpp \
+    GenericPlatformer/GPScreenManager.cpp \
     LD40/Dephazor.cpp \
     LD40/GameManager.cpp \
     LD40/GameOverButton.cpp \
@@ -57,6 +61,10 @@ SOURCES += \
     MotorSources/Sound.cpp
 
 HEADERS += \
+    GenericPlatformer/GPCharacter.h \
+    GenericPlatformer/GPGravity.h \
+    GenericPlatformer/GPScreen.h \
+    GenericPlatformer/GPScreenManager.h \
     LD40/Dephazor.h \
     LD40/GameManager.h \
     LD40/GameOverButton.h \

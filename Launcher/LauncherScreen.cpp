@@ -5,6 +5,7 @@
 #include "LD40/GameManager.h"
 #include "LD45/ScreenManagerLD45.h"
 #include "LD46/LD46ScreenManager.h"
+#include "GenericPlatformer/GPScreenManager.h"
 #include "TU/ScreenManagerTest.h"
 
 LauncherScreen::LauncherScreen():
@@ -18,6 +19,9 @@ LauncherScreen::LauncherScreen():
     _btLD46(Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 0), Vector2d(200, 50),"LD46", Color::Black),
             Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(200, 50),"LD46", Color::Red),
             Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(200, 50),"LD46", Color::Green)),
+    _btGP(Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 0), Vector2d(200, 50),"Platformer", Color::Black),
+            Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(200, 50),"Platformer", Color::Red),
+            Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(200, 50),"Platformer", Color::Green)),
     _btTU(Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 0), Vector2d(200, 50),"TU", Color::Black),
             Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 240), Vector2d(200, 50),"TU", Color::Red),
             Button::StateConfiguration("./Ressources/Perso.PNG", Vector2d(0, 120), Vector2d(200, 50),"TU", Color::Green)),
@@ -32,26 +36,22 @@ LauncherScreen::LauncherScreen():
     sgn->setParent(s);
     sgn->setPosition(Vector2d(s->getSize().x-sgn->getSize().x-10, s->getSize().y-sgn->getSize().y));
 
-    Button *b = new Button(Button::StateConfiguration("", Vector2d(0, 0), Vector2d(0, 0),"Ready?", Color::Black),
-             Button::StateConfiguration("", Vector2d(0, 0), Vector2d(0, 0),"START!", Color::Red),
-             Button::StateConfiguration("", Vector2d(0, 0), Vector2d(0, 0),"SET...", Color::Green));
-    b->setParent(s);
-    b->setPosition(Vector2d(100, 10));
-    b->setScreenId(0);
-
     _sound.setParent(s);
     _sound.play();
 
-    Vector2d basePosition(Moteur2D::getInstance()->getScreenSize().x / 2 - _btLD40.getSize().x, Moteur2D::getInstance()->getScreenSize().y / 2 - _btLD40.getSize().y);
-    Vector2d offset(0, 80);
+    Vector2d basePosition(Moteur2D::getInstance()->getScreenSize().x/2 - _btLD40.getSize().x/2, Moteur2D::getInstance()->getScreenSize().y/2 - _btLD40.getSize().y/2);
+    int xOffset(250);
+    int yOffset(80);
 
-    _btLD40.setPosition(basePosition - offset * 1.5); _btLD40.setScreenId(0); _btLD40.setParent(this); _btLD40.setVisible(false);
-    _btLD45.setPosition(basePosition - offset * 0.5); _btLD45.setScreenId(0); _btLD45.setParent(this); _btLD45.setVisible(false);
-    _btLD46.setPosition(basePosition + offset * 0.5); _btLD46.setScreenId(0); _btLD46.setParent(this); _btLD46.setVisible(false);
-    _btTU.setPosition  (basePosition + offset * 1.5); _btTU.setScreenId(0); _btTU.setParent(this); _btTU.setVisible(false);
+    _btLD40.setPosition(basePosition.x - xOffset/2, basePosition.y - yOffset); _btLD40.setScreenId(0); _btLD40.setParent(this); _btLD40.setVisible(false);
+    _btLD45.setPosition(basePosition.x - xOffset/2, basePosition.y          ); _btLD45.setScreenId(0); _btLD45.setParent(this); _btLD45.setVisible(false);
+    _btLD46.setPosition(basePosition.x - xOffset/2, basePosition.y + yOffset); _btLD46.setScreenId(0); _btLD46.setParent(this); _btLD46.setVisible(false);
 
-    setPosition(Vector2d(0, -Moteur2D::getInstance()->getScreenSize().y));
-    setSpeed(Vector2d(0, 300));
+    _btGP.setPosition  (basePosition.x + xOffset/2, basePosition.y - yOffset); _btGP.setScreenId(0); _btGP.setParent(this); _btGP.setVisible(false);
+    _btTU.setPosition  (basePosition.x + xOffset/2, basePosition.y); _btTU.setScreenId(0); _btTU.setParent(this); _btTU.setVisible(false);
+
+    // setPosition(Vector2d(0, -Moteur2D::getInstance()->getScreenSize().y));
+    // setSpeed(Vector2d(0, 300));
 }
 
 LauncherScreen::~LauncherScreen()
@@ -62,12 +62,13 @@ LauncherScreen::~LauncherScreen()
 int LauncherScreen::draw()
 {
     int retValue = 0;
-    if (getPosition().y >= 0) {
+    if (!_btLD40.isVisible() && getPosition().y >= 0) {
         setSpeed(Vector2d(0, 0));
         setPosition(Vector2d(0, 0));
         _btLD40.setVisible();
         _btLD45.setVisible();
         _btLD46.setVisible();
+        _btGP.setVisible();
         _btTU.setVisible();
     }
     if (_btLD40.isActivated()) {
@@ -81,6 +82,9 @@ int LauncherScreen::draw()
     }
     if (_btLD46.isActivated()) {
         Moteur2D::getInstance()->changeScreenManager(new LD46ScreenManager());
+    }
+    if (_btGP.isActivated()) {
+        Moteur2D::getInstance()->changeScreenManager(new GPScreenManager());
     }
     if (_btTU.isActivated()) {
         Moteur2D::getInstance()->changeScreenManager(new ScreenManagerTest());
