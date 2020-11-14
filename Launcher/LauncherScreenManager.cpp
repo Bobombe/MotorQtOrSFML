@@ -11,7 +11,6 @@ LauncherScreenManager::LauncherScreenManager():
 
 LauncherScreenManager::~LauncherScreenManager()
 {
-    std::cout << "Youpi : del LauncherScreenManager" << std::endl;
 }
 
 void LauncherScreenManager::update(double, int, int)

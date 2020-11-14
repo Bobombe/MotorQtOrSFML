@@ -20,21 +20,21 @@ class WorldElement
 {
 
 private:
-    Vector2d _pos;                  //// Position relative to parent WorldElement
+    Vector2d _pos{0, 0};            //// Position relative to parent WorldElement
     Vector2d _refPoint{0, 0};       //// Reference point. This point will always be placed at the absolute position. Meaning, it is also the center position for the rotation
     double _rotation{0};
-    Vector2d _speed;
+    Vector2d _speed{0, 0};
     double _rotationSpeed{0};
-    Vector2d _accel;
-    Vector2d _size;                 //// Original size (without scaling)
+    Vector2d _accel{0, 0};
+    Vector2d _size{0, 0};           //// Original size (without scaling)
 
-    double _scale;                  //// Original scale of this WE (without parent scale
+    double _scale{0};                  //// Original scale of this WE (without parent scale
 
-    Vector2d _absolutePos;          //// Absolute position, top left app corner being ref.
+    Vector2d _absolutePos{0, 0};          //// Absolute position, top left app corner being ref.
     double   _absoluteRotation{0};
-    Vector2d _relativeSize;         //// Size relative to parent (= _size*_scale)
-    Vector2d _absoluteSize;         //// Real size after scaling from parent scale and this object scale)
-    double   _absoluteScale;        //// = _scale*_parent->_absoluteScale
+    Vector2d _relativeSize{0, 0};         //// Size relative to parent (= _size*_scale)
+    Vector2d _absoluteSize{0, 0};         //// Real size after scaling from parent scale and this object scale)
+    double   _absoluteScale{0};        //// = _scale*_parent->_absoluteScale
 
 
 protected:

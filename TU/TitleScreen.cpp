@@ -16,7 +16,6 @@ TitleScreen::TitleScreen():
     sgn->setParent(s);
     sgn->setPosition(Vector2d(s->getSize().x-sgn->getSize().x-10, s->getSize().y-sgn->getSize().y));
 
-std::cout << "Youpi b" << std::endl;
     Button *b = new Button(Button::StateConfiguration("", Vector2d(0, 0), Vector2d(0, 0),"Ready?", Color::Black),
              Button::StateConfiguration("", Vector2d(0, 0), Vector2d(0, 0),"START!", Color::Red),
              Button::StateConfiguration("", Vector2d(0, 0), Vector2d(0, 0),"SET...", Color::Green));

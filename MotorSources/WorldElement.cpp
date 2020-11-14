@@ -217,9 +217,9 @@ void WorldElement::updateCharacteristics()
         _absoluteScale = _scale * _parent->_absoluteScale;
         _absoluteRotation = _rotation + _parent->_absoluteRotation;
         // Todo pos, use parent rotation
-        Vector2d ratatedPos = _pos;
-        ratatedPos.rotateInDegree(_parent->_absoluteRotation);
-        _absolutePos = ratatedPos * _parent->_absoluteScale + _parent->_absolutePos;
+        Vector2d rotatedPos = _pos;
+        rotatedPos.rotateInDegree(_parent->_absoluteRotation);
+        _absolutePos = rotatedPos * _parent->_absoluteScale + _parent->_absolutePos;
     } else {
         _absoluteScale = _scale;
         _absoluteRotation = _rotation;

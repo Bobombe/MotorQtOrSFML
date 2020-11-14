@@ -4,7 +4,6 @@
 #include "WorldElement.h"
 #include "Force.h"
 #include "Collider.h"
-#include "Camera.h"
 
 #include <vector>
 #include <map>
@@ -17,6 +16,7 @@
 #else
 
 #endif
+class Camera;
 
 class Screen : public WorldElement
 {
@@ -67,7 +67,8 @@ public:
 #endif
 
 protected:
-    virtual int update(double seconds);
+    int update(double seconds) override;
+    int draw() override;
 
 
 };

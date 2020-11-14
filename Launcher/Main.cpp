@@ -19,7 +19,6 @@ int main(int argc, char **argv)
     moteur->run(new LauncherScreenManager());
     //moteur->run(new LD46ScreenManager());
     //moteur->run(new ScreenManagerLD45());
-    std::cout << "Youpi : " << std::endl;
     return 0;
 
 }

@@ -4,38 +4,30 @@
 
 #include "Vector2d.h"
 #include "WorldElement.h"
+#include "Screen.h"
 
 class Camera : public WorldElement
 {
 protected:
     double _cameraScale{1};
+    Screen* _screen{nullptr};
+    WorldElement* _target{nullptr};
 
 public:
-    Camera();
+    Camera(Screen* s, WorldElement* target);
 
     double getCameraScale();
     void setCameraScale(double cameraScale);
-    /*
+
+    virtual void updateCamera();
+
+    // We forbid a camera to have a parent.
+    void         setParent(WorldElement *parent, int layer = 0) = delete;
+
 protected:
-    Vector2d _cameraPosition;
-    Vector2d _cameraSize;
-    double _cameraScale;
+    int update(double seconds) override;
+    int draw() override;
 
-public:
-    Camera();
-    virtual ~Camera();
-
-    Vector2d getCameraPosition();
-    void setCameraPosition(Vector2d cameraPosition);
-
-    Vector2d getCameraSize();
-    void setCameraSize(Vector2d cameraSize);
-
-    double getCameraScale();
-    void setCameraScale(double cameraScale);
-
-    void moveCameraPosition(Vector2d deltaCameraPosition);
-    void moveCameraScale(double deltaCameraScale);//*/
 };
 
 #endif

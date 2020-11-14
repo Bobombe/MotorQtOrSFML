@@ -19,10 +19,8 @@ Screen::Screen(Camera *camera) : WorldElement(), _camera(camera), _screenInitial
 
 #endif
     //ctor
+    setSize(Moteur2D::getInstance()->getScreenSize());
     _weName = "Screen";
-    if (_camera && !_camera->getParent()) {
-        _camera->setParent(this);
-    }
 }
 
 Screen::~Screen()
@@ -70,14 +68,26 @@ int Screen::update(double seconds)
         }
     }
     if (_camera) {
-        if (_camera->getAbsolutePosition().getNorm() > 0) {
-            movePosition(-_camera->getAbsolutePosition());
+        _camera->baseUpdate(seconds);
+        if (_camera->getAbsolutePosition().getNorm() > 0.0001) {
+            Vector2d newPos = -_camera->getAbsolutePosition();
+            movePosition(newPos);
         }
         if (_camera->getCameraScale() != getScale()) {
             setScale(_camera->getCameraScale());
         }
+        _camera->setPosition(0, 0);
     }
     return 0;
+}
+
+int Screen::draw()
+{
+    if (_camera) {
+        _camera->baseDraw();
+    }
+    int ret = WorldElement::draw();
+    return ret;
 }
 
 void Screen::addForce(Force * f)

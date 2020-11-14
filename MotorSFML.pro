@@ -5,6 +5,7 @@ CONFIG -= qt
 CONFIG += object_parallel_to_source
 
 SOURCES += \
+    GenericPlatformer/GPCamera.cpp \
     GenericPlatformer/GPCharacter.cpp \
     GenericPlatformer/GPGravity.cpp \
     GenericPlatformer/GPScreen.cpp \
@@ -61,6 +62,7 @@ SOURCES += \
     MotorSources/Sound.cpp
 
 HEADERS += \
+    GenericPlatformer/GPCamera.h \
     GenericPlatformer/GPCharacter.h \
     GenericPlatformer/GPGravity.h \
     GenericPlatformer/GPScreen.h \

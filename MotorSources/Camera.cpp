@@ -1,8 +1,9 @@
 
 #include "Camera.h"
 
-Camera::Camera()
+Camera::Camera(Screen *s, WorldElement *target) : _screen{s}, _target{target}
 {
+    setSize(_screen->getSize());
     _weName = "Camera";
 }
 
@@ -14,52 +15,24 @@ void Camera::setCameraScale(double cameraScale)
 {
     _cameraScale = cameraScale;
 }
-/*
-#include "moteur2d.h"
 
-Camera::Camera() : _cameraSize(Moteur2D::getInstance()->getScreenSize()), _cameraScale(1)
+void Camera::updateCamera()
 {
-
-}
-
-Camera::~Camera()
-{
-
+    Vector2d pos = _target->getAbsolutePosition();
+    pos.x-=getSize().x/10.;
+    pos.y-=getSize().y/2.;
+    setPosition(pos);
 }
 
-Vector2d Camera::getCameraPosition()
+int Camera::update(double seconds)
 {
-    return _cameraPosition;
-}
-void Camera::setCameraPosition(Vector2d cameraPosition)
-{
-    _cameraPosition = cameraPosition;
+    int ret = WorldElement::update(seconds);
+    updateCamera();
+    return ret;
 }
 
-Vector2d Camera::getCameraSize()
+int Camera::draw()
 {
-    return _cameraSize;
+    int ret = WorldElement::draw();
+    return ret;
 }
-void Camera::setCameraSize(Vector2d cameraSize)
-{
-    _cameraSize = cameraSize;
-}
-
-double Camera::getCameraScale()
-{
-    return _cameraScale;
-}
-void Camera::setCameraScale(double cameraScale)
-{
-    _cameraScale = cameraScale;
-}
-
-void Camera::moveCameraPosition(Vector2d deltaCameraPosition)
-{
-    _cameraPosition -= deltaCameraPosition;
-}
-void Camera::moveCameraScale(double deltaCameraScale)
-{
-    _cameraScale += deltaCameraScale;
-}
-//*/

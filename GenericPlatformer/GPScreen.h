@@ -15,6 +15,7 @@ public:
 
 protected:
     virtual int draw();
+    void addPlatform(int posx, int posy, int width, int hight=1);
 };
 
 #endif /* SRC_GPScreen_H_ */

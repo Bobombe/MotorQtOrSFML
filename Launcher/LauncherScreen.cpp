@@ -56,7 +56,6 @@ LauncherScreen::LauncherScreen():
 
 LauncherScreen::~LauncherScreen()
 {
-    std::cout << "Youpi : del LauncherScreen" << std::endl;
 }
 
 int LauncherScreen::draw()

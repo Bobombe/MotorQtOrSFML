@@ -7,7 +7,7 @@
 #include "Platform.h"
 
 Level1::Level1():
-    Screen(new Camera())
+    Screen()
 {
     MetalBackSprite* mbs = new MetalBackSprite(13, 8);
     mbs->setParent(this);
